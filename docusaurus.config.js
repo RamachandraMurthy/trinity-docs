@@ -6,7 +6,7 @@ require('dotenv').config();
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Trinity Documentation',
-  tagline: 'Unified documentation for the Trinity AI platform',
+  tagline: 'Enterprise AI platform documentation for WorkSphere',
   favicon: 'img/favicon.ico',
 
   customFields: {
@@ -92,19 +92,24 @@ const config = {
             label: 'Documentation',
           },
           {
-            to: '/docs/salescoach/architecture',
+            to: '/docs/platform/high-level-architecture',
             label: 'Architecture',
             position: 'left',
           },
           {
-            to: '/docs/salescoach/security-vulnerabilities',
-            label: 'Security',
+            to: '/docs/frontend',
+            label: 'Frontend',
+            position: 'left',
+          },
+          {
+            to: '/docs/api-reference',
+            label: 'API',
             position: 'left',
           },
           {
             type: 'html',
             position: 'right',
-            value: '<span class="navbar-version-badge">v1.0</span>',
+            value: '<span class="navbar-version-badge">v2.0</span>',
           },
         ],
       },
@@ -112,36 +117,19 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Documentation',
+            title: 'Getting Started',
             items: [
               {
-                label: 'Getting Started',
+                label: 'Introduction',
                 to: '/docs/intro',
               },
               {
-                label: 'SalesCoach',
-                to: '/docs/salescoach',
+                label: 'Platform Architecture',
+                to: '/docs/platform/high-level-architecture',
               },
               {
-                label: 'Application Flow',
-                to: '/docs/salescoach/flow/step1-connect',
-              },
-            ],
-          },
-          {
-            title: 'Architecture',
-            items: [
-              {
-                label: 'System Design',
-                to: '/docs/salescoach/architecture',
-              },
-              {
-                label: 'Improvements',
-                to: '/docs/salescoach/architecture-improvements',
-              },
-              {
-                label: 'Security Assessment',
-                to: '/docs/salescoach/security-vulnerabilities',
+                label: 'Developer Guide',
+                to: '/docs/developer-guide',
               },
             ],
           },
@@ -149,22 +137,64 @@ const config = {
             title: 'Platform',
             items: [
               {
-                label: 'Trinity Overview',
-                to: '/docs/intro',
+                label: 'Frontend',
+                to: '/docs/frontend',
               },
               {
-                label: 'MCP Integration',
-                to: '/docs/salescoach/flow/step5-tools',
+                label: 'Backend',
+                to: '/docs/backend',
+              },
+              {
+                label: 'AI & MCP',
+                to: '/docs/ai-and-mcp',
+              },
+              {
+                label: 'API Reference',
+                to: '/docs/api-reference',
+              },
+            ],
+          },
+          {
+            title: 'Infrastructure',
+            items: [
+              {
+                label: 'Authentication',
+                to: '/docs/authentication',
+              },
+              {
+                label: 'Data Layer',
+                to: '/docs/data-layer',
+              },
+              {
+                label: 'Deployment',
+                to: '/docs/deployment',
+              },
+            ],
+          },
+          {
+            title: 'SalesCoach',
+            items: [
+              {
+                label: 'Overview',
+                to: '/docs/salescoach',
+              },
+              {
+                label: 'Architecture',
+                to: '/docs/salescoach/architecture',
+              },
+              {
+                label: 'Application Flow',
+                to: '/docs/salescoach/flow/step1-connect',
               },
             ],
           },
         ],
-        copyright: `Copyright \u00A9 ${new Date().getFullYear()} DXC Technology \u2014 Trinity Platform. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} DXC Technology — Trinity Platform (WorkSphere). Built with Docusaurus.`,
       },
       prism: {
         theme: require('prism-react-renderer').themes.github,
         darkTheme: require('prism-react-renderer').themes.dracula,
-        additionalLanguages: ['python', 'json', 'bash'],
+        additionalLanguages: ['python', 'json', 'bash', 'javascript', 'jsx', 'typescript', 'tsx', 'yaml'],
       },
       colorMode: {
         defaultMode: 'light',

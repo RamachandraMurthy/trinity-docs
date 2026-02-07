@@ -1,0 +1,83 @@
+---
+description: Guidelines for writing Trinity documentation - technical storytelling, not developer reference
+globs: docs/**/*.md
+alwaysApply: false
+---
+
+# Trinity Documentation Style Guide
+
+When creating or updating documentation for Trinity/WorkSphere, follow these principles:
+
+## Target Audience
+
+Write for someone who needs to understand **how the system works** and **how components connect** — NOT a developer reference.
+
+**Target readers:**
+- Technical product managers
+- Solutions architects evaluating the platform
+- New team leads getting up to speed
+- Anyone who wants to understand the platform without reading code
+
+## What TO Include
+
+- **Plain-English explanations** of flows and connections
+- **"What happens when..."** narratives (e.g., "When a user asks a question...")
+- **Conceptual diagrams** using ASCII art or Mermaid
+- **Why things work the way they do**
+- **How components connect** to each other
+- **Key terminology** explained in accessible terms
+- **Tables for quick reference** of concepts (not APIs)
+
+## What NOT to Include
+
+- Function names, method signatures, or code snippets
+- API endpoint details with request/response schemas
+- Database field names and column schemas
+- Configuration variables and environment settings
+- Import statements or file paths in code
+- Lists of component names or hooks
+
+## Writing Style
+
+- Use conversational, accessible language
+- Explain concepts before using jargon
+- Use diagrams to show flows (ASCII diagrams work well)
+- Break complex processes into numbered steps
+- Use quotes to show example user questions
+- Write headings as questions or actions ("How Login Works" not "Login Implementation")
+
+## When New Documents Are Brought In
+
+1. **Review the source documents** to understand the content
+2. **Identify the key concepts** and how they connect
+3. **Rewrite in the Trinity docs style** — focus on flows and connections
+4. **Remove developer-level details** (function names, schemas, code)
+5. **Add to the sidebar** in the appropriate category
+6. **Cross-link** to related documentation sections
+7. **Rebuild and verify** no broken links
+
+## Document Structure
+
+Each doc should have:
+1. **Title and description** in frontmatter
+2. **Overview paragraph** explaining what this section covers
+3. **Conceptual explanation** with diagrams where helpful
+4. **"Related Documentation"** table at the end linking to other sections
+
+## Example Transformation
+
+**Before (developer-level):**
+```
+The databaseService provides CRUD operations:
+- getAllChatHistory()
+- getChatHistoryByUser(userId)
+- saveChatSession(session)
+```
+
+**After (conceptual):**
+```
+The Chat Service manages conversation records:
+- Saves each conversation so users can return later
+- Retrieves past conversations by user
+- Allows users to delete old conversations
+```

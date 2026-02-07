@@ -80,7 +80,7 @@ User Audio → /realtime WebSocket → Azure OpenAI Realtime API → Voice Respo
 
 ## System Prompt Construction
 
-The system prompt is dynamically assembled for each session to provide the AI with up-to-date context, role-specific constraints, and tool capabilities. For detailed implementation, see [system-prompt-construction.md](system-prompt-construction.md).
+The system prompt is dynamically assembled for each session to provide the AI with up-to-date context, role-specific constraints, and tool capabilities. For detailed implementation, see [System Prompt Construction](/docs/ai-and-mcp/system-prompt-construction).
 
 **Key Aspects:**
 - **External Storage**: Prompts loaded from Azure Blob Storage for centralized management.
