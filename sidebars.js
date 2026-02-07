@@ -94,6 +94,53 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'RFP Advisor',
+      link: {
+        type: 'doc',
+        id: 'rfp-advisor/index',
+      },
+      items: [
+        'rfp-advisor/projects',
+        'rfp-advisor/file-upload',
+        'rfp-advisor/indexing',
+        'rfp-advisor/chat',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'WorkSphere Agents',
+      link: {
+        type: 'doc',
+        id: 'agents/index',
+      },
+      items: [
+        {
+          type: 'category',
+          label: 'RFP Advisor Agents',
+          items: [
+            'agents/rfp/requirements-review',
+            'agents/rfp/response-review',
+            'agents/rfp/requirements-response-strategy',
+            'agents/rfp/compliance-and-contracts',
+            'agents/rfp/proposal-scoring',
+            'agents/rfp/technical-and-planning',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Special Agents',
+          items: [
+            'agents/special/deal-qualification',
+            'agents/special/win-probability',
+            'agents/special/company-executives',
+            'agents/special/competitor-analysis',
+            'agents/special/pricing-strategy',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
       label: 'SalesCoach Backend',
       link: {
         type: 'doc',

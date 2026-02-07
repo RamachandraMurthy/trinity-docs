@@ -49,6 +49,34 @@ const FeatureList = [
     color: '#004AAC',
   },
   {
+    title: 'RFP Advisor',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+        <polyline points="10 9 9 9 8 9" />
+      </svg>
+    ),
+    description: 'Upload RFP documents, extract requirements, semantic search across proposals, and AI-powered document chat.',
+    link: '/docs/rfp-advisor',
+    color: '#10B981',
+  },
+  {
+    title: 'WorkSphere Agents',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+        <circle cx="12" cy="12" r="10" />
+      </svg>
+    ),
+    description: '15+ specialized AI agents for deal qualification, win probability, competitor analysis, requirements review, and more.',
+    link: '/docs/agents',
+    color: '#8B5CF6',
+  },
+  {
     title: 'Frontend',
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -214,20 +242,20 @@ function StatsSection() {
       <div className="container">
         <div className={styles.statsGrid}>
           <div className={styles.statItem}>
-            <span className={styles.statNumber}>25+</span>
+            <span className={styles.statNumber}>40+</span>
             <span className={styles.statLabel}>Documentation Pages</span>
           </div>
           <div className={styles.statItem}>
             <span className={styles.statNumber}>15+</span>
+            <span className={styles.statLabel}>WorkSphere Agents</span>
+          </div>
+          <div className={styles.statItem}>
+            <span className={styles.statNumber}>GPT-4.1 + Gemini</span>
+            <span className={styles.statLabel}>AI Models</span>
+          </div>
+          <div className={styles.statItem}>
+            <span className={styles.statNumber}>15+</span>
             <span className={styles.statLabel}>MCP Servers</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statNumber}>React 19</span>
-            <span className={styles.statLabel}>Frontend Framework</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statNumber}>GPT-4.1</span>
-            <span className={styles.statLabel}>AI Model</span>
           </div>
         </div>
       </div>

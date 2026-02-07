@@ -28,6 +28,8 @@ description: Local development environment setup, environment variables, and run
 |---|---|---|
 | **Docker** | Latest | Container builds and testing |
 | **VS Code / Cursor** | Latest | Recommended IDE |
+| **Python** | 3.11+ | RFP Advisor backend |
+| **LibreOffice** | Latest | Document conversion (RFP Advisor) |
 
 ### Azure Resources (for full functionality)
 
@@ -36,8 +38,10 @@ description: Local development environment setup, environment variables, and run
 | Azure AD App Registration | Authentication | Yes |
 | Azure Cosmos DB | Database | No (mock mode available) |
 | Azure OpenAI | AI chat | For AI features |
-| Azure Blob Storage | File storage | For digital twin |
+| Azure Blob Storage | File storage | For digital twin, RFP documents |
 | Azure Cognitive Services | Speech-to-text | For voice input |
+| Azure AI Search | Document indexing | For RFP Advisor search |
+| Google Gemini API | Agent execution | For WorkSphere Agents |
 
 ---
 
@@ -375,8 +379,92 @@ The application uses console logging with emoji prefixes:
 
 ---
 
+## RFP Advisor Setup
+
+The RFP Advisor runs as a separate service with its own frontend (Next.js) and backend (FastAPI).
+
+### Backend Setup (Python/FastAPI)
+
+```bash
+# Clone the RFP Advisor repository
+cd trinity-rfp-advisor
+
+# Create Python virtual environment
+python -m venv venv
+
+# Activate environment
+# Windows:
+venv\Scripts\activate
+# macOS/Linux:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your Azure and Gemini credentials
+
+# Start backend
+uvicorn app.main:app --reload --port 8000
+```
+
+### Frontend Setup (Next.js)
+
+```bash
+# From the frontend directory
+cd frontend
+npm install
+
+# Configure environment
+cp .env.example .env.local
+# Edit .env.local with your settings
+
+# Start frontend
+npm run dev
+```
+
+### RFP Advisor Environment Variables
+
+**Backend (`app/.env`):**
+
+| Variable | Required | Description |
+|---|---|---|
+| `COSMOS_DB_ENDPOINT` | Yes | Azure Cosmos DB endpoint |
+| `COSMOS_DB_KEY` | Yes | Cosmos DB access key |
+| `COSMOS_DB_DATABASE_NAME` | Yes | Database name for RFP data |
+| `AZURE_STORAGE_CONNECTION_STRING` | Yes | Blob storage for documents |
+| `AZURE_SEARCH_ENDPOINT` | Yes | AI Search service endpoint |
+| `AZURE_SEARCH_KEY` | Yes | AI Search admin key |
+| `AZURE_OPENAI_ENDPOINT` | Yes | Azure OpenAI endpoint |
+| `AZURE_OPENAI_API_KEY` | Yes | Azure OpenAI key |
+| `GOOGLE_API_KEY` | Yes | Gemini API key for agents |
+| `MSAL_CLIENT_ID` | Yes | Azure AD app client ID |
+| `MSAL_TENANT_ID` | Yes | Azure AD tenant ID |
+
+**Frontend (`frontend/.env.local`):**
+
+| Variable | Required | Description |
+|---|---|---|
+| `NEXT_PUBLIC_API_URL` | Yes | Backend API URL |
+| `NEXT_PUBLIC_MSAL_CLIENT_ID` | Yes | Azure AD app client ID |
+| `NEXT_PUBLIC_MSAL_TENANT_ID` | Yes | Azure AD tenant ID |
+
+### Access RFP Advisor
+
+| URL | Service |
+|---|---|
+| `http://localhost:3000` | Frontend (Next.js) |
+| `http://localhost:8000` | Backend API (FastAPI) |
+| `http://localhost:8000/docs` | API documentation (Swagger) |
+| `http://localhost:8000/api/healthz` | Health check |
+
+---
+
 ## Related Documents
 
 - [High-Level Architecture](/docs/platform/high-level-architecture)
 - [Authentication & Security](/docs/authentication)
 - [Deployment & DevOps](/docs/deployment)
+- [RFP Advisor](/docs/rfp-advisor)
+- [WorkSphere Agents](/docs/agents)

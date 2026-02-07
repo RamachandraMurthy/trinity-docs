@@ -6,7 +6,7 @@ description: Welcome to the Trinity (WorkSphere) platform documentation
 
 # Welcome to Trinity
 
-**Trinity** (branded as **WorkSphere** at [worksphere.dxc.ai](https://worksphere.dxc.ai)) is DXC Technology's enterprise AI assistant platform. It helps Sales and HR teams work smarter by combining conversational AI with access to business data.
+**Trinity** (branded as **WorkSphere** at [worksphere.dxc.ai](https://worksphere.dxc.ai)) is DXC Technology's enterprise AI assistant platform. It helps Sales and HR teams work smarter by combining conversational AI with access to business data. The platform includes **RFP Advisor** for proposal analysis and **WorkSphere Agents** for autonomous, multi-step AI analysis.
 
 ---
 
@@ -17,6 +17,8 @@ Trinity is an intelligent workspace where employees can ask questions in plain E
 > "Show me the top performers in the London office"
 > "What's on my calendar this week?"
 > "How is our pipeline looking for Q4?"
+> "Analyze this RFP for compliance gaps"
+> "What's the win probability for this deal?"
 
 Trinity connects to HR systems, sales data, Microsoft 365, and more — all through a single, conversational interface.
 
@@ -36,6 +38,12 @@ Beyond chat, Trinity offers an infinite canvas where you can save insights, orga
 
 **Team Collaboration**
 Group chat rooms let teams work together with AI assistance available to everyone.
+
+**RFP Advisor**
+Upload RFP documents, extract requirements, search across proposals, and analyze documents through multiple AI chat interfaces.
+
+**WorkSphere Agents**
+Run specialized AI agents that perform in-depth analysis — from deal qualification and win probability to competitive intelligence and compliance review. Agents work in the background and generate detailed reports.
 
 ---
 
@@ -63,6 +71,23 @@ This documentation explains how Trinity works at a conceptual level — how the 
 | [Developer Guide](/docs/developer-guide) | Setting up a local development environment |
 | [API Overview](/docs/api-reference) | What the backend API can do |
 
+### RFP Advisor
+
+| Section | What You'll Learn |
+|---|---|
+| [RFP Advisor Overview](/docs/rfp-advisor) | How RFP document analysis works |
+| [Projects](/docs/rfp-advisor/projects) | How work is organized into projects |
+| [Document Processing](/docs/rfp-advisor/file-upload) | How documents are uploaded and converted |
+| [Search & Indexing](/docs/rfp-advisor/indexing) | How documents become searchable |
+
+### WorkSphere Agents
+
+| Section | What You'll Learn |
+|---|---|
+| [Agents Overview](/docs/agents) | How autonomous AI agents work |
+| [RFP Advisor Agents](/docs/agents/rfp/requirements-review) | Specialized proposal and RFP analysis agents |
+| [Special Agents](/docs/agents/special/deal-qualification) | Sales-focused agents for deals, competitors, and strategy |
+
 ### SalesCoach Backend
 
 | Section | What You'll Learn |
@@ -79,8 +104,9 @@ This documentation explains how Trinity works at a conceptual level — how the 
 |---|---|
 | **Production URL** | [worksphere.dxc.ai](https://worksphere.dxc.ai) |
 | **User Roles** | Sales, HR, Admin |
-| **AI Model** | Azure OpenAI (GPT-4.1 Mini) |
-| **Business Tools** | 15+ MCP servers (HR, Sales, O365) |
+| **AI Models** | Azure OpenAI (GPT-4.1), Google Gemini (Agents) |
+| **Business Tools** | 15+ MCP servers (HR, Sales, O365, RFP) |
+| **WorkSphere Agents** | 15+ specialized analysis agents |
 | **Authentication** | Microsoft Azure AD (corporate credentials) |
 | **Hosting** | Microsoft Azure (App Service, Cosmos DB) |
 
@@ -93,6 +119,12 @@ Start with [Platform Overview](/docs/platform/high-level-architecture) to unders
 
 **Interested in the AI?**
 Read [AI & MCP Integration](/docs/ai-and-mcp) to learn how Trinity answers questions using business data.
+
+**Working with RFPs?**
+Explore the [RFP Advisor](/docs/rfp-advisor) to understand document analysis and proposal workflows.
+
+**Want to understand agents?**
+Check [WorkSphere Agents](/docs/agents) to learn how autonomous AI analysis works.
 
 **Curious about security?**
 Check [Authentication & Security](/docs/authentication) to understand how access is controlled.

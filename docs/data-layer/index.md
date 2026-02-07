@@ -29,8 +29,19 @@ Think of it as a giant filing cabinet in the cloud where each drawer contains a 
 - Profile images (digital twin pictures)
 - Uploaded documents
 - Generated reports
+- RFP documents (PDFs, Word docs, PowerPoints)
+- Agent-generated analysis reports
 
 It's like cloud file storage, similar to Dropbox or OneDrive, but for application use.
+
+### Azure AI Search (RFP Documents)
+
+**Azure AI Search** provides intelligent document search for RFP Advisor:
+- Vector embeddings for semantic similarity search
+- Full-text search for keyword matching
+- Hybrid search combining both approaches
+
+This lets users ask questions like "Find all sections about data security requirements" and get relevant matches based on meaning.
 
 ### Browser Storage (Temporary)
 
@@ -76,6 +87,17 @@ Cosmos DB organizes data into **databases** and **containers** (like databases a
 │  │  │ Group Chat  │                                    │    │
 │  │  │ History     │                                    │    │
 │  │  └─────────────┘                                    │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │  RFP ADVISOR DATABASE                               │    │
+│  │                                                     │    │
+│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐    │    │
+│  │  │ Users       │ │ Projects    │ │ Files       │    │    │
+│  │  └─────────────┘ └─────────────┘ └─────────────┘    │    │
+│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐    │    │
+│  │  │ Agent Runs  │ │ Chats       │ │ Bookmarks   │    │    │
+│  │  └─────────────┘ └─────────────┘ └─────────────┘    │    │
 │  └─────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -146,6 +168,51 @@ How to connect to business tools:
 - **Status** — Whether the server is active
 
 This configuration tells the AI what tools are available.
+
+---
+
+## RFP Advisor Data
+
+The RFP Advisor stores additional data for document analysis and agent workflows:
+
+### Projects
+
+Organizational containers for RFP work:
+
+- **Project details** — Name, description, creation date
+- **Owner** — Who created the project
+- **File associations** — Which documents belong to this project
+
+Projects let users group related RFP documents together.
+
+### Files
+
+Document metadata and processing status:
+
+- **File identity** — Name, type (PDF, DOCX, PPTX), size
+- **Processing status** — Uploaded, processing, analyzed, or failed
+- **Content summary** — AI-generated summary of the document
+- **Blob reference** — Where the actual file is stored in Blob Storage
+
+### Agent Runs
+
+WorkSphere Agent execution history:
+
+- **Agent type** — Which agent was run (Requirements Review, Win Probability, etc.)
+- **Status** — Pending, running, completed, or failed
+- **Input documents** — Which files were analyzed
+- **Report reference** — Where the generated report is stored
+- **Execution time** — When it started and finished
+
+### Azure AI Search Index
+
+RFP documents are also indexed for semantic search:
+
+- **Text embeddings** — Vector representations of document content
+- **Metadata** — Source file, project, and section information
+- **Search capabilities** — Keyword, semantic, and hybrid search modes
+
+This enables users to search across all their RFP documents by meaning, not just keywords.
 
 ---
 
@@ -274,3 +341,5 @@ This means queries like "get my notifications" are fast because the system knows
 | [Platform Overview](/docs/platform/high-level-architecture) | How data layer fits in the overall system |
 | [Backend](/docs/backend) | How the backend interacts with data |
 | [Deployment](/docs/deployment) | How databases are provisioned |
+| [RFP Advisor](/docs/rfp-advisor) | How RFP document workflows work |
+| [WorkSphere Agents](/docs/agents) | How agent execution data is stored |

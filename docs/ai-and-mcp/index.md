@@ -6,7 +6,7 @@ description: How Trinity connects AI to business data through the Model Context 
 
 # AI & MCP Integration
 
-Trinity's intelligence comes from combining a powerful AI model (Azure OpenAI) with specialized business tools (MCP servers). This section explains how these components work together to answer user questions with real data.
+Trinity's intelligence comes from combining a powerful AI model (Azure OpenAI) with specialized business tools (MCP servers). Beyond real-time chat, the platform also includes **WorkSphere Agents** — autonomous AI agents powered by Google Gemini that perform complex, multi-step analysis tasks. This section explains how these components work together.
 
 ---
 
@@ -119,6 +119,13 @@ Trinity connects to different MCP servers depending on what data is needed:
 | Server | What It Provides |
 |---|---|
 | **O365** | Outlook emails, calendar events, contacts from Microsoft 365 |
+
+### RFP Servers
+
+| Server | What It Provides |
+|---|---|
+| **RFP Tools** | Document search across RFP projects, project summaries, requirement extraction |
+| **Win Prediction** | ML-based win probability scoring for opportunities |
 
 ---
 
@@ -243,6 +250,58 @@ Users never see raw error messages — the AI explains issues in natural languag
 
 ---
 
+## WorkSphere Agents
+
+Beyond real-time chat, Trinity includes **WorkSphere Agents** — specialized AI agents that perform complex, multi-step analysis tasks. While chat answers questions immediately, agents run longer processes that analyze documents, generate reports, and provide strategic recommendations.
+
+### How Agents Differ from Chat
+
+| Aspect | Chat (Azure OpenAI) | Agents (Google Gemini) |
+|---|---|---|
+| **Response Time** | Immediate (seconds) | Background (minutes) |
+| **Complexity** | Single question → answer | Multi-step pipelines |
+| **Output** | Conversational response | Detailed report |
+| **Document Handling** | Context snippets | Full document analysis |
+| **Use Case** | Quick lookups, Q&A | Deep analysis, strategy |
+
+### How Agents Work
+
+1. **User selects an agent** — Chooses from available agents (e.g., "Requirements Review")
+2. **User provides input** — Uploads documents or selects existing project files
+3. **Agent pipeline executes** — Multiple specialized sub-agents process the input sequentially
+4. **Report is generated** — Results are compiled into a formatted document
+5. **User is notified** — When the report is ready for viewing
+
+### Agent Categories
+
+**General Agents** work across the platform:
+- **Deal Qualification** — Assesses deal health using Databricks opportunity data
+- **Win Probability** — ML-based prediction of deal success
+- **Competitor Analysis** — Competitive intelligence and positioning
+- **Pricing Strategy** — Cost and pricing analysis
+- **Company Executives** — Leadership research with web integration
+
+**RFP-Focused Agents** specialize in proposal workflows:
+- **Requirements Review** — Extracts and analyzes RFP requirements
+- **Response Review** — "Red team" review of proposal responses
+- **Requirements-Response Strategy** — Gap analysis and win strategy
+- **Compliance & Contracts** — Regulatory and contract risk assessment
+- **Proposal Scoring** — Multi-dimension scoring matrix
+- **Technical Architecture** — Solution design validation
+
+### The Google ADK Framework
+
+WorkSphere Agents are built using **Google ADK (Agent Development Kit)** with Gemini models. This framework supports:
+
+- **Sequential pipelines** — Multiple agents execute in order, each building on the previous
+- **Large document handling** — Documents uploaded to Gemini's File API for processing
+- **Structured output** — Agents produce consistent, formatted results
+- **Tool integration** — Agents can call MCP tools and external services
+
+For detailed documentation on each agent, see [WorkSphere Agents](/docs/agents).
+
+---
+
 ## Related Documentation
 
 | Section | What You'll Learn |
@@ -251,3 +310,5 @@ Users never see raw error messages — the AI explains issues in natural languag
 | [Backend](/docs/backend) | How the backend coordinates AI and tools |
 | [System Prompt Construction](/docs/ai-and-mcp/system-prompt-construction) | How the AI's instructions are built |
 | [Authentication](/docs/authentication) | How security tokens enable tool access |
+| [WorkSphere Agents](/docs/agents) | Detailed documentation on all available agents |
+| [RFP Advisor](/docs/rfp-advisor) | How document analysis workflows work |

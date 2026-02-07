@@ -70,6 +70,15 @@ Trinity uses **Microsoft Azure Active Directory** (Azure AD, also called Entra I
 
 This approach is called **OAuth 2.0 with OIDC** — an industry standard for secure authentication.
 
+### Shared Across the Platform
+
+The same authentication pattern is used across all Trinity applications:
+- **Main WorkSphere app** — React frontend with Express backend
+- **RFP Advisor** — Next.js frontend with FastAPI backend
+- **SalesCoach** — WebSocket-based real-time coaching
+
+All use MSAL (Microsoft Authentication Library) to handle the OAuth flow, ensuring a consistent login experience regardless of which part of the platform you're accessing.
+
 ---
 
 ## Understanding Roles
@@ -235,3 +244,4 @@ Trinity runs in Docker containers with security best practices:
 | [Platform Overview](/docs/platform/high-level-architecture) | How security fits in the overall system |
 | [AI & MCP](/docs/ai-and-mcp) | How role-based tool access works |
 | [Deployment](/docs/deployment) | How containers are secured |
+| [RFP Advisor](/docs/rfp-advisor) | How authentication works in the RFP Advisor |

@@ -155,6 +155,27 @@ const config = {
             ],
           },
           {
+            title: 'RFP & Agents',
+            items: [
+              {
+                label: 'RFP Advisor',
+                to: '/docs/rfp-advisor',
+              },
+              {
+                label: 'WorkSphere Agents',
+                to: '/docs/agents',
+              },
+              {
+                label: 'RFP Advisor Agents',
+                to: '/docs/agents/rfp/requirements-review',
+              },
+              {
+                label: 'Special Agents',
+                to: '/docs/agents/special/deal-qualification',
+              },
+            ],
+          },
+          {
             title: 'Infrastructure',
             items: [
               {
@@ -169,22 +190,9 @@ const config = {
                 label: 'Deployment',
                 to: '/docs/deployment',
               },
-            ],
-          },
-          {
-            title: 'SalesCoach',
-            items: [
               {
-                label: 'Overview',
+                label: 'SalesCoach',
                 to: '/docs/salescoach',
-              },
-              {
-                label: 'Architecture',
-                to: '/docs/salescoach/architecture',
-              },
-              {
-                label: 'Application Flow',
-                to: '/docs/salescoach/flow/step1-connect',
               },
             ],
           },

@@ -8,7 +8,7 @@ description: How Trinity (WorkSphere) works — system architecture and key comp
 
 > **Production Brand:** WorkSphere — [worksphere.dxc.ai](https://worksphere.dxc.ai)
 
-Trinity is DXC Technology's enterprise AI assistant platform. It provides intelligent assistance for Sales and HR teams through a modern, immersive interface that combines conversational AI with specialized business tools.
+Trinity is DXC Technology's enterprise AI assistant platform. It provides intelligent assistance for Sales and HR teams through a modern, immersive interface that combines conversational AI with specialized business tools. The platform also powers **RFP Advisor** for proposal analysis and includes **WorkSphere Agents** — autonomous AI agents that perform complex, multi-step analysis tasks.
 
 ---
 
@@ -21,6 +21,8 @@ Trinity serves as an intelligent workspace where employees can:
 - **Collaborate in real-time** — Individual and group chat with AI assistance
 - **Visualize insights** — Charts, tables, and dashboards generated from AI responses
 - **Work visually** — An infinite canvas workspace for organizing information
+- **Analyze RFP documents** — Upload proposals, extract requirements, and identify compliance gaps
+- **Run AI-powered agents** — Execute specialized agents for deal qualification, win probability, competitive analysis, and more
 
 The platform connects to multiple data sources through specialized AI tools, so users get accurate, up-to-date answers without needing to know where the data lives.
 
@@ -45,36 +47,44 @@ Trinity has three main layers that work together:
 │   • AI chat interface                                       │
 │   • Workspace canvas                                        │
 │   • Group chat rooms                                        │
+│   • RFP Advisor (project & document management)             │
+│   • WorkSphere Agent selection and reports                  │
 │                                                             │
-│   Built with: React (runs in the browser)                   │
+│   Built with: React / Next.js (runs in the browser)         │
 └──────────────────────────┬──────────────────────────────────┘
                            │
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                    BACKEND LAYER                            │
 │                                                             │
-│   The "brain" that processes requests:                      │
+│   Main Backend (Node.js/Express):                           │
 │   • Receives user questions                                 │
-│   • Talks to the AI model                                   │
+│   • Talks to the AI model (Azure OpenAI)                    │
 │   • Calls the right business tools                          │
-│   • Saves chat history                                      │
-│   • Manages notifications                                   │
+│   • Saves chat history, manages notifications               │
 │                                                             │
-│   Built with: Node.js / Express (runs on Azure)             │
+│   RFP Advisor Backend (Python/FastAPI):                     │
+│   • Document upload and processing                          │
+│   • Semantic search and indexing                            │
+│   • Runs WorkSphere Agents (Google ADK)                     │
+│   • Generates analysis reports                              │
 └──────────────────────────┬──────────────────────────────────┘
                            │
           ┌────────────────┼────────────────┐
           ▼                ▼                ▼
 ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐
-│   AI MODEL   │  │   BUSINESS   │  │      DATA STORAGE    │
+│   AI MODELS  │  │   BUSINESS   │  │      DATA STORAGE    │
 │              │  │    TOOLS     │  │                      │
 │  Azure OpenAI│  │  (MCP Servers)│ │  Azure Cosmos DB     │
 │  GPT-4.1 Mini│  │              │  │  (chat history,      │
 │              │  │  HR Data     │  │   notifications,     │
-│  Understands │  │  Sales Data  │  │   workspaces)        │
-│  questions & │  │  Calendar    │  │                      │
-│  generates   │  │  Email       │  │                      │
-│  responses   │  │  Performance │  │                      │
+│  Google      │  │  Sales Data  │  │   workspaces,        │
+│  Gemini      │  │  Calendar    │  │   projects, files,   │
+│  (Agents)    │  │  Email       │  │   agent runs)        │
+│              │  │  Performance │  │                      │
+│  Understands │  │  RFP Tools   │  │  Azure Blob Storage  │
+│  questions & │  │              │  │  (documents, reports)│
+│  runs agents │  │              │  │                      │
 └──────────────┘  └──────────────┘  └──────────────────────┘
 ```
 
@@ -161,10 +171,31 @@ The backend is a server that processes all requests. It handles:
 | **Sales Accounts** | Looks up account information and contacts |
 | **Sales Pipeline** | Shows deals, opportunities, and forecasts |
 | **O365** | Accesses Outlook email, calendar, and contacts |
+| **RFP Tools** | Searches RFP documents, retrieves project summaries |
 
 When a user asks a question, the AI figures out which tool(s) to use, and the backend coordinates the calls.
 
 **Why MCP?** By separating tools into independent servers, each can be developed, updated, and scaled independently. It also means the AI can be taught to use new tools without changing the core platform.
+
+### WorkSphere Agents (Autonomous Analysis)
+
+Beyond real-time chat, Trinity includes **WorkSphere Agents** — specialized AI agents that perform complex, multi-step analysis tasks in the background. Unlike chat (which answers questions immediately), agents run longer processes that analyze documents, generate reports, and provide strategic recommendations.
+
+**How Agents Work:**
+1. User selects an agent and provides input documents (like an RFP)
+2. The agent pipeline runs in the background (may take several minutes)
+3. Each agent in the pipeline performs a specific analysis task
+4. Results are compiled into a formatted report
+5. User receives notification when the report is ready
+
+**Agent Categories:**
+
+| Category | Examples | Purpose |
+|---|---|---|
+| **General Agents** | Deal Qualification, Win Probability, Competitor Analysis, Pricing Strategy | Platform-wide business analysis |
+| **RFP-Focused Agents** | Requirements Review, Response Review, Compliance Analysis, Contract Terms | Specialized proposal analysis |
+
+WorkSphere Agents use the **Google ADK (Agent Development Kit)** with Gemini models for complex reasoning, while the main chat uses Azure OpenAI. This allows agents to handle larger documents and multi-step reasoning workflows.
 
 ### Azure OpenAI (The Intelligence)
 
@@ -233,11 +264,15 @@ Changes flow through these environments via automated CI/CD pipelines, ensuring 
 
 | Layer | Technology | Purpose |
 |---|---|---|
-| Frontend | React 19 | User interface |
-| Backend | Node.js / Express | Request processing |
-| AI | Azure OpenAI (GPT-4.1) | Natural language understanding |
+| Frontend | React 19, Next.js 15 | User interface |
+| Main Backend | Node.js / Express | Chat, notifications, workspaces |
+| RFP Backend | Python / FastAPI | Document processing, agents |
+| AI (Chat) | Azure OpenAI (GPT-4.1) | Natural language understanding |
+| AI (Agents) | Google Gemini (ADK) | Multi-step reasoning and analysis |
 | Tools | MCP Protocol | Business data access |
 | Database | Azure Cosmos DB | Data storage |
+| File Storage | Azure Blob Storage | Documents and reports |
+| Search | Azure AI Search | Vector and semantic search |
 | Auth | Azure AD / MSAL | Identity management |
 | Hosting | Azure App Service | Cloud infrastructure |
 | Real-Time | WebSocket | Instant messaging |
@@ -255,3 +290,5 @@ Changes flow through these environments via automated CI/CD pipelines, ensuring 
 | [Data Layer](/docs/data-layer) | How information is stored |
 | [Real-Time](/docs/realtime) | How instant messaging works |
 | [Deployment](/docs/deployment) | How the system is hosted |
+| [RFP Advisor](/docs/rfp-advisor) | How RFP document analysis works |
+| [WorkSphere Agents](/docs/agents) | How autonomous AI agents work |

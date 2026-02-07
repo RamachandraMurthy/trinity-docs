@@ -6,7 +6,7 @@ description: How the Trinity user interface is organized and how it works
 
 # Frontend Architecture
 
-The Trinity frontend is what users see and interact with in their browser. It's a modern web application built with React that provides an immersive, responsive experience for AI-powered assistance.
+The Trinity frontend is what users see and interact with in their browser. The platform includes two primary interfaces: the **main WorkSphere app** (React) for conversational AI and workspaces, and the **RFP Advisor** (Next.js) for document analysis and agent-driven workflows. Both share consistent design patterns and authentication.
 
 ---
 
@@ -65,6 +65,56 @@ For team collaboration, users can create and join group chat rooms:
 - AI assistance available to the whole group
 - Real-time message delivery
 - Role-based access (HR groups, Sales groups)
+
+---
+
+## How the RFP Advisor Interface Works
+
+The RFP Advisor provides a specialized interface for document analysis and AI agent workflows. Built with Next.js 15, it offers a project-centric experience optimized for proposal work.
+
+### Dual-Section Architecture
+
+The RFP Advisor interface switches between two modes:
+
+**RFP Advisor Mode** — Focused on document analysis:
+- Dashboard with workflow cards
+- Project management for organizing RFP documents
+- Document search across indexed files
+- Multiple chat interfaces (Gemini, Azure OpenAI, Document-aware)
+
+**Trinity Agents Mode** — Focused on autonomous analysis:
+- Agent selection from 15+ specialized agents
+- Agent run history and status tracking
+- Report viewing for completed analyses
+
+Users switch between modes using a section selector, and the sidebar navigation adapts accordingly.
+
+### Project Management
+
+The central organizing concept is the **project**:
+- Each project groups related RFP documents together
+- Users upload PDFs, Word docs, and PowerPoints
+- Documents are processed, indexed, and made searchable
+- Agents run against project documents
+
+### Agent Selection and Runs
+
+When users want deeper analysis, they select an agent:
+1. Choose from available agents (Requirements Review, Win Probability, etc.)
+2. Select which project documents to analyze
+3. Kick off the agent run
+4. Monitor progress in the Agent Runs section
+5. View the generated report when complete
+
+### Chat Interfaces
+
+RFP Advisor offers multiple chat options:
+
+| Interface | Model | Purpose |
+|---|---|---|
+| **Gemini Chat** | Google Gemini 2.5 | Fast exploration and general questions |
+| **Azure Chat** | GPT-4o | RAG-enabled search across indexed documents |
+| **Document Chat** | Gemini | Direct questions about specific uploaded documents |
 
 ---
 
@@ -230,3 +280,5 @@ If the network connection is lost, the frontend handles it gracefully with retry
 | [Backend](/docs/backend) | What happens when frontend makes requests |
 | [Real-Time](/docs/realtime) | How WebSocket communication works |
 | [Authentication](/docs/authentication) | How login and security work |
+| [RFP Advisor](/docs/rfp-advisor) | Detailed RFP document workflows |
+| [WorkSphere Agents](/docs/agents) | How autonomous agents work |
