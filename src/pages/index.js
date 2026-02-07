@@ -46,7 +46,7 @@ const FeatureList = [
     ),
     description: 'Full-stack enterprise AI platform with React frontend, Express backend, Azure OpenAI, and MCP tool integration.',
     link: '/docs/platform/high-level-architecture',
-    color: '#2563eb',
+    color: '#004AAC',
   },
   {
     title: 'Frontend',
@@ -59,7 +59,7 @@ const FeatureList = [
     ),
     description: 'React 19 SPA with HUD interface, dual-frame layout, workspace canvas, and Framer Motion animations.',
     link: '/docs/frontend',
-    color: '#7c3aed',
+    color: '#4995FF',
   },
   {
     title: 'Backend',
@@ -73,7 +73,7 @@ const FeatureList = [
     ),
     description: 'Express.js REST API with layered architecture, MCP orchestration, and comprehensive service layer.',
     link: '/docs/backend',
-    color: '#059669',
+    color: '#0E1020',
   },
   {
     title: 'AI & MCP',
@@ -85,7 +85,7 @@ const FeatureList = [
     ),
     description: 'Model Context Protocol integration with 15+ MCP servers, Azure OpenAI GPT-4.1 Mini, and dynamic tool discovery.',
     link: '/docs/ai-and-mcp',
-    color: '#d97706',
+    color: '#FFAE41',
   },
   {
     title: 'Authentication',
@@ -97,7 +97,7 @@ const FeatureList = [
     ),
     description: 'MSAL Azure AD authentication with role-based access control, token management, and security headers.',
     link: '/docs/authentication',
-    color: '#dc2626',
+    color: '#D14600',
   },
   {
     title: 'Data Layer',
@@ -110,7 +110,7 @@ const FeatureList = [
     ),
     description: 'Azure Cosmos DB multi-database architecture, blob storage, and runtime configuration management.',
     link: '/docs/data-layer',
-    color: '#0891b2',
+    color: '#A1E6FF',
   },
   {
     title: 'Real-Time',
@@ -121,7 +121,7 @@ const FeatureList = [
     ),
     description: 'WebSocket streaming for chat, group chat rooms, broadcast services, and token synchronization.',
     link: '/docs/realtime',
-    color: '#ec4899',
+    color: '#FF7E51',
   },
   {
     title: 'Deployment',
@@ -133,7 +133,7 @@ const FeatureList = [
     ),
     description: 'Docker containers, Azure App Service, CI/CD pipelines, and multi-environment deployment.',
     link: '/docs/deployment',
-    color: '#6366f1',
+    color: '#004AAC',
   },
   {
     title: 'API Reference',
@@ -148,7 +148,7 @@ const FeatureList = [
     ),
     description: 'Complete REST API documentation with endpoints, request/response schemas, and error handling.',
     link: '/docs/api-reference',
-    color: '#84cc16',
+    color: '#4995FF',
   },
   {
     title: 'Developer Guide',
@@ -160,7 +160,7 @@ const FeatureList = [
     ),
     description: 'Local development setup, environment variables, running locally, and troubleshooting guide.',
     link: '/docs/developer-guide',
-    color: '#f59e0b',
+    color: '#FFAE41',
   },
   {
     title: 'SalesCoach Backend',
@@ -172,7 +172,7 @@ const FeatureList = [
     ),
     description: 'Python/aiohttp WebSocket backend with 7-step flow, MCP tool execution, and CosmosDB persistence.',
     link: '/docs/salescoach',
-    color: '#14b8a6',
+    color: '#FFC982',
   },
   {
     title: 'Security',
@@ -184,7 +184,7 @@ const FeatureList = [
     ),
     description: 'Security assessment, vulnerability analysis, and remediation recommendations for SalesCoach.',
     link: '/docs/salescoach/security-vulnerabilities',
-    color: '#f43f5e',
+    color: '#D14600',
   },
 ];
 

@@ -1,4 +1,4 @@
-/* ========== Trigger Button ========== */
+/* ========== Trigger Button — DXC Royal Blue ========== */
 .triggerButton {
   position: fixed;
   bottom: 24px;
@@ -9,28 +9,30 @@
   gap: 10px;
   padding: 14px 22px;
   border: none;
-  border-radius: 50px;
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+  border-radius: 8px;
+  background: #004AAC;
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   box-shadow:
-    0 4px 16px rgba(79, 70, 229, 0.45),
-    0 1px 3px rgba(0, 0, 0, 0.12);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    0 4px 16px rgba(0, 74, 172, 0.35),
+    0 1px 3px rgba(14, 16, 32, 0.12);
+  transition: all 180ms cubic-bezier(0, 0, 0.2, 1);
   font-family: inherit;
+  min-height: 48px;
 }
 
 .triggerButton:hover {
-  transform: translateY(-3px);
+  background: #003A8C;
+  transform: translateY(-1px);
   box-shadow:
-    0 8px 28px rgba(79, 70, 229, 0.5),
-    0 2px 6px rgba(0, 0, 0, 0.12);
+    0 8px 28px rgba(0, 74, 172, 0.4),
+    0 2px 6px rgba(14, 16, 32, 0.12);
 }
 
 .triggerButton:active {
-  transform: translateY(-1px);
+  transform: translateY(0);
 }
 
 .triggerHidden {
@@ -49,7 +51,7 @@
   white-space: nowrap;
 }
 
-/* ========== Chat Panel ========== */
+/* ========== Chat Panel — DXC Branding ========== */
 .chatPanel {
   position: fixed;
   bottom: 24px;
@@ -59,21 +61,21 @@
   max-height: 620px;
   display: flex;
   flex-direction: column;
-  border-radius: 20px;
+  border-radius: 12px;
   background: #ffffff;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(14, 16, 32, 0.08);
   box-shadow:
-    0 25px 50px -12px rgba(0, 0, 0, 0.25),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+    0 16px 32px rgba(14, 16, 32, 0.16),
+    0 0 0 1px rgba(14, 16, 32, 0.04);
   overflow: hidden;
-  animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: slideUp 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
 [data-theme='dark'] .chatPanel {
-  background: #1e1e2e;
-  border-color: #313244;
+  background: #171A2E;
+  border-color: #282B45;
   box-shadow:
-    0 25px 50px -12px rgba(0, 0, 0, 0.55),
+    0 16px 32px rgba(0, 0, 0, 0.5),
     0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
@@ -88,14 +90,25 @@
   }
 }
 
-/* ========== Header ========== */
+/* ========== Header — DXC Midnight Blue ========== */
 .chatHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 16px 18px;
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+  background: #0E1020;
   color: #ffffff;
+}
+
+/* DXC gradient accent on header bottom */
+.chatHeader::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #004AAC 0%, #FFAE41 50%, #4995FF 100%);
 }
 
 .chatHeaderLeft {
@@ -107,13 +120,13 @@
 .headerIcon {
   width: 38px;
   height: 38px;
-  border-radius: 12px;
-  background: #ffffff;
+  border-radius: 8px;
+  background: #004AAC;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #7c3aed;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 74, 172, 0.3);
 }
 
 .chatTitle {
@@ -126,7 +139,7 @@
 
 .chatSubtitle {
   font-size: 11px;
-  color: #e0d4fc;
+  color: rgba(255, 255, 255, 0.6);
   font-weight: 500;
 }
 
@@ -136,8 +149,8 @@
 }
 
 .headerBtn {
-  background: #ffffff20;
-  border: 1px solid #ffffff30;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #ffffff;
   width: 32px;
   height: 32px;
@@ -146,24 +159,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: all 180ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .headerBtn:hover {
-  background: #ffffff40;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* ========== Model Picker Bar ========== */
 .modelBar {
   padding: 8px 16px;
-  border-bottom: 1px solid #e5e7eb;
-  background: #f9fafb;
+  border-bottom: 1px solid rgba(14, 16, 32, 0.08);
+  background: #F6F3F0;
   position: relative;
 }
 
 [data-theme='dark'] .modelBar {
-  background: #181825;
-  border-bottom-color: #313244;
+  background: #0E1020;
+  border-bottom-color: #282B45;
 }
 
 .modelPickerBtn {
@@ -171,26 +184,26 @@
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  border: 1px solid #d1d5db;
+  border: 1px solid rgba(14, 16, 32, 0.2);
   border-radius: 8px;
   background: #ffffff;
-  color: #374151;
+  color: #0E1020;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 180ms cubic-bezier(0, 0, 0.2, 1);
   width: 100%;
 }
 
 [data-theme='dark'] .modelPickerBtn {
-  background: #1e1e2e;
-  border-color: #45475a;
-  color: #cdd6f4;
+  background: #171A2E;
+  border-color: #282B45;
+  color: #e2e8f0;
 }
 
 .modelPickerBtn:hover {
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1);
+  border-color: #004AAC;
+  box-shadow: 0 0 0 2px rgba(0, 74, 172, 0.1);
 }
 
 .modelPickerBtn span {
@@ -208,18 +221,18 @@
   left: 16px;
   right: 16px;
   background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(14, 16, 32, 0.08);
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(14, 16, 32, 0.12);
   z-index: 10;
   padding: 4px;
   animation: fadeIn 0.15s ease;
 }
 
 [data-theme='dark'] .modelDropdown {
-  background: #1e1e2e;
-  border-color: #45475a;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  background: #171A2E;
+  border-color: #282B45;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .modelOption {
@@ -229,49 +242,54 @@
   width: 100%;
   padding: 8px 12px;
   border: none;
-  border-radius: 7px;
+  border-radius: 6px;
   background: transparent;
-  color: #374151;
+  color: #0E1020;
   font-size: 13px;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 180ms;
   text-align: left;
 }
 
 [data-theme='dark'] .modelOption {
-  color: #cdd6f4;
+  color: #e2e8f0;
 }
 
 .modelOption:hover {
-  background: #f3f4f6;
+  background: rgba(0, 74, 172, 0.06);
 }
 
 [data-theme='dark'] .modelOption:hover {
-  background: #313244;
+  background: rgba(73, 149, 255, 0.1);
 }
 
 .modelOptionActive {
-  background: #ede9fe;
-  color: #6d28d9;
+  background: rgba(0, 74, 172, 0.08);
+  color: #004AAC;
   font-weight: 600;
 }
 
 [data-theme='dark'] .modelOptionActive {
-  background: #2e1065;
-  color: #c4b5fd;
+  background: rgba(73, 149, 255, 0.12);
+  color: #4995FF;
 }
 
 .modelOptionDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #d1d5db;
+  background: rgba(14, 16, 32, 0.2);
   flex-shrink: 0;
 }
 
 .modelOptionActive .modelOptionDot {
-  background: #7c3aed;
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
+  background: #004AAC;
+  box-shadow: 0 0 0 2px rgba(0, 74, 172, 0.2);
+}
+
+[data-theme='dark'] .modelOptionActive .modelOptionDot {
+  background: #4995FF;
+  box-shadow: 0 0 0 2px rgba(73, 149, 255, 0.2);
 }
 
 /* ========== Messages ========== */
@@ -288,7 +306,7 @@
 }
 
 [data-theme='dark'] .messagesContainer {
-  background: #1e1e2e;
+  background: #171A2E;
 }
 
 /* Scrollbar styling */
@@ -301,12 +319,12 @@
 }
 
 .messagesContainer::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: rgba(14, 16, 32, 0.15);
   border-radius: 10px;
 }
 
 [data-theme='dark'] .messagesContainer::-webkit-scrollbar-thumb {
-  background: #45475a;
+  background: #282B45;
 }
 
 .message {
@@ -338,41 +356,41 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  background: #004AAC;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   color: #ffffff;
-  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 74, 172, 0.3);
 }
 
 .messageContent {
   max-width: 80%;
   padding: 10px 14px;
-  border-radius: 16px;
+  border-radius: 12px;
   font-size: 13px;
   line-height: 1.6;
 }
 
 .userMessage .messageContent {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  background: #004AAC;
   color: #ffffff;
   border-bottom-right-radius: 4px;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 74, 172, 0.25);
 }
 
 .assistantMessage .messageContent {
-  background: #f3f4f6;
-  color: #1f2937;
+  background: #F6F3F0;
+  color: #0E1020;
   border-bottom-left-radius: 4px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(14, 16, 32, 0.08);
 }
 
 [data-theme='dark'] .assistantMessage .messageContent {
-  background: #313244;
-  color: #cdd6f4;
-  border-color: #45475a;
+  background: #1C1F35;
+  color: #e2e8f0;
+  border-color: #282B45;
 }
 
 .messageContent h2,
@@ -395,23 +413,23 @@
   font-size: 12px;
   padding: 2px 6px;
   border-radius: 4px;
-  background: #e5e7eb;
-  color: #7c3aed;
+  background: rgba(14, 16, 32, 0.06);
+  color: #004AAC;
   font-family: 'Fira Code', 'Cascadia Code', monospace;
 }
 
 [data-theme='dark'] .messageContent code {
-  background: #45475a;
-  color: #cba6f7;
+  background: rgba(255, 255, 255, 0.08);
+  color: #4995FF;
 }
 
 .messageContent pre {
   margin: 8px 0;
   padding: 12px;
-  border-radius: 10px;
-  background: #1e1b2e;
+  border-radius: 8px;
+  background: #0E1020;
   overflow-x: auto;
-  border: 1px solid #2e2b3e;
+  border: 1px solid #1C1F35;
 }
 
 .messageContent pre code {
@@ -426,7 +444,7 @@
   color: #ffffff;
 }
 
-/* ========== Typing indicator ========== */
+/* ========== Typing indicator — DXC brand gradient ========== */
 .typingIndicator {
   display: flex;
   gap: 5px;
@@ -437,7 +455,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  background: #004AAC;
   animation: bounce 1.4s infinite ease-in-out;
 }
 
@@ -446,9 +464,11 @@
 }
 .typingIndicator span:nth-child(2) {
   animation-delay: 0.2s;
+  background: #FFAE41;
 }
 .typingIndicator span:nth-child(3) {
   animation-delay: 0.4s;
+  background: #4995FF;
 }
 
 @keyframes bounce {
@@ -464,24 +484,24 @@
   }
 }
 
-/* ========== Error ========== */
+/* ========== Error — DXC Red ========== */
 .errorBanner {
   padding: 10px 14px;
-  border-radius: 10px;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #991b1b;
+  border-radius: 8px;
+  background: rgba(209, 70, 0, 0.06);
+  border: 1px solid rgba(209, 70, 0, 0.3);
+  color: #D14600;
   font-size: 12px;
   line-height: 1.5;
 }
 
 [data-theme='dark'] .errorBanner {
-  background: #3b1111;
-  border-color: #7f1d1d;
-  color: #fca5a5;
+  background: rgba(209, 70, 0, 0.1);
+  border-color: rgba(209, 70, 0, 0.4);
+  color: #FF7E51;
 }
 
-/* ========== Suggestions ========== */
+/* ========== Suggestions — DXC Royal Blue ========== */
 .suggestions {
   padding: 0 16px 12px;
   display: flex;
@@ -491,33 +511,33 @@
 }
 
 [data-theme='dark'] .suggestions {
-  background: #1e1e2e;
+  background: #171A2E;
 }
 
 .suggestionBtn {
   padding: 6px 14px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(14, 16, 32, 0.12);
   border-radius: 20px;
-  background: #f9fafb;
-  color: #6d28d9;
+  background: #F6F3F0;
+  color: #004AAC;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 180ms cubic-bezier(0, 0, 0.2, 1);
   white-space: nowrap;
 }
 
 [data-theme='dark'] .suggestionBtn {
-  background: #313244;
-  border-color: #45475a;
-  color: #cba6f7;
+  background: #1C1F35;
+  border-color: #282B45;
+  color: #4995FF;
 }
 
 .suggestionBtn:hover {
-  background: #7c3aed;
+  background: #004AAC;
   color: #ffffff;
-  border-color: #7c3aed;
-  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+  border-color: #004AAC;
+  box-shadow: 0 2px 8px rgba(0, 74, 172, 0.3);
 }
 
 /* ========== Input ========== */
@@ -525,69 +545,71 @@
   display: flex;
   gap: 8px;
   padding: 14px 16px;
-  border-top: 1px solid #e5e7eb;
-  background: #f9fafb;
+  border-top: 1px solid rgba(14, 16, 32, 0.08);
+  background: #F6F3F0;
 }
 
 [data-theme='dark'] .inputForm {
-  background: #181825;
-  border-top-color: #313244;
+  background: #0E1020;
+  border-top-color: #282B45;
 }
 
 .chatInput {
   flex: 1;
   padding: 10px 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
+  border: 1px solid rgba(14, 16, 32, 0.2);
+  border-radius: 4px;
   font-size: 13px;
   background: #ffffff;
-  color: #1f2937;
+  color: #0E1020;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 180ms, box-shadow 180ms;
+  min-height: 44px;
 }
 
 [data-theme='dark'] .chatInput {
-  background: #1e1e2e;
-  border-color: #45475a;
-  color: #cdd6f4;
+  background: #171A2E;
+  border-color: #282B45;
+  color: #e2e8f0;
 }
 
 .chatInput:focus {
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+  border-color: #004AAC;
+  box-shadow: 0 0 0 4px rgba(0, 74, 172, 0.15);
 }
 
 .chatInput::placeholder {
-  color: #9ca3af;
+  color: rgba(14, 16, 32, 0.4);
 }
 
 [data-theme='dark'] .chatInput::placeholder {
-  color: #6c7086;
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .sendBtn {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border-radius: 8px;
+  background: #004AAC;
   color: #ffffff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: all 180ms cubic-bezier(0, 0, 0.2, 1);
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 1px 2px rgba(14, 16, 32, 0.04);
 }
 
 .sendBtn:hover:not(:disabled) {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+  background: #003A8C;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 74, 172, 0.3);
 }
 
 .sendBtn:disabled {
-  opacity: 0.35;
+  opacity: 0.4;
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -599,7 +621,7 @@
     max-height: calc(100vh - 100px);
     bottom: 8px;
     right: 8px;
-    border-radius: 16px;
+    border-radius: 12px;
   }
 
   .triggerLabel {
@@ -609,6 +631,8 @@
   .triggerButton {
     padding: 14px;
     border-radius: 50%;
+    width: 48px;
+    height: 48px;
   }
 
   .messagesContainer {
