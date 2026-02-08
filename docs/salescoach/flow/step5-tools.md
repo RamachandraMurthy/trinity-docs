@@ -71,3 +71,14 @@ The `call_tool_with_timeout_and_retry` method ensures robustness:
 - **Timeout:** 300 seconds (5 minutes) limit for tool execution.
 - **Retries:** Automatic retry (max 2 attempts) for network glitches or server-side 500 errors.
 - **Token Refresh:** Auto-refreshes expired 401 tokens and retries.
+
+---
+
+## Available MCP Servers
+
+For detailed documentation on each MCP server — including data sources, capabilities, and example queries — see the [MCP Servers](/docs/mcp-servers) section. The most commonly used servers include:
+
+- [SFDC UDP](/docs/mcp-servers/sfdc-udp) — Salesforce accounts, opportunities, and pipeline data
+- [HR Employee Data](/docs/mcp-servers/hr-employee-data) — Employee directory and organizational structure
+- [O365](/docs/mcp-servers/o365) — Microsoft 365 calendar for external meeting detection
+- [Win/Loss Prediction](/docs/mcp-servers/opp-win-loss) — ML-based win probability scoring

@@ -76,7 +76,7 @@ const sidebars = {
       ],
     },
     
-    // 5. MCP Servers (new top-level section)
+    // 5. MCP Servers (data connectors for AI)
     {
       type: 'category',
       label: 'MCP Servers',
@@ -84,7 +84,60 @@ const sidebars = {
         type: 'doc',
         id: 'mcp-servers/index',
       },
-      items: [],
+      items: [
+        // Sales Servers
+        {
+          type: 'category',
+          label: 'Sales Servers',
+          items: [
+            {
+              type: 'category',
+              label: 'SFDC UDP (Salesforce Data)',
+              link: {
+                type: 'doc',
+                id: 'mcp-servers/sfdc-udp/index',
+              },
+              items: [
+                'mcp-servers/sfdc-udp/data-model',
+                'mcp-servers/sfdc-udp/account-planning',
+                'mcp-servers/sfdc-udp/opportunity-management',
+                'mcp-servers/sfdc-udp/ai-search',
+              ],
+            },
+            'mcp-servers/account-directory',
+            'mcp-servers/campaign',
+            'mcp-servers/client-reference',
+            'mcp-servers/opp-win-loss',
+            'mcp-servers/market-intelligence',
+          ],
+        },
+        // HR Servers
+        {
+          type: 'category',
+          label: 'HR Servers',
+          items: [
+            'mcp-servers/hr-employee-data',
+          ],
+        },
+        // Shared Servers
+        {
+          type: 'category',
+          label: 'Shared Servers',
+          items: [
+            'mcp-servers/o365',
+            'mcp-servers/azure-app-url',
+          ],
+        },
+        // Reference & Content Servers
+        {
+          type: 'category',
+          label: 'Reference & Content Servers',
+          items: [
+            'mcp-servers/auxilium',
+            'mcp-servers/contracts-legal',
+          ],
+        },
+      ],
     },
     
     // 6. WorkSphere Agents (agents umbrella)

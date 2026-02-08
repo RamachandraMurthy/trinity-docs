@@ -159,6 +159,8 @@ Analyze your entire pipeline at once:
 
 | Section | What You'll Learn |
 |---|---|
+| [Win/Loss Prediction MCP Server](/docs/mcp-servers/opp-win-loss) | The MCP server that provides the ML predictions |
+| [SFDC UDP MCP Server](/docs/mcp-servers/sfdc-udp) | Salesforce opportunity data used for predictions |
 | [Deal Qualification](/docs/agents/special/deal-qualification) | Complete qualification assessment |
 | [Competitor Analysis](/docs/agents/special/competitor-analysis) | Deep dive on competition |
 | [WorkSphere Agents Overview](/docs/agents) | How all agents work |

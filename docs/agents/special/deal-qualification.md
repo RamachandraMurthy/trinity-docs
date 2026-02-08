@@ -124,5 +124,7 @@ The agent connects to Databricks SQL Warehouse to access:
 
 | Section | What You'll Learn |
 |---|---|
+| [SFDC UDP MCP Server](/docs/mcp-servers/sfdc-udp) | The MCP server that provides opportunity and deal data |
+| [Win/Loss Prediction MCP Server](/docs/mcp-servers/opp-win-loss) | The ML model for win probability scoring |
 | [Win Probability](/docs/agents/special/win-probability) | ML-based probability predictions |
 | [WorkSphere Agents Overview](/docs/agents) | How all agents work |

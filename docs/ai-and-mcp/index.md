@@ -101,7 +101,12 @@ User: "How many employees are in the London office?"
 
 This back-and-forth can happen multiple times in a single question if the AI needs data from several sources.
 
-For the full catalog of available MCP servers and how they work, see [MCP Servers](/docs/mcp-servers).
+For the full catalog of available MCP servers and how they work, see [MCP Servers](/docs/mcp-servers). Key servers include:
+
+- [SFDC UDP](/docs/mcp-servers/sfdc-udp) — Accounts, opportunities, and pipeline data from Salesforce
+- [HR Employee Data](/docs/mcp-servers/hr-employee-data) — Employee directory, org structure, and staffing
+- [O365](/docs/mcp-servers/o365) — Microsoft 365 calendar for external meeting detection
+- [Win/Loss Prediction](/docs/mcp-servers/opp-win-loss) — ML-based win probability scoring
 
 ---
 

@@ -161,6 +161,8 @@ Specialized services that provide access to business data. When the AI decides i
 3. Receives the data response
 4. Passes the data back to the AI for interpretation
 
+Common MCP servers include [SFDC UDP](/docs/mcp-servers/sfdc-udp) for Salesforce data, [HR Employee Data](/docs/mcp-servers/hr-employee-data) for employee information, and [O365](/docs/mcp-servers/o365) for calendar access. See the [MCP Servers documentation](/docs/mcp-servers) for the full list.
+
 ### Azure Cosmos DB
 
 The database where all persistent data lives. The backend reads and writes:

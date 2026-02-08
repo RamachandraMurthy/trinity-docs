@@ -126,11 +126,38 @@ The Model Context Protocol provides a standardized way for AI models to:
 
 ## Individual Server Documentation
 
-Detailed documentation for each MCP server is coming soon. This will include:
-- Available operations and parameters
-- Example queries and responses
-- Data sources and refresh rates
-- Access requirements and permissions
+Select a server below to learn about its data sources, capabilities, and how the AI uses it.
+
+### Sales Servers
+
+| Server | What It Does |
+|--------|--------------|
+| [SFDC UDP (Salesforce Data)](/docs/mcp-servers/sfdc-udp) | Accounts, opportunities, contracts, account plans, and pipeline data from Salesforce via Databricks |
+| [Account Directory](/docs/mcp-servers/account-directory) | CRM account contacts, roles, and regional assignments via Azure SQL |
+| [Campaign](/docs/mcp-servers/campaign) | Salesforce campaign data and campaign-to-opportunity links |
+| [Client Reference](/docs/mcp-servers/client-reference) | Client reference profiles, case studies, and reference materials |
+| [Win/Loss Prediction](/docs/mcp-servers/opp-win-loss) | ML-based win probability scoring for open opportunities |
+| [Market Intelligence](/docs/mcp-servers/market-intelligence) | External IT spend and vendor contract data from IDC/HDInsights |
+
+### HR Servers
+
+| Server | What It Does |
+|--------|--------------|
+| [HR Employee Data](/docs/mcp-servers/hr-employee-data) | Employee directory, org structure, location, and staffing data |
+
+### Shared Servers
+
+| Server | What It Does |
+|--------|--------------|
+| [O365](/docs/mcp-servers/o365) | Microsoft 365 calendar events and external meeting detection |
+| [Azure App URL](/docs/mcp-servers/azure-app-url) | Quick-launch links to external apps and Market Intelligence job submission |
+
+### Reference & Content Servers
+
+| Server | What It Does |
+|--------|--------------|
+| [Auxilium](/docs/mcp-servers/auxilium) | Past proposals and reference materials via RAG search |
+| [Contracts Legal](/docs/mcp-servers/contracts-legal) | Legal contract details, opportunity summaries, and contract filtering |
 
 ---
 
