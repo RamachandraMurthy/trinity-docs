@@ -62,7 +62,7 @@ const config = {
         docs: {
           sidebarPath: './sidebars.js',
           sidebarCollapsible: true,
-          sidebarCollapsed: false,
+          sidebarCollapsed: true,
           showLastUpdateTime: false,
           breadcrumbs: true,
         },
@@ -84,40 +84,13 @@ const config = {
           alt: 'Trinity Logo',
           src: 'img/logo.svg',
         },
-        items: [
-          {
-            type: 'docSidebar',
-            sidebarId: 'docsSidebar',
-            position: 'left',
-            label: 'Documentation',
-          },
-          {
-            to: '/docs/platform/high-level-architecture',
-            label: 'Architecture',
-            position: 'left',
-          },
-          {
-            to: '/docs/agents',
-            label: 'Agents',
-            position: 'left',
-          },
-          {
-            to: '/docs/api-reference',
-            label: 'API',
-            position: 'left',
-          },
-          {
-            type: 'html',
-            position: 'right',
-            value: '<span class="navbar-version-badge">v2.0</span>',
-          },
-        ],
+        items: [],
       },
       footer: {
         style: 'dark',
         links: [
           {
-            title: 'Getting Started',
+            title: 'Quick Links',
             items: [
               {
                 label: 'Introduction',
@@ -128,67 +101,21 @@ const config = {
                 to: '/docs/platform/high-level-architecture',
               },
               {
+                label: 'API Reference',
+                to: '/docs/api-reference',
+              },
+              {
                 label: 'Developer Guide',
                 to: '/docs/developer-guide',
               },
             ],
           },
           {
-            title: 'Platform',
+            title: 'Team',
             items: [
               {
-                label: 'Frontend',
-                to: '/docs/frontend',
-              },
-              {
-                label: 'Backend & Orchestration',
-                to: '/docs/backend',
-              },
-              {
-                label: 'AI & Models',
-                to: '/docs/ai-and-mcp',
-              },
-              {
-                label: 'MCP Servers',
-                to: '/docs/mcp-servers',
-              },
-            ],
-          },
-          {
-            title: 'Agents',
-            items: [
-              {
-                label: 'WorkSphere Agents',
-                to: '/docs/agents',
-              },
-              {
-                label: 'Special Agents',
-                to: '/docs/agents/special/deal-qualification',
-              },
-              {
-                label: 'RFP Agents',
-                to: '/docs/rfp-advisor',
-              },
-            ],
-          },
-          {
-            title: 'Infrastructure',
-            items: [
-              {
-                label: 'Authentication',
-                to: '/docs/authentication',
-              },
-              {
-                label: 'Data Layer',
-                to: '/docs/data-layer',
-              },
-              {
-                label: 'Deployment',
-                to: '/docs/deployment',
-              },
-              {
-                label: 'API Reference',
-                to: '/docs/api-reference',
+                label: 'Ramachandra Murthy',
+                href: 'mailto:ramachandra.murthy@dxc.com',
               },
             ],
           },
