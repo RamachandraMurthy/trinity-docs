@@ -6,6 +6,8 @@ description: Red team review of proposal responses with improvement recommendati
 
 # Response Review Agent
 
+> **Prerequisite:** This agent requires a project with uploaded RFP and proposal documents. See [RFP Advisor Setup](/docs/rfp-advisor) for how to create a project and upload documents.
+
 The Response Review Agent performs a critical "red team" review of your proposal. It evaluates quality across multiple dimensions, identifies weaknesses a competitor or evaluator would find, and provides prioritized improvement recommendations.
 
 ---
@@ -116,6 +118,8 @@ For best results, include the RFP as well so the agent understands context.
 
 | Section | What You'll Learn |
 |---|---|
+| [RFP Advisor Setup](/docs/rfp-advisor) | How to create projects and upload documents |
 | [Requirements Review](/docs/agents/rfp/requirements-review) | Analyze the RFP first |
 | [Requirements-Response Strategy](/docs/agents/rfp/requirements-response-strategy) | Full gap analysis |
 | [Proposal Scoring](/docs/agents/rfp/proposal-scoring) | 16-dimension scoring matrix |
+| [WorkSphere Agents Overview](/docs/agents) | How all agents work |

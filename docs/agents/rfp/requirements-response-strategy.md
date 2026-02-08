@@ -6,6 +6,8 @@ description: Comprehensive gap analysis and win strategy development
 
 # Requirements-Response Strategy Agent
 
+> **Prerequisite:** This agent requires a project with uploaded RFP and proposal documents. See [RFP Advisor Setup](/docs/rfp-advisor) for how to create a project and upload documents.
+
 The Requirements-Response Strategy Agent is the most comprehensive analysis agent. It performs a 13-agent analysis across 5 phases, comparing your proposal against RFP requirements and developing a complete win strategy.
 
 ---
@@ -150,6 +152,8 @@ Classify documents appropriately in your project for best results.
 
 | Section | What You'll Learn |
 |---|---|
+| [RFP Advisor Setup](/docs/rfp-advisor) | How to create projects and upload documents |
 | [Requirements Review](/docs/agents/rfp/requirements-review) | Analyze requirements only |
 | [Response Review](/docs/agents/rfp/response-review) | Review proposal only |
 | [Compliance & Contracts](/docs/agents/rfp/compliance-and-contracts) | Deep compliance analysis |
+| [WorkSphere Agents Overview](/docs/agents) | How all agents work |

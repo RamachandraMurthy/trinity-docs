@@ -170,6 +170,7 @@ Each is tailored for its specific use case.
 
 | Section | What You'll Learn |
 |---|---|
-| [AI & MCP Integration](/docs/ai-and-mcp) | How the AI uses tools |
+| [AI & Models](/docs/ai-and-mcp) | How the AI brain works |
+| [MCP Servers](/docs/mcp-servers) | The business tools the AI connects to |
 | [Authentication](/docs/authentication) | How roles are determined |
 | [Backend](/docs/backend) | Where prompt construction happens |

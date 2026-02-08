@@ -125,6 +125,22 @@ The greeting service creates personalized welcome content:
 
 ---
 
+## The Orchestration Layer (SalesCoach)
+
+Beyond the main services, the backend includes a specialized **orchestration engine** called SalesCoach. This Python/aiohttp component handles the core AI conversation flow:
+
+- **Real-time WebSocket communication** — Bi-directional streaming for responsive chat
+- **AI conversation orchestration** — Manages the 7-step flow from connection to persistence
+- **MCP tool execution** — Coordinates calls to business data servers
+- **Role-based access** — Filters available tools based on user roles
+- **Dynamic system prompts** — Builds context for each conversation
+
+The orchestration engine is what makes Trinity's chat feel instant and conversational. It manages the complex back-and-forth between the user, AI model, and MCP servers.
+
+→ [Orchestration (SalesCoach) Documentation](/docs/salescoach)
+
+---
+
 ## How the Backend Connects to External Services
 
 The backend doesn't work alone. It coordinates with several external services:
@@ -265,7 +281,8 @@ The backend behaves differently depending on the environment:
 | Section | What You'll Learn |
 |---|---|
 | [Platform Overview](/docs/platform/high-level-architecture) | How backend fits in the overall system |
-| [AI & MCP](/docs/ai-and-mcp) | How the AI and business tools work |
+| [Orchestration (SalesCoach)](/docs/salescoach) | The real-time AI conversation engine |
+| [AI & Models](/docs/ai-and-mcp) | How the AI models work |
+| [MCP Servers](/docs/mcp-servers) | Available business data connectors |
 | [Data Layer](/docs/data-layer) | How data is stored and organized |
-| [Real-Time](/docs/realtime) | How WebSocket communication works |
 | [API Reference](/docs/api-reference) | Available endpoints for developers |

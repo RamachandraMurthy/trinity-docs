@@ -68,53 +68,11 @@ For team collaboration, users can create and join group chat rooms:
 
 ---
 
-## How the RFP Advisor Interface Works
+## RFP Advisor Interface
 
-The RFP Advisor provides a specialized interface for document analysis and AI agent workflows. Built with Next.js 15, it offers a project-centric experience optimized for proposal work.
+The platform also includes a specialized RFP Advisor interface for document analysis and AI agent workflows. Built with Next.js 15, it offers a project-centric experience optimized for proposal work — including project management, document upload, search, and access to RFP-focused agents.
 
-### Dual-Section Architecture
-
-The RFP Advisor interface switches between two modes:
-
-**RFP Advisor Mode** — Focused on document analysis:
-- Dashboard with workflow cards
-- Project management for organizing RFP documents
-- Document search across indexed files
-- Multiple chat interfaces (Gemini, Azure OpenAI, Document-aware)
-
-**Trinity Agents Mode** — Focused on autonomous analysis:
-- Agent selection from 15+ specialized agents
-- Agent run history and status tracking
-- Report viewing for completed analyses
-
-Users switch between modes using a section selector, and the sidebar navigation adapts accordingly.
-
-### Project Management
-
-The central organizing concept is the **project**:
-- Each project groups related RFP documents together
-- Users upload PDFs, Word docs, and PowerPoints
-- Documents are processed, indexed, and made searchable
-- Agents run against project documents
-
-### Agent Selection and Runs
-
-When users want deeper analysis, they select an agent:
-1. Choose from available agents (Requirements Review, Win Probability, etc.)
-2. Select which project documents to analyze
-3. Kick off the agent run
-4. Monitor progress in the Agent Runs section
-5. View the generated report when complete
-
-### Chat Interfaces
-
-RFP Advisor offers multiple chat options:
-
-| Interface | Model | Purpose |
-|---|---|---|
-| **Gemini Chat** | Google Gemini 2.5 | Fast exploration and general questions |
-| **Azure Chat** | GPT-4o | RAG-enabled search across indexed documents |
-| **Document Chat** | Gemini | Direct questions about specific uploaded documents |
+For full details on the RFP workflow, see [RFP Agents](/docs/rfp-advisor).
 
 ---
 
@@ -158,6 +116,8 @@ This is used for:
 
 WebSocket makes the experience feel instant and alive, rather than waiting for page refreshes.
 
+For the full details on how real-time streaming, group chat delivery, and connection management work, see [Real-Time & WebSocket](/docs/realtime).
+
 ---
 
 ## How User State is Managed
@@ -182,26 +142,16 @@ Manages which group rooms the user belongs to, active room selection, and real-t
 
 ---
 
-## How Authentication Flows
+## How Authentication Works
 
-When a user opens Trinity:
+Users log in with their DXC corporate credentials through Microsoft Azure AD. The frontend handles:
+- Checking for existing sessions
+- Redirecting to Microsoft login when needed
+- Extracting user roles (Sales, HR, Admin) from security tokens
+- Showing appropriate UI based on roles
+- Automatic token refresh in the background
 
-1. **Check if logged in** — The app checks for an existing session
-2. **Redirect to Microsoft login** — If not logged in, the user goes to the Microsoft sign-in page
-3. **Return with credentials** — After signing in, Microsoft sends the user back with security tokens
-4. **Extract roles** — The app reads the user's roles (Sales, HR, Admin) from the token
-5. **Show appropriate UI** — The landing page shows features matching the user's roles
-
-If the user has no valid roles, they see a message explaining they need role assignment.
-
-### Staying Logged In
-
-Security tokens expire after about an hour. To avoid interrupting users, the frontend automatically refreshes tokens in the background:
-
-- A background service checks token expiry
-- Before tokens expire, it requests fresh ones from Microsoft
-- The new tokens are used for all subsequent requests
-- Users never notice the refresh happening
+For the complete authentication flow, see [Authentication & Security](/docs/authentication).
 
 ---
 
@@ -276,9 +226,8 @@ If the network connection is lost, the frontend handles it gracefully with retry
 
 | Section | What You'll Learn |
 |---|---|
+| [Real-Time & WebSocket](/docs/realtime) | Deep dive into streaming, group chat, and connections |
 | [Platform Overview](/docs/platform/high-level-architecture) | How frontend fits in the overall system |
 | [Backend](/docs/backend) | What happens when frontend makes requests |
-| [Real-Time](/docs/realtime) | How WebSocket communication works |
 | [Authentication](/docs/authentication) | How login and security work |
-| [RFP Advisor](/docs/rfp-advisor) | Detailed RFP document workflows |
 | [WorkSphere Agents](/docs/agents) | How autonomous agents work |

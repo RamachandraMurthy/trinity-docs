@@ -6,6 +6,8 @@ description: 16-dimension scoring matrix for proposal evaluation
 
 # Proposal ScoreMaster Agent
 
+> **Prerequisite:** This agent requires a project with an uploaded proposal document. See [RFP Advisor Setup](/docs/rfp-advisor) for how to create a project and upload documents.
+
 The Proposal ScoreMaster Agent evaluates proposals across 16 weighted dimensions, providing a comprehensive scoring matrix that highlights strengths and improvement priorities.
 
 ---
@@ -108,6 +110,7 @@ The agent works best with a substantially complete draft. Partial proposals may 
 
 | Section | What You'll Learn |
 |---|---|
+| [RFP Advisor Setup](/docs/rfp-advisor) | How to create projects and upload documents |
 | [Response Review](/docs/agents/rfp/response-review) | Detailed quality review with fixes |
 | [Requirements-Response Strategy](/docs/agents/rfp/requirements-response-strategy) | Full gap analysis |
 | [WorkSphere Agents Overview](/docs/agents) | How all agents work |

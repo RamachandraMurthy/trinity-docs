@@ -6,6 +6,8 @@ description: Extract and analyze RFP requirements with strategic recommendations
 
 # Requirements Review Agent
 
+> **Prerequisite:** This agent requires a project with uploaded RFP documents. See [RFP Advisor Setup](/docs/rfp-advisor) for how to create a project and upload documents.
+
 The Requirements Review Agent analyzes RFP documents to extract all requirements, classify them by type and priority, and provide strategic recommendations including a bid/no-bid decision.
 
 ---
@@ -96,6 +98,7 @@ The more complete your document set, the better the analysis.
 
 | Section | What You'll Learn |
 |---|---|
+| [RFP Advisor Setup](/docs/rfp-advisor) | How to create projects and upload documents |
 | [Response Review](/docs/agents/rfp/response-review) | Review your proposal draft |
 | [Requirements-Response Strategy](/docs/agents/rfp/requirements-response-strategy) | Full gap analysis |
 | [WorkSphere Agents Overview](/docs/agents) | How all agents work |

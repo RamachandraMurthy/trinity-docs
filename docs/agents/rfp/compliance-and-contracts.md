@@ -6,6 +6,8 @@ description: Regulatory compliance and contract risk analysis
 
 # Compliance & Contracts Agents
 
+> **Prerequisite:** These agents require a project with uploaded RFP documents. See [RFP Advisor Setup](/docs/rfp-advisor) for how to create a project and upload documents.
+
 This page covers two related analysis capabilities: **Compliance & Certification** analysis and **Contract Terms Analysis**. Both help you understand regulatory and contractual risks in an RFP.
 
 ---
@@ -104,6 +106,7 @@ Document Analysis → Contract Terms Extractor → Risk Assessment → Negotiati
 
 | Section | What You'll Learn |
 |---|---|
+| [RFP Advisor Setup](/docs/rfp-advisor) | How to create projects and upload documents |
 | [Requirements Review](/docs/agents/rfp/requirements-review) | Overall requirements analysis |
 | [Pricing Strategy](/docs/agents/special/pricing-strategy) | Commercial risk in pricing |
 | [WorkSphere Agents Overview](/docs/agents) | How all agents work |

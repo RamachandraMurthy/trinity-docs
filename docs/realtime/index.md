@@ -1,12 +1,14 @@
 ---
-sidebar_position: 1
-title: Real-Time Communication
-description: How Trinity enables instant messaging and live updates
+sidebar_position: 2
+title: Real-Time & WebSocket
+description: How Trinity enables instant messaging, voice input, and live updates
 ---
 
-# Real-Time Communication
+# Real-Time & WebSocket
 
-Trinity feels responsive and alive because of real-time communication. When you send a message, the AI's response appears word-by-word. When someone messages your group chat, you see it instantly. This section explains how that works.
+This page goes deeper into the real-time communication that powers Trinity's chat streaming, voice interaction, and group messaging. These capabilities are core to the frontend experience, making interactions feel instant and conversational.
+
+Trinity feels responsive and alive because of real-time communication. When you send a message, the AI's response appears word-by-word. When someone messages your group chat, you see it instantly. This page explains how that works.
 
 ---
 
@@ -272,6 +274,7 @@ If the network is slow, streaming messages may appear choppy. The system adapts 
 
 | Section | What You'll Learn |
 |---|---|
-| [Platform Overview](/docs/platform/high-level-architecture) | How real-time fits in the overall system |
-| [Frontend](/docs/frontend) | How the browser handles real-time |
+| [Frontend](/docs/frontend) | The broader frontend architecture (parent section) |
 | [Backend](/docs/backend) | How the server manages connections |
+| [Orchestration (SalesCoach)](/docs/salescoach) | The real-time AI conversation engine |
+| [Platform Overview](/docs/platform/high-level-architecture) | How real-time fits in the overall system |

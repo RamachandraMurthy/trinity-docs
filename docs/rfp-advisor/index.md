@@ -1,75 +1,68 @@
 ---
 sidebar_position: 1
-title: RFP Advisor
-description: How RFP document analysis works in the Trinity platform
+title: RFP Advisor Setup
+description: How to set up projects and documents for RFP Agent analysis
 ---
 
-# RFP Advisor
+# RFP Advisor Setup
+
+Before running RFP analysis agents, you need to set up a project and upload your documents. This section covers that workflow — from creating a project to having documents indexed and ready for agent analysis.
 
 The **RFP Advisor** is Trinity's document analysis capability for proposal teams. It helps solutioners and enterprise teams analyze RFP documents, extract requirements, identify compliance gaps, and generate strategic recommendations using AI.
 
 ---
 
-## What RFP Advisor Does
+## Why Setup Is Required
 
-When working on a proposal, teams often deal with lengthy RFP documents that need careful analysis. RFP Advisor automates much of this work:
+RFP Agents need documents to analyze. Unlike Special Agents (which work from opportunity data or external research), RFP Agents examine the actual RFP document, your proposal response, and supporting materials. The setup workflow ensures:
 
-- **Organize documents by project** — Group all RFP-related files together
-- **Upload and process documents** — Support for PDF, Word, and PowerPoint files
-- **Search across documents** — Find relevant sections using keywords or natural language
-- **Chat with documents** — Ask questions and get answers grounded in the actual content
-- **Run AI agents** — Execute specialized analysis pipelines for deep insights
-
----
-
-## How It Fits in Trinity
-
-RFP Advisor is integrated into the Trinity platform, sharing authentication, data storage, and AI infrastructure:
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Trinity Platform                          │
-│                                                             │
-│   ┌───────────────┐  ┌────────────────┐  ┌──────────────┐   │
-│   │  WorkSphere   │  │  RFP Advisor   │  │ SalesCoach   │   │
-│   │  Main App     │  │                │  │              │   │
-│   │  (React)      │  │  (Next.js)     │  │  (WebSocket) │   │
-│   └───────┬───────┘  └───────┬────────┘  └──────┬───────┘   │
-│           │                  │                   │          │
-│   ┌───────┴──────────────────┴───────────────────┴───────┐  │
-│   │         Shared Azure Services                        │  │
-│   │  (Cosmos DB, Blob Storage, AI Search, OpenAI, Auth)  │  │
-│   └──────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
-```
-
-The same Azure AD login works across all Trinity applications. Data is stored in the shared Cosmos DB and Azure Blob Storage infrastructure.
+- Documents are organized by project
+- Text is extracted and indexed for search
+- Files are prepared for AI analysis
+- Everything is ready when you run an agent
 
 ---
 
 ## The User Journey
 
-A typical workflow in RFP Advisor follows these steps:
+A typical workflow follows these steps:
 
 ### 1. Create a Project
 
 Users start by creating a project for their RFP engagement. Projects include metadata like region, offering, and sales stage to help with organization and filtering.
 
+→ [Projects Documentation](/docs/rfp-advisor/projects)
+
 ### 2. Upload Documents
 
 RFP documents, proposal drafts, and supporting materials are uploaded to the project. The system processes each file — extracting text, generating summaries, and indexing for search.
 
-### 3. Search and Explore
+→ [File Upload Documentation](/docs/rfp-advisor/file-upload)
+
+### 3. Index and Search
 
 Once documents are indexed, users can search across all content. Keyword search finds exact matches, while semantic search understands the meaning behind queries.
+
+→ [Indexing Documentation](/docs/rfp-advisor/indexing)
 
 ### 4. Chat with Documents
 
 Users ask questions in natural language and get answers based on the uploaded documents. The AI cites relevant sections and can synthesize information from multiple files.
 
+→ [Chat Documentation](/docs/rfp-advisor/chat)
+
 ### 5. Run Analysis Agents
 
-For deeper analysis, users select specialized agents like Requirements Review or Response Review. These run in the background and generate detailed reports.
+For deeper analysis, users select specialized agents. These run in the background and generate detailed reports:
+
+| Agent | What It Analyzes |
+|---|---|
+| [Requirements Review](/docs/agents/rfp/requirements-review) | Extracts and analyzes RFP requirements |
+| [Response Review](/docs/agents/rfp/response-review) | "Red team" quality review of proposal responses |
+| [Requirements-Response Strategy](/docs/agents/rfp/requirements-response-strategy) | Comprehensive gap analysis and win strategy |
+| [Compliance & Contracts](/docs/agents/rfp/compliance-and-contracts) | Regulatory and contract risk assessment |
+| [Proposal Scoring](/docs/agents/rfp/proposal-scoring) | Multi-dimension scoring matrix |
+| [Technical & Planning](/docs/agents/rfp/technical-and-planning) | Architecture review, timeline, stakeholder analysis |
 
 ---
 
@@ -96,10 +89,6 @@ For deeper analysis, users select specialized agents like Requirements Review or
 | **Azure Chat** | Enterprise chat with optional RAG (retrieval-augmented generation) |
 | **Document Chat** | Questions answered directly from project documents |
 
-### WorkSphere Agents
-
-Over 15 specialized AI agents provide in-depth analysis. Agents run in the background and produce formatted reports covering requirements, compliance, competitive positioning, and more.
-
 ---
 
 ## Related Documentation
@@ -110,5 +99,5 @@ Over 15 specialized AI agents provide in-depth analysis. Agents run in the backg
 | [File Upload](/docs/rfp-advisor/file-upload) | How documents are processed |
 | [Indexing](/docs/rfp-advisor/indexing) | How search works |
 | [Chat](/docs/rfp-advisor/chat) | How to interact with documents |
-| [WorkSphere Agents](/docs/agents) | Available analysis agents |
+| [WorkSphere Agents](/docs/agents) | Overview of all available agents |
 | [Platform Overview](/docs/platform/high-level-architecture) | How RFP Advisor fits in Trinity |

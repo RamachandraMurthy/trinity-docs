@@ -6,6 +6,8 @@ description: Technical architecture, timeline, stakeholder, and narrative analys
 
 # Technical & Planning Agents
 
+> **Prerequisite:** These agents require a project with uploaded RFP and proposal documents. See [RFP Advisor Setup](/docs/rfp-advisor) for how to create a project and upload documents.
+
 This page covers several specialized agents for technical and planning aspects of proposals: **Technical Architecture**, **Timeline Planning**, **Stakeholder Analysis**, and **Storytelling Narrative**.
 
 ---
@@ -130,6 +132,7 @@ Document Understanding → Value Proposition → Narrative Development → Psych
 
 | Section | What You'll Learn |
 |---|---|
+| [RFP Advisor Setup](/docs/rfp-advisor) | How to create projects and upload documents |
 | [Requirements-Response Strategy](/docs/agents/rfp/requirements-response-strategy) | Complete strategic analysis |
 | [Company Executives](/docs/agents/special/company-executives) | Client leadership research |
 | [WorkSphere Agents Overview](/docs/agents) | How all agents work |

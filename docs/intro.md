@@ -51,50 +51,45 @@ Run specialized AI agents that perform in-depth analysis — from deal qualifica
 
 This documentation explains how Trinity works at a conceptual level — how the pieces connect and what happens behind the scenes. It's written for people who want to understand the platform without diving into code.
 
-### Understanding the Platform
+### Platform & Architecture
 
 | Section | What You'll Learn |
 |---|---|
-| [Platform Overview](/docs/platform/high-level-architecture) | The big picture — how all the parts work together |
+| [Architecture](/docs/platform/high-level-architecture) | The big picture — how all the parts work together |
 | [Frontend](/docs/frontend) | How the user interface is organized |
+| [Real-Time & WebSocket](/docs/realtime) | How instant messaging and streaming work (under Frontend) |
 | [Backend](/docs/backend) | How requests are processed on the server |
-| [AI & MCP](/docs/ai-and-mcp) | How the AI connects to business data |
-| [Authentication](/docs/authentication) | How login and security work |
+| [Orchestration (SalesCoach)](/docs/salescoach) | The real-time AI orchestration engine (under Backend) |
+
+### AI & Integration
+
+| Section | What You'll Learn |
+|---|---|
+| [AI & Models](/docs/ai-and-mcp) | How Trinity's AI brain works — models, prompts, and reasoning |
+| [MCP Servers](/docs/mcp-servers) | The 15+ business tools the AI connects to |
+
+### WorkSphere Agents
+
+| Section | What You'll Learn |
+|---|---|
+| [Agents Overview](/docs/agents) | How autonomous AI agents work and which to choose |
+| [Special Agents](/docs/agents/special/deal-qualification) | Sales-focused agents for deals, competitors, and strategy |
+| [RFP Agents](/docs/rfp-advisor) | RFP project setup and document analysis agents |
+
+### Infrastructure & Security
+
+| Section | What You'll Learn |
+|---|---|
+| [Authentication & Security](/docs/authentication) | How login and security work |
 | [Data Layer](/docs/data-layer) | Where information is stored |
-| [Real-Time](/docs/realtime) | How instant messaging and streaming work |
-| [Deployment](/docs/deployment) | How Trinity is hosted and updated |
+| [Deployment & DevOps](/docs/deployment) | How Trinity is hosted and updated |
 
 ### For Developers
 
 | Section | What You'll Learn |
 |---|---|
 | [Developer Guide](/docs/developer-guide) | Setting up a local development environment |
-| [API Overview](/docs/api-reference) | What the backend API can do |
-
-### RFP Advisor
-
-| Section | What You'll Learn |
-|---|---|
-| [RFP Advisor Overview](/docs/rfp-advisor) | How RFP document analysis works |
-| [Projects](/docs/rfp-advisor/projects) | How work is organized into projects |
-| [Document Processing](/docs/rfp-advisor/file-upload) | How documents are uploaded and converted |
-| [Search & Indexing](/docs/rfp-advisor/indexing) | How documents become searchable |
-
-### WorkSphere Agents
-
-| Section | What You'll Learn |
-|---|---|
-| [Agents Overview](/docs/agents) | How autonomous AI agents work |
-| [RFP Advisor Agents](/docs/agents/rfp/requirements-review) | Specialized proposal and RFP analysis agents |
-| [Special Agents](/docs/agents/special/deal-qualification) | Sales-focused agents for deals, competitors, and strategy |
-
-### SalesCoach Backend
-
-| Section | What You'll Learn |
-|---|---|
-| [SalesCoach Overview](/docs/salescoach) | The Python backend for real-time sales coaching |
-| [Architecture](/docs/salescoach/architecture) | How the SalesCoach backend is built |
-| [7-Step Flow](/docs/salescoach/flow/step1-connect) | How a request flows through the system |
+| [API Reference](/docs/api-reference) | What the backend API can do |
 
 ---
 
@@ -115,13 +110,16 @@ This documentation explains how Trinity works at a conceptual level — how the 
 ## Where to Start
 
 **New to Trinity?**
-Start with [Platform Overview](/docs/platform/high-level-architecture) to understand how everything connects.
+Start with [Architecture](/docs/platform/high-level-architecture) to understand how everything connects.
 
 **Interested in the AI?**
-Read [AI & MCP Integration](/docs/ai-and-mcp) to learn how Trinity answers questions using business data.
+Read [AI & Models](/docs/ai-and-mcp) to learn how Trinity answers questions using business data.
+
+**Want to understand the tools?**
+Explore [MCP Servers](/docs/mcp-servers) to see the 15+ business tools the AI connects to.
 
 **Working with RFPs?**
-Explore the [RFP Advisor](/docs/rfp-advisor) to understand document analysis and proposal workflows.
+Check the [RFP Agents](/docs/rfp-advisor) section for document analysis and proposal workflows.
 
 **Want to understand agents?**
 Check [WorkSphere Agents](/docs/agents) to learn how autonomous AI analysis works.

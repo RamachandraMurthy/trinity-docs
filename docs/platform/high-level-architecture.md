@@ -43,14 +43,14 @@ Trinity has three main layers that work together:
 │                    FRONTEND LAYER                           │
 │                                                             │
 │   What users see and interact with:                         │
-│   • Landing page with role-based features                   │
-│   • AI chat interface                                       │
-│   • Workspace canvas                                        │
-│   • Group chat rooms                                        │
-│   • RFP Advisor (project & document management)             │
-│   • WorkSphere Agent selection and reports                  │
+│   • Landing page with role-based features (HUD interface)   │
+│   • AI chat interface with real-time streaming              │
+│   • Workspace canvas for visual organization                │
+│   • Group chat rooms for team collaboration                 │
+│   • Voice input and real-time WebSocket communication       │
 │                                                             │
 │   Built with: React / Next.js (runs in the browser)         │
+│   See: Frontend, Real-Time & WebSocket                      │
 └──────────────────────────┬──────────────────────────────────┘
                            │
                            ▼
@@ -58,33 +58,36 @@ Trinity has three main layers that work together:
 │                    BACKEND LAYER                            │
 │                                                             │
 │   Main Backend (Node.js/Express):                           │
-│   • Receives user questions                                 │
-│   • Talks to the AI model (Azure OpenAI)                    │
-│   • Calls the right business tools                          │
-│   • Saves chat history, manages notifications               │
+│   • Request routing and business logic                      │
+│   • Chat, notifications, workspaces services                │
+│                                                             │
+│   Orchestration Engine (SalesCoach - Python/aiohttp):       │
+│   • Real-time AI conversation flow                          │
+│   • MCP tool coordination                                   │
+│   • WebSocket streaming                                     │
 │                                                             │
 │   RFP Advisor Backend (Python/FastAPI):                     │
-│   • Document upload and processing                          │
-│   • Semantic search and indexing                            │
-│   • Runs WorkSphere Agents (Google ADK)                     │
-│   • Generates analysis reports                              │
+│   • Document processing and search                          │
+│   • WorkSphere Agents (Google ADK)                          │
+│                                                             │
+│   See: Backend, Orchestration (SalesCoach)                  │
 └──────────────────────────┬──────────────────────────────────┘
                            │
           ┌────────────────┼────────────────┐
           ▼                ▼                ▼
 ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐
-│   AI MODELS  │  │   BUSINESS   │  │      DATA STORAGE    │
-│              │  │    TOOLS     │  │                      │
-│  Azure OpenAI│  │  (MCP Servers)│ │  Azure Cosmos DB     │
-│  GPT-4.1 Mini│  │              │  │  (chat history,      │
-│              │  │  HR Data     │  │   notifications,     │
-│  Google      │  │  Sales Data  │  │   workspaces,        │
-│  Gemini      │  │  Calendar    │  │   projects, files,   │
-│  (Agents)    │  │  Email       │  │   agent runs)        │
-│              │  │  Performance │  │                      │
-│  Understands │  │  RFP Tools   │  │  Azure Blob Storage  │
-│  questions & │  │              │  │  (documents, reports)│
-│  runs agents │  │              │  │                      │
+│   AI MODELS  │  │  MCP SERVERS │  │      DATA STORAGE    │
+│              │  │              │  │                      │
+│  Azure OpenAI│  │  HR Data     │  │  Azure Cosmos DB     │
+│  GPT-4.1 Mini│  │  Sales Data  │  │  (chat, workspaces,  │
+│  (Chat)      │  │  Calendar    │  │   notifications)     │
+│              │  │  Email       │  │                      │
+│  Google      │  │  Performance │  │  Azure Blob Storage  │
+│  Gemini      │  │  RFP Tools   │  │  (documents, reports)│
+│  (Agents)    │  │              │  │                      │
+│              │  │  15+ servers │  │                      │
+│  See: AI &   │  │  See: MCP    │  │  See: Data Layer     │
+│  Models      │  │  Servers     │  │                      │
 └──────────────┘  └──────────────┘  └──────────────────────┘
 ```
 
@@ -116,7 +119,7 @@ The AI reads the question and figures out:
 For our example, the AI recognizes it needs to search employee data, so it says: "I need to call the employee search tool with location=London and skills=Python"
 
 ### 5. Backend Calls the Right Tool
-The backend takes the AI's instruction and calls the appropriate **MCP server** (more on these below). The HR Data server searches its database and returns matching employees.
+The backend takes the AI's instruction and calls the appropriate MCP server. The HR Data server searches its database and returns matching employees.
 
 ### 6. AI Crafts the Response
 The backend sends the tool results back to the AI. Now the AI has the actual data, so it writes a helpful response: "I found 23 employees in the London office with Python skills. Here's a breakdown by department..."
@@ -129,134 +132,47 @@ The question and response are saved to the database, so users can pick up conver
 
 ---
 
-## Key Components Explained
+## Key Components
 
-### The Frontend (What Users See)
+### Frontend
+The web application that runs in the browser, featuring a HUD-style landing page, floating chat, workspace canvas, and group chat rooms. Includes real-time communication for voice input and streaming responses.
 
-The frontend is a web application that runs in the browser. Key features include:
+→ [Frontend Documentation](/docs/frontend)
 
-**HUD Interface** — The main landing page uses a "heads-up display" design with animated segments representing different features (Accounts, Pipeline, Performance, etc.). Users click to explore different areas.
+### Backend & Orchestration
+The processing engine that routes requests, coordinates with AI and MCP servers, and manages data. Includes the SalesCoach orchestration engine for real-time AI conversation flow.
 
-**Floating Chat** — A chat window that can be opened from anywhere in the app. This is the primary way users interact with the AI.
+→ [Backend Documentation](/docs/backend)
 
-**Dual-Frame Layout** — When exploring features, content appears in two panels: a left frame for summaries and a right frame for details. This keeps users oriented.
+### AI & Models
+Two AI models power Trinity: Azure OpenAI (GPT-4.1 Mini) for real-time chat, and Google Gemini for WorkSphere Agents. The AI understands questions, calls tools, and generates responses.
 
-**Workspace Canvas** — An infinite canvas (like Miro or FigJam) where users can save AI responses, create notes, and organize information visually.
+→ [AI & Models Documentation](/docs/ai-and-mcp)
 
-**Group Chat** — Real-time chat rooms where multiple users can collaborate, with AI assistance available to the whole group.
+### MCP Servers
+15+ specialized services that connect the AI to business data: HR information, sales pipelines, calendars, email, RFP documents, and more. Each server handles one data domain.
 
-### The Backend (The Processing Engine)
+→ [MCP Servers Documentation](/docs/mcp-servers)
 
-The backend is a server that processes all requests. It handles:
+### WorkSphere Agents
+Autonomous AI agents that perform complex, multi-step analysis. Two categories: **Special Agents** for sales analysis (no setup required), and **RFP Agents** for proposal analysis (requires project setup with uploaded documents).
 
-**Request Routing** — When a request comes in, the backend figures out what kind of request it is (chat message, notification check, workspace save) and sends it to the right place.
+→ [WorkSphere Agents Documentation](/docs/agents)
 
-**AI Orchestration** — The backend manages conversations with Azure OpenAI. It builds the context, sends requests, handles tool calls, and assembles final responses.
+### Security & Authentication
+Users log in with DXC corporate credentials through Microsoft Azure AD. Role-based access controls which features and data each user can access.
 
-**Tool Coordination** — When the AI needs data, the backend calls the appropriate MCP servers and handles the responses.
+→ [Authentication Documentation](/docs/authentication)
 
-**Data Persistence** — All chat history, notifications, workspaces, and user preferences are saved to Azure Cosmos DB.
+### Data Layer
+Azure Cosmos DB stores chat history, workspaces, notifications, and configuration. Azure Blob Storage holds documents and reports.
 
-**Real-Time Communication** — WebSocket connections keep the browser and server in sync for instant messaging and streaming responses.
+→ [Data Layer Documentation](/docs/data-layer)
 
-### MCP Servers (The Business Tools)
+### Deployment
+Containerized applications running on Azure App Service, with CI/CD pipelines managing development, integration, and production environments.
 
-**MCP (Model Context Protocol)** is how the AI connects to business data. Think of MCP servers as specialized assistants that each know how to do one thing really well:
-
-| Server | What It Does |
-|---|---|
-| **HR Data** | Searches employee directory, org structure, locations |
-| **HR Performance** | Retrieves performance ratings, trends, evaluations |
-| **HR Strategic** | Analyzes workforce costs, skills, headcount |
-| **Sales Accounts** | Looks up account information and contacts |
-| **Sales Pipeline** | Shows deals, opportunities, and forecasts |
-| **O365** | Accesses Outlook email, calendar, and contacts |
-| **RFP Tools** | Searches RFP documents, retrieves project summaries |
-
-When a user asks a question, the AI figures out which tool(s) to use, and the backend coordinates the calls.
-
-**Why MCP?** By separating tools into independent servers, each can be developed, updated, and scaled independently. It also means the AI can be taught to use new tools without changing the core platform.
-
-### WorkSphere Agents (Autonomous Analysis)
-
-Beyond real-time chat, Trinity includes **WorkSphere Agents** — specialized AI agents that perform complex, multi-step analysis tasks in the background. Unlike chat (which answers questions immediately), agents run longer processes that analyze documents, generate reports, and provide strategic recommendations.
-
-**How Agents Work:**
-1. User selects an agent and provides input documents (like an RFP)
-2. The agent pipeline runs in the background (may take several minutes)
-3. Each agent in the pipeline performs a specific analysis task
-4. Results are compiled into a formatted report
-5. User receives notification when the report is ready
-
-**Agent Categories:**
-
-| Category | Examples | Purpose |
-|---|---|---|
-| **General Agents** | Deal Qualification, Win Probability, Competitor Analysis, Pricing Strategy | Platform-wide business analysis |
-| **RFP-Focused Agents** | Requirements Review, Response Review, Compliance Analysis, Contract Terms | Specialized proposal analysis |
-
-WorkSphere Agents use the **Google ADK (Agent Development Kit)** with Gemini models for complex reasoning, while the main chat uses Azure OpenAI. This allows agents to handle larger documents and multi-step reasoning workflows.
-
-### Azure OpenAI (The Intelligence)
-
-Trinity uses **GPT-4.1 Mini** hosted on Azure OpenAI. This is the same family of models that powers ChatGPT, but running in DXC's Azure environment for security and compliance.
-
-The AI model is responsible for:
-- Understanding what users are asking
-- Deciding which tools to call
-- Interpreting data returned by tools
-- Writing helpful, natural-language responses
-- Generating charts and structured data when appropriate
-
-### Azure Cosmos DB (The Memory)
-
-Cosmos DB is a cloud database that stores everything Trinity needs to remember:
-
-- **Chat History** — Every conversation, so users can continue where they left off
-- **Notifications** — Alerts about completed background jobs or important updates
-- **Workspaces** — Saved canvas layouts and content
-- **Group Chats** — Room membership and message history
-- **Configuration** — MCP server definitions and settings
-
----
-
-## How Security Works
-
-### Authentication
-Users log in with their DXC corporate credentials through Microsoft Azure AD. Trinity never handles passwords directly — Microsoft's identity platform does all the authentication.
-
-### Role-Based Access
-Each user has one or more roles (Sales, HR, Admin) defined in Azure AD. These roles determine:
-- Which features appear on the landing page
-- Which MCP tools the AI can use on their behalf
-- What data they can access through queries
-
-For example, an HR user can ask about employee performance, but a Sales user cannot — the tools simply aren't available to them.
-
-### Token Management
-When users log in, they receive security tokens that prove their identity. These tokens are automatically refreshed in the background so users don't have to log in repeatedly.
-
----
-
-## How Deployment Works
-
-Trinity runs on Microsoft Azure as two containerized applications:
-
-**Frontend Container** — Serves the web application (HTML, CSS, JavaScript). Uses Nginx as a lightweight web server.
-
-**Backend Container** — Runs the Node.js server that processes all API requests and coordinates with external services.
-
-Both containers run on Azure App Service, which handles scaling, load balancing, and availability.
-
-### Environments
-
-| Environment | Purpose | Who Uses It |
-|---|---|---|
-| Development | Building and testing new features | Developers |
-| Integration | Testing before production | QA team |
-| Production | Live system | All users |
-
-Changes flow through these environments via automated CI/CD pipelines, ensuring code is tested before reaching production.
+→ [Deployment Documentation](/docs/deployment)
 
 ---
 
@@ -266,6 +182,7 @@ Changes flow through these environments via automated CI/CD pipelines, ensuring 
 |---|---|---|
 | Frontend | React 19, Next.js 15 | User interface |
 | Main Backend | Node.js / Express | Chat, notifications, workspaces |
+| Orchestration | Python / aiohttp | Real-time AI conversation flow |
 | RFP Backend | Python / FastAPI | Document processing, agents |
 | AI (Chat) | Azure OpenAI (GPT-4.1) | Natural language understanding |
 | AI (Agents) | Google Gemini (ADK) | Multi-step reasoning and analysis |
@@ -284,11 +201,10 @@ Changes flow through these environments via automated CI/CD pipelines, ensuring 
 | Section | What You'll Learn |
 |---|---|
 | [Frontend](/docs/frontend) | How the user interface is organized |
-| [Backend](/docs/backend) | How requests are processed |
-| [AI & MCP](/docs/ai-and-mcp) | How the AI connects to business tools |
+| [Backend](/docs/backend) | How requests are processed and orchestrated |
+| [AI & Models](/docs/ai-and-mcp) | How the AI models work |
+| [MCP Servers](/docs/mcp-servers) | Available business data connectors |
+| [WorkSphere Agents](/docs/agents) | How autonomous AI agents work |
 | [Authentication](/docs/authentication) | How login and security work |
 | [Data Layer](/docs/data-layer) | How information is stored |
-| [Real-Time](/docs/realtime) | How instant messaging works |
 | [Deployment](/docs/deployment) | How the system is hosted |
-| [RFP Advisor](/docs/rfp-advisor) | How RFP document analysis works |
-| [WorkSphere Agents](/docs/agents) | How autonomous AI agents work |

@@ -33,6 +33,39 @@ When you need more than a quick answer, agents provide comprehensive analysis:
 
 ---
 
+## Agent Categories
+
+WorkSphere Agents are organized into two categories based on how they work:
+
+### Special Agents
+
+Sales-focused analysis agents that help with deal analysis, competitive intelligence, and strategic planning. **These work independently — no project setup required.** Just select an agent, provide the input, and run.
+
+| Agent | What It Does | Prerequisites |
+|---|---|---|
+| [Deal Qualification](/docs/agents/special/deal-qualification) | Assesses deal health using opportunity data from Databricks | Opportunity ID |
+| [Win Probability](/docs/agents/special/win-probability) | ML-based prediction of deal success with factor analysis | Opportunity data |
+| [Company Executives](/docs/agents/special/company-executives) | Research on client leadership with web integration | Company name |
+| [Competitor Analysis](/docs/agents/special/competitor-analysis) | Competitive intelligence and positioning strategy | Competitor context |
+| [Pricing Strategy](/docs/agents/special/pricing-strategy) | Cost analysis, TCO modeling, and pricing recommendations | Deal details |
+
+### RFP Agents
+
+Specialized for proposal and RFP workflows. **These require project setup first** — you need to create a project, upload RFP documents, and index them before the agents can analyze. The RFP Agents section in the sidebar includes both the setup workflow and the analysis agents.
+
+| Agent | What It Does | Prerequisites |
+|---|---|---|
+| [Requirements Review](/docs/agents/rfp/requirements-review) | Extracts and analyzes RFP requirements | Project with RFP document |
+| [Response Review](/docs/agents/rfp/response-review) | "Red team" quality review of proposal responses | Project with RFP + response |
+| [Requirements-Response Strategy](/docs/agents/rfp/requirements-response-strategy) | Comprehensive gap analysis and win strategy | Project with RFP + response |
+| [Compliance & Contracts](/docs/agents/rfp/compliance-and-contracts) | Regulatory and contract risk assessment | Project with RFP |
+| [Proposal Scoring](/docs/agents/rfp/proposal-scoring) | Multi-dimension scoring matrix | Project with proposal |
+| [Technical & Planning](/docs/agents/rfp/technical-and-planning) | Architecture review, timeline, stakeholder analysis | Project with requirements |
+
+**Before running any RFP Agent**, see [RFP Advisor Setup](/docs/rfp-advisor) to learn how to create projects and upload documents.
+
+---
+
 ## How Agents Work
 
 Each agent follows a consistent execution pattern:
@@ -41,12 +74,12 @@ Each agent follows a consistent execution pattern:
 ┌─────────────────────────────────────────────────────────────┐
 │  1. SELECT AGENT                                            │
 │                                                             │
-│  User chooses an agent and selects a project to analyze     │
+│  User chooses an agent and provides required input          │
 └──────────────────────────┬──────────────────────────────────┘
                            │
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  2. LOAD DOCUMENTS                                          │
+│  2. LOAD DOCUMENTS (RFP Agents only)                        │
 │                                                             │
 │  Project documents are retrieved and prepared for analysis  │
 └──────────────────────────┬──────────────────────────────────┘
@@ -76,35 +109,6 @@ Each agent follows a consistent execution pattern:
 │  Status changes to "completed" and report is available      │
 └─────────────────────────────────────────────────────────────┘
 ```
-
----
-
-## Agent Categories
-
-### RFP Advisor Agents
-
-Specialized for proposal and RFP workflows — these are the original agents built for the RFP Advisor platform:
-
-| Agent | What It Does |
-|---|---|
-| [Requirements Review](/docs/agents/rfp/requirements-review) | Extracts and analyzes RFP requirements |
-| [Response Review](/docs/agents/rfp/response-review) | "Red team" quality review of proposal responses |
-| [Requirements-Response Strategy](/docs/agents/rfp/requirements-response-strategy) | Comprehensive gap analysis and win strategy |
-| [Compliance & Contracts](/docs/agents/rfp/compliance-and-contracts) | Regulatory and contract risk assessment |
-| [Proposal Scoring](/docs/agents/rfp/proposal-scoring) | Multi-dimension scoring matrix |
-| [Technical & Planning](/docs/agents/rfp/technical-and-planning) | Architecture review, timeline, stakeholder analysis |
-
-### Special Agents
-
-Agents that help Sales teams with deal analysis, competitive intelligence, and strategic planning. More agents will be added to this category over time:
-
-| Agent | What It Does |
-|---|---|
-| [Deal Qualification](/docs/agents/special/deal-qualification) | Assesses deal health using opportunity data from Databricks |
-| [Win Probability](/docs/agents/special/win-probability) | ML-based prediction of deal success with factor analysis |
-| [Company Executives](/docs/agents/special/company-executives) | Research on client leadership with web integration |
-| [Competitor Analysis](/docs/agents/special/competitor-analysis) | Competitive intelligence and positioning strategy |
-| [Pricing Strategy](/docs/agents/special/pricing-strategy) | Cost analysis, TCO modeling, and pricing recommendations |
 
 ---
 
@@ -160,16 +164,19 @@ Reports are formatted professionally with clear headings, bullet points, and tab
 
 ## Choosing the Right Agent
 
-| If You Need To... | Use This Agent |
-|---|---|
-| Understand what the RFP is asking for | Requirements Review |
-| Check your proposal for weaknesses | Response Review |
-| Build a complete win strategy | Requirements-Response Strategy |
-| Assess contract risks | Compliance & Contracts |
-| Know your competition | Competitor Analysis |
-| Understand client leadership | Company Executives |
-| Get a win probability | Win Probability |
-| Evaluate pricing options | Pricing Strategy |
+| If You Need To... | Use This Agent | Category |
+|---|---|---|
+| Understand what the RFP is asking for | Requirements Review | RFP |
+| Check your proposal for weaknesses | Response Review | RFP |
+| Build a complete win strategy | Requirements-Response Strategy | RFP |
+| Assess contract risks | Compliance & Contracts | RFP |
+| Evaluate your proposal comprehensively | Proposal Scoring | RFP |
+| Review technical architecture | Technical & Planning | RFP |
+| Assess deal health | Deal Qualification | Special |
+| Know your competition | Competitor Analysis | Special |
+| Understand client leadership | Company Executives | Special |
+| Get a win probability | Win Probability | Special |
+| Evaluate pricing options | Pricing Strategy | Special |
 
 ---
 
@@ -177,7 +184,7 @@ Reports are formatted professionally with clear headings, bullet points, and tab
 
 | Section | What You'll Learn |
 |---|---|
-| [RFP Advisor Agents](/docs/agents/rfp/requirements-review) | Detailed docs on each RFP-focused agent |
-| [Special Agents](/docs/agents/special/deal-qualification) | Detailed docs on each special agent for Sales teams |
-| [RFP Advisor](/docs/rfp-advisor) | How to set up projects and documents |
-| [AI & MCP](/docs/ai-and-mcp) | How agents fit in the AI architecture |
+| [Special Agents](/docs/agents/special/deal-qualification) | Detailed docs on each Special Agent for Sales teams |
+| [RFP Advisor Setup](/docs/rfp-advisor) | How to set up projects and documents for RFP Agents |
+| [AI & Models](/docs/ai-and-mcp) | How agents fit in the AI architecture |
+| [Platform Overview](/docs/platform/high-level-architecture) | How WorkSphere Agents fit in Trinity |

@@ -97,8 +97,8 @@ const config = {
             position: 'left',
           },
           {
-            to: '/docs/frontend',
-            label: 'Frontend',
+            to: '/docs/agents',
+            label: 'Agents',
             position: 'left',
           },
           {
@@ -124,7 +124,7 @@ const config = {
                 to: '/docs/intro',
               },
               {
-                label: 'Platform Architecture',
+                label: 'Architecture',
                 to: '/docs/platform/high-level-architecture',
               },
               {
@@ -141,37 +141,33 @@ const config = {
                 to: '/docs/frontend',
               },
               {
-                label: 'Backend',
+                label: 'Backend & Orchestration',
                 to: '/docs/backend',
               },
               {
-                label: 'AI & MCP',
+                label: 'AI & Models',
                 to: '/docs/ai-and-mcp',
               },
               {
-                label: 'API Reference',
-                to: '/docs/api-reference',
+                label: 'MCP Servers',
+                to: '/docs/mcp-servers',
               },
             ],
           },
           {
-            title: 'RFP & Agents',
+            title: 'Agents',
             items: [
-              {
-                label: 'RFP Advisor',
-                to: '/docs/rfp-advisor',
-              },
               {
                 label: 'WorkSphere Agents',
                 to: '/docs/agents',
               },
               {
-                label: 'RFP Advisor Agents',
-                to: '/docs/agents/rfp/requirements-review',
-              },
-              {
                 label: 'Special Agents',
                 to: '/docs/agents/special/deal-qualification',
+              },
+              {
+                label: 'RFP Agents',
+                to: '/docs/rfp-advisor',
               },
             ],
           },
@@ -191,8 +187,8 @@ const config = {
                 to: '/docs/deployment',
               },
               {
-                label: 'SalesCoach',
-                to: '/docs/salescoach',
+                label: 'API Reference',
+                to: '/docs/api-reference',
               },
             ],
           },

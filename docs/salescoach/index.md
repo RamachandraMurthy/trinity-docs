@@ -1,46 +1,61 @@
 ---
 sidebar_position: 1
-title: SalesCoach Backend
-description: Python/aiohttp WebSocket backend for real-time sales coaching
+title: Orchestration Engine (SalesCoach)
+description: The real-time AI conversation engine that powers Trinity's chat
 ---
 
-# SalesCoach Backend
+# Orchestration Engine (SalesCoach)
 
-**SalesCoach** is the Python/aiohttp WebSocket backend that powers real-time sales coaching within the Trinity platform. It provides bi-directional streaming chat, integrates with external tools via the Model Context Protocol (MCP), and supports both individual and group conversations.
+The **SalesCoach** orchestration engine is the Python/aiohttp component within the Backend that handles real-time AI conversations. It manages the complete flow from when a user sends a message to when they receive a streaming response — coordinating the AI model, MCP tool calls, and conversation persistence.
 
-## Relationship to Trinity Platform
+---
 
-The SalesCoach backend is a specialized downstream service within the Trinity ecosystem:
+## What the Orchestration Engine Does
+
+While the main backend handles request routing and data services, the orchestration engine focuses specifically on AI conversation flow:
+
+- **Real-time WebSocket communication** — Bi-directional streaming for responsive interactions
+- **Individual & group chat** — Support for 1-on-1 conversations and team collaboration
+- **AI conversation management** — Builds context, sends to Azure OpenAI, handles responses
+- **MCP tool execution** — Coordinates calls to business data servers when the AI needs information
+- **Role-based access control** — Filters available tools based on user roles (Sales, HR, Admin)
+- **Conversation persistence** — Saves all chat history to Azure Cosmos DB
+- **Dynamic system prompts** — Builds role-filtered prompts for each conversation
+
+---
+
+## How It Fits in the Backend
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│              Trinity Webapp (React + Express.js)            │
-│          See: Platform Architecture Documentation           │
-└──────────────────────────┬──────────────────────────────────┘
-                           │ WebSocket Connection
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│              SalesCoach Backend (Python/aiohttp)            │
-│                      THIS DOCUMENTATION                     │
+│                    BACKEND LAYER                            │
 │                                                             │
-│    ┌──────────────────────┬─────────────────────────┐       │
-│    ▼                      ▼                         ▼       │
-│  Azure CosmosDB      Azure OpenAI           MCP Servers     │
-│  (Chat History)      (GPT-4.1 Mini)         (Sales Tools)   │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │          Main Backend (Node.js/Express)             │   │
+│   │  Request routing, notifications, workspaces, data   │   │
+│   └─────────────────────────┬───────────────────────────┘   │
+│                             │                               │
+│                             ▼                               │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │      Orchestration Engine (SalesCoach)              │   │
+│   │      Python/aiohttp - THIS SECTION                  │   │
+│   │                                                     │   │
+│   │  • WebSocket streaming                              │   │
+│   │  • AI conversation flow                             │   │
+│   │  • MCP tool coordination                            │   │
+│   │  • System prompt building                           │   │
+│   └─────────────────────────┬───────────────────────────┘   │
+│                             │                               │
+│           ┌─────────────────┼─────────────────┐             │
+│           ▼                 ▼                 ▼             │
+│     Azure OpenAI      MCP Servers       Cosmos DB          │
+│     (GPT-4.1 Mini)    (Business Data)   (Persistence)      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-The Trinity webapp (documented in the [Platform Architecture](/docs/platform/high-level-architecture)) connects to SalesCoach via WebSocket for real-time sales-specific features.
+The main backend connects to the orchestration engine via WebSocket for real-time features. The orchestration engine then coordinates with Azure OpenAI for AI responses and MCP servers for business data.
 
-## Key Features
-
-- **Real-time WebSocket Communication** — Bi-directional streaming for responsive interactions
-- **Individual & Group Chat** — Support for 1-on-1 coaching and team collaboration
-- **Azure OpenAI Integration** — Powered by GPT-4.1 Mini for intelligent responses
-- **MCP Tool Execution** — Extensible tool system for external data and actions
-- **Role-Based Access Control** — Different tools available based on user roles (Sales, HR, Admin)
-- **Conversation Persistence** — Full chat history stored in Azure CosmosDB
-- **Dynamic System Prompts** — Role-filtered prompts loaded from Azure Blob Storage
+---
 
 ## Technology Stack
 
@@ -53,18 +68,11 @@ The Trinity webapp (documented in the [Platform Architecture](/docs/platform/hig
 | Database | Azure Cosmos DB | Chat persistence |
 | Storage | Azure Blob Storage | System prompts |
 
-## Documentation Sections
-
-| Section | Description |
-|---|---|
-| [Architecture](./architecture) | System design, components, and technology stack |
-| [7-Step Application Flow](./flow/step1-connect) | Step-by-step walkthrough of the WebSocket flow |
-| [Security Assessment](./security-vulnerabilities) | Security vulnerabilities and remediation |
-| [Architecture Improvements](./architecture-improvements) | Refactoring recommendations and roadmap |
+---
 
 ## The 7-Step Application Flow
 
-SalesCoach processes each user interaction through a defined 7-step flow:
+The orchestration engine processes each user interaction through a defined 7-step flow:
 
 | Step | Name | Description |
 |---|---|---|
@@ -76,20 +84,38 @@ SalesCoach processes each user interaction through a defined 7-step flow:
 | 6 | [Respond](./flow/step6-respond) | Response generation and streaming |
 | 7 | [Persist](./flow/step7-persist) | Conversation stored in CosmosDB |
 
+This flow ensures consistent, reliable handling of every user interaction.
+
+---
+
+## Documentation Sections
+
+| Section | Description |
+|---|---|
+| [Architecture](./architecture) | System design, components, and technology stack |
+| [7-Step Application Flow](./flow/step1-connect) | Step-by-step walkthrough of the WebSocket flow |
+| [Security Assessment](./security-vulnerabilities) | Security vulnerabilities and remediation |
+| [Architecture Improvements](./architecture-improvements) | Refactoring recommendations and roadmap |
+
+---
+
 ## Quick Start
 
-To understand how SalesCoach works, we recommend reading the documentation in this order:
+To understand how the orchestration engine works, we recommend reading the documentation in this order:
 
 1. **[Architecture](./architecture)** — Get a high-level understanding of the system
 2. **[Step 1: Connection](./flow/step1-connect)** through **[Step 7: Persistence](./flow/step7-persist)** — Detailed flow walkthrough
 3. **[Security Assessment](./security-vulnerabilities)** — Important security considerations
 4. **[Improvements](./architecture-improvements)** — Proposed refactoring
 
-## Related Platform Documentation
+---
 
-For the broader Trinity platform (webapp frontend and backend), see:
+## Related Documentation
 
-- [High-Level Architecture](/docs/platform/high-level-architecture) — Full platform overview
-- [AI & MCP Integration](/docs/ai-and-mcp) — How MCP works across Trinity
-- [System Prompt Construction](/docs/ai-and-mcp/system-prompt-construction) — Prompt building for both layers
-- [Real-Time & WebSocket](/docs/realtime) — WebSocket architecture in the webapp
+| Section | What You'll Learn |
+|---|---|
+| [Backend](/docs/backend) | The broader backend architecture |
+| [AI & Models](/docs/ai-and-mcp) | How the AI models work |
+| [MCP Servers](/docs/mcp-servers) | Available business data connectors |
+| [System Prompt Construction](/docs/ai-and-mcp/system-prompt-construction) | How prompts are built |
+| [Platform Overview](/docs/platform/high-level-architecture) | Full platform architecture |

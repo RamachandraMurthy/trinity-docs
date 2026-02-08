@@ -2,13 +2,17 @@
 const sidebars = {
   docsSidebar: [
     'intro',
+    
+    // 1. Architecture (top-level overview)
     {
       type: 'category',
-      label: 'Platform Architecture',
+      label: 'Architecture',
       items: [
         'platform/high-level-architecture',
       ],
     },
+    
+    // 2. Frontend (what users see)
     {
       type: 'category',
       label: 'Frontend',
@@ -16,8 +20,12 @@ const sidebars = {
         type: 'doc',
         id: 'frontend/index',
       },
-      items: [],
+      items: [
+        'realtime/index', // Real-Time moved under Frontend
+      ],
     },
+    
+    // 3. Backend (processing engine + orchestration)
     {
       type: 'category',
       label: 'Backend',
@@ -25,11 +33,40 @@ const sidebars = {
         type: 'doc',
         id: 'backend/index',
       },
-      items: [],
+      items: [
+        {
+          type: 'category',
+          label: 'Orchestration (SalesCoach)',
+          link: {
+            type: 'doc',
+            id: 'salescoach/index',
+          },
+          items: [
+            'salescoach/architecture',
+            {
+              type: 'category',
+              label: '7-Step Application Flow',
+              items: [
+                'salescoach/flow/step1-connect',
+                'salescoach/flow/step2-authentication',
+                'salescoach/flow/step3-query',
+                'salescoach/flow/step4-process',
+                'salescoach/flow/step5-tools',
+                'salescoach/flow/step6-respond',
+                'salescoach/flow/step7-persist',
+              ],
+            },
+            'salescoach/architecture-improvements',
+            'salescoach/security-vulnerabilities',
+          ],
+        },
+      ],
     },
+    
+    // 4. AI & Models (renamed from AI & MCP)
     {
       type: 'category',
-      label: 'AI & MCP',
+      label: 'AI & Models',
       link: {
         type: 'doc',
         id: 'ai-and-mcp/index',
@@ -38,74 +75,19 @@ const sidebars = {
         'ai-and-mcp/system-prompt-construction',
       ],
     },
+    
+    // 5. MCP Servers (new top-level section)
     {
       type: 'category',
-      label: 'Authentication & Security',
+      label: 'MCP Servers',
       link: {
         type: 'doc',
-        id: 'authentication/index',
+        id: 'mcp-servers/index',
       },
       items: [],
     },
-    {
-      type: 'category',
-      label: 'Data Layer',
-      link: {
-        type: 'doc',
-        id: 'data-layer/index',
-      },
-      items: [],
-    },
-    {
-      type: 'category',
-      label: 'Real-Time & WebSocket',
-      link: {
-        type: 'doc',
-        id: 'realtime/index',
-      },
-      items: [],
-    },
-    {
-      type: 'category',
-      label: 'Deployment & DevOps',
-      link: {
-        type: 'doc',
-        id: 'deployment/index',
-      },
-      items: [],
-    },
-    {
-      type: 'category',
-      label: 'Developer Guide',
-      link: {
-        type: 'doc',
-        id: 'developer-guide/index',
-      },
-      items: [],
-    },
-    {
-      type: 'category',
-      label: 'API Reference',
-      link: {
-        type: 'doc',
-        id: 'api-reference/index',
-      },
-      items: [],
-    },
-    {
-      type: 'category',
-      label: 'RFP Advisor',
-      link: {
-        type: 'doc',
-        id: 'rfp-advisor/index',
-      },
-      items: [
-        'rfp-advisor/projects',
-        'rfp-advisor/file-upload',
-        'rfp-advisor/indexing',
-        'rfp-advisor/chat',
-      ],
-    },
+    
+    // 6. WorkSphere Agents (agents umbrella)
     {
       type: 'category',
       label: 'WorkSphere Agents',
@@ -114,18 +96,7 @@ const sidebars = {
         id: 'agents/index',
       },
       items: [
-        {
-          type: 'category',
-          label: 'RFP Advisor Agents',
-          items: [
-            'agents/rfp/requirements-review',
-            'agents/rfp/response-review',
-            'agents/rfp/requirements-response-strategy',
-            'agents/rfp/compliance-and-contracts',
-            'agents/rfp/proposal-scoring',
-            'agents/rfp/technical-and-planning',
-          ],
-        },
+        // Special Agents first (no project setup needed)
         {
           type: 'category',
           label: 'Special Agents',
@@ -137,33 +108,82 @@ const sidebars = {
             'agents/special/pricing-strategy',
           ],
         },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'SalesCoach Backend',
-      link: {
-        type: 'doc',
-        id: 'salescoach/index',
-      },
-      items: [
-        'salescoach/architecture',
-        'salescoach/architecture-improvements',
-        'salescoach/security-vulnerabilities',
+        // RFP Agents (bundled with RFP Advisor workflow)
         {
           type: 'category',
-          label: '7-Step Application Flow',
+          label: 'RFP Agents',
           items: [
-            'salescoach/flow/step1-connect',
-            'salescoach/flow/step2-authentication',
-            'salescoach/flow/step3-query',
-            'salescoach/flow/step4-process',
-            'salescoach/flow/step5-tools',
-            'salescoach/flow/step6-respond',
-            'salescoach/flow/step7-persist',
+            // RFP Advisor setup workflow first
+            'rfp-advisor/index',
+            'rfp-advisor/projects',
+            'rfp-advisor/file-upload',
+            'rfp-advisor/indexing',
+            'rfp-advisor/chat',
+            // Then the RFP analysis agents
+            'agents/rfp/requirements-review',
+            'agents/rfp/response-review',
+            'agents/rfp/requirements-response-strategy',
+            'agents/rfp/compliance-and-contracts',
+            'agents/rfp/proposal-scoring',
+            'agents/rfp/technical-and-planning',
           ],
         },
       ],
+    },
+    
+    // 7. Authentication & Security (standalone)
+    {
+      type: 'category',
+      label: 'Authentication & Security',
+      link: {
+        type: 'doc',
+        id: 'authentication/index',
+      },
+      items: [],
+    },
+    
+    // 8. Data Layer (standalone)
+    {
+      type: 'category',
+      label: 'Data Layer',
+      link: {
+        type: 'doc',
+        id: 'data-layer/index',
+      },
+      items: [],
+    },
+    
+    // 9. Deployment & DevOps (standalone)
+    {
+      type: 'category',
+      label: 'Deployment & DevOps',
+      link: {
+        type: 'doc',
+        id: 'deployment/index',
+      },
+      items: [],
+    },
+    
+    // 10. Developer Guide (reference material at bottom)
+    {
+      type: 'category',
+      label: 'Developer Guide',
+      link: {
+        type: 'doc',
+        id: 'developer-guide/index',
+      },
+      items: [],
+    },
+    
+    // 11. API Reference (reference material at bottom)
+    {
+      type: 'category',
+      label: 'API Reference',
+      link: {
+        type: 'doc',
+        id: 'api-reference/index',
+      },
+      items: [],
     },
   ],
 };
