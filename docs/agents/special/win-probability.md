@@ -160,6 +160,7 @@ Analyze your entire pipeline at once:
 | Section | What You'll Learn |
 |---|---|
 | [Win/Loss Prediction MCP Server](/docs/mcp-servers/opp-win-loss) | The MCP server that provides the ML predictions |
+| [Win Prediction Service](/docs/mcp-servers/win-prediction-service) | The ML engine powering win probability with segment-specific models |
 | [SFDC UDP MCP Server](/docs/mcp-servers/sfdc-udp) | Salesforce opportunity data used for predictions |
 | [Deal Qualification](/docs/agents/special/deal-qualification) | Complete qualification assessment |
 | [Competitor Analysis](/docs/agents/special/competitor-analysis) | Deep dive on competition |

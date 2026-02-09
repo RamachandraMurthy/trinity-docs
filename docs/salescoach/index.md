@@ -8,6 +8,10 @@ description: The real-time AI conversation engine that powers Trinity's chat
 
 The **SalesCoach** orchestration engine is the Python/aiohttp component within the Backend that handles real-time AI conversations. It manages the complete flow from when a user sends a message to when they receive a streaming response — coordinating the AI model, MCP tool calls, and conversation persistence.
 
+:::tip Fun Fact
+Why is it called *SalesCoach*? Because Trinity was born as a sales AI — built to coach deal teams through strategy, pipeline, and account planning. The platform has since grown far beyond sales into HR, RFP advisory, and more, but the orchestration engine kept its original name. Think of it like how everyone still says "roll down the window" even though cars haven't had hand cranks in decades. 🤷
+:::
+
 ---
 
 ## What the Orchestration Engine Does
@@ -94,8 +98,6 @@ This flow ensures consistent, reliable handling of every user interaction.
 |---|---|
 | [Architecture](./architecture) | System design, components, and technology stack |
 | [7-Step Application Flow](./flow/step1-connect) | Step-by-step walkthrough of the WebSocket flow |
-| [Security Assessment](./security-vulnerabilities) | Security vulnerabilities and remediation |
-| [Architecture Improvements](./architecture-improvements) | Refactoring recommendations and roadmap |
 
 ---
 
@@ -105,8 +107,6 @@ To understand how the orchestration engine works, we recommend reading the docum
 
 1. **[Architecture](./architecture)** — Get a high-level understanding of the system
 2. **[Step 1: Connection](./flow/step1-connect)** through **[Step 7: Persistence](./flow/step7-persist)** — Detailed flow walkthrough
-3. **[Security Assessment](./security-vulnerabilities)** — Important security considerations
-4. **[Improvements](./architecture-improvements)** — Proposed refactoring
 
 ---
 

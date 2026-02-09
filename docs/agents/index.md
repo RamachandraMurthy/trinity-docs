@@ -48,6 +48,8 @@ Sales-focused analysis agents that help with deal analysis, competitive intellig
 | [Company Executives](/docs/agents/special/company-executives) | Research on client leadership with web integration | Company name |
 | [Competitor Analysis](/docs/agents/special/competitor-analysis) | Competitive intelligence and positioning strategy | Competitor context |
 | [Pricing Strategy](/docs/agents/special/pricing-strategy) | Cost analysis, TCO modeling, and pricing recommendations | Deal details |
+| [Client Profile](/docs/agents/special/client-profile) | 15-section company research for sales preparation | Company name |
+| [Competitive Intelligence](/docs/agents/special/competitive-intelligence) | 17-section battle reports with scorecards and SWOT | Competitor name |
 
 ### RFP Agents
 
@@ -177,6 +179,8 @@ Reports are formatted professionally with clear headings, bullet points, and tab
 | Understand client leadership | Company Executives | Special |
 | Get a win probability | Win Probability | Special |
 | Evaluate pricing options | Pricing Strategy | Special |
+| Research a prospect company | Client Profile | Special |
+| Deep-dive a specific competitor | Competitive Intelligence | Special |
 
 ---
 

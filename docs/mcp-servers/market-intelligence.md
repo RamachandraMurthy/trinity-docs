@@ -137,6 +137,7 @@ The vendor contract search automatically calculates how many days remain until e
 | Section | What You'll Learn |
 |---------|-------------------|
 | [MCP Servers Overview](/docs/mcp-servers) | How MCP servers connect the AI to business data |
+| [Client Profile Agent](/docs/agents/special/client-profile) | Agent that uses this data to build comprehensive company profiles |
 | [Azure App URL Server](/docs/mcp-servers/azure-app-url) | Submits Market Intelligence analysis jobs |
 | [AI & Models](/docs/ai-and-mcp) | How the AI brain works with data tools |
 | [Backend Architecture](/docs/backend) | How the backend coordinates data requests |

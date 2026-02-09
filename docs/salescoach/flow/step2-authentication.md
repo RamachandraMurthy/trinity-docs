@@ -14,7 +14,7 @@ Authentication in SalesCoach is not just about identity verification; it is prim
 
 **Key Goals:**
 - Associate the WebSocket connection with a specific User (Email).
-- Define the User's Role (e.g., "Sales", "Manager", "HR") to filter available tools.
+- Define the User's Role (e.g., "Sales", "HR") to filter available tools.
 - Securely pass tokens (Entra ID, PowerBI) for downstream use.
 - Initialize Session Memory for conversation persistence.
 
@@ -73,7 +73,7 @@ Group chat authentication works slightly differently due to multi-user nature.
 - **Initial Join (`join_group`):** Users authenticate when joining a group.
 - **Validation:** The backend validates that the user is a member of the group (checking `group_chat_manager.py`).
 - **Role Locking:** In a group, the **Group's Role** takes precedence over the user's individual role to ensure consistent tool access for all members in that context.
-  - *Example:* If a "Manager" joins a "Sales Team" group, they participate in the "Sales" role context.
+  - *Example:* If an "HR" user joins a "Sales Team" group, they participate in the "Sales" role context.
 
 ---
 

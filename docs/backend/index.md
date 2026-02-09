@@ -137,6 +137,10 @@ Beyond the main services, the backend includes a specialized **orchestration eng
 
 The orchestration engine is what makes Trinity's chat feel instant and conversational. It manages the complex back-and-forth between the user, AI model, and MCP servers.
 
+:::tip Fun Fact
+Why is it called *SalesCoach*? Because Trinity was born as a sales AI — built to coach deal teams through strategy, pipeline, and account planning. The platform has since grown far beyond sales into HR, RFP advisory, and more, but the orchestration engine kept its original name. Think of it like how everyone still says "roll down the window" even though cars haven't had hand cranks in decades. 🤷
+:::
+
 → [Orchestration (SalesCoach) Documentation](/docs/salescoach)
 
 ---

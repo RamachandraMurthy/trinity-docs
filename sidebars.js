@@ -22,6 +22,7 @@ const sidebars = {
       },
       items: [
         'realtime/index', // Real-Time moved under Frontend
+        'daily-recap/index', // Daily Recap is a frontend feature
       ],
     },
     
@@ -56,8 +57,6 @@ const sidebars = {
                 'salescoach/flow/step7-persist',
               ],
             },
-            'salescoach/architecture-improvements',
-            'salescoach/security-vulnerabilities',
           ],
         },
       ],
@@ -99,7 +98,6 @@ const sidebars = {
               },
               items: [
                 'mcp-servers/sfdc-udp/data-model',
-                'mcp-servers/sfdc-udp/account-planning',
                 'mcp-servers/sfdc-udp/opportunity-management',
                 'mcp-servers/sfdc-udp/ai-search',
               ],
@@ -108,7 +106,10 @@ const sidebars = {
             'mcp-servers/campaign',
             'mcp-servers/client-reference',
             'mcp-servers/opp-win-loss',
+            'mcp-servers/win-prediction-service',
             'mcp-servers/market-intelligence',
+            'mcp-servers/auxilium',
+            'mcp-servers/contracts-legal',
           ],
         },
         // HR Servers
@@ -126,15 +127,6 @@ const sidebars = {
           items: [
             'mcp-servers/o365',
             'mcp-servers/azure-app-url',
-          ],
-        },
-        // Reference & Content Servers
-        {
-          type: 'category',
-          label: 'Reference & Content Servers',
-          items: [
-            'mcp-servers/auxilium',
-            'mcp-servers/contracts-legal',
           ],
         },
       ],
@@ -159,6 +151,8 @@ const sidebars = {
             'agents/special/company-executives',
             'agents/special/competitor-analysis',
             'agents/special/pricing-strategy',
+            'agents/special/client-profile',
+            'agents/special/competitive-intelligence',
           ],
         },
         // RFP Agents (bundled with RFP Advisor workflow)

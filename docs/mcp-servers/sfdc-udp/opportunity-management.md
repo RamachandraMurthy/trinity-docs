@@ -220,6 +220,5 @@ Users can ask questions like these to work with opportunity data:
 |---------|-------------------|
 | [SFDC UDP Overview](./) | Introduction to the SFDC UDP MCP Server |
 | [Data Model](./data-model) | Complete data model with all tables and relationships |
-| [Account Planning](./account-planning) | How to retrieve account plans and business development information |
 | [AI-Powered Search](./ai-search) | How natural language queries are converted to database searches |
 | [Deal Qualification Agent](/docs/agents/special/deal-qualification) | Agent that evaluates deal health using this server's data |

@@ -137,6 +137,7 @@ The prediction covers all major opportunity types — Framework, New Logo, New W
 | Section | What You'll Learn |
 |---------|-------------------|
 | [MCP Servers Overview](/docs/mcp-servers) | How MCP servers connect the AI to business data |
+| [Win Prediction Service](/docs/mcp-servers/win-prediction-service) | The ML engine that powers this server's predictions |
 | [Win Probability Agent](/docs/agents/special/win-probability) | WorkSphere agent that uses this server for ML-based predictions |
 | [Deal Qualification Agent](/docs/agents/special/deal-qualification) | Agent that assesses deal health using opportunity data |
 | [SFDC UDP Server](/docs/mcp-servers/sfdc-udp) | The primary Salesforce data server |

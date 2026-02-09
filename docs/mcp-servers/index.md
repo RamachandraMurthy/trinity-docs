@@ -25,37 +25,34 @@ The AI doesn't access data directly. Instead, it tells the backend what it needs
 
 ## Available MCP Servers
 
-Trinity connects to different MCP servers depending on what data is needed:
-
-### HR Servers
-
-| Server | What It Provides |
-|---|---|
-| **HR Data** | Employee directory, organization structure, locations, basic employee information |
-| **HR Performance** | Performance ratings across years, evaluation comments, performance trends |
-| **HR Strategic** | Workforce analytics, cost analysis, skills data, headcount planning |
+Trinity connects to different MCP servers depending on what data is needed. The majority of servers support Sales workflows, with a smaller set for HR and a few shared across both roles.
 
 ### Sales Servers
 
 | Server | What It Provides |
 |---|---|
-| **Sales Accounts** | Account information, contacts, account management data |
-| **Sales Pipeline** | Opportunities, deals, forecasts from Salesforce |
-| **Campaigns** | Marketing campaign information and tracking |
-| **Research** | Market research and web information gathering |
+| **SFDC UDP** | Accounts, opportunities, contracts, account plans, and pipeline data from Salesforce via Databricks |
+| **Account Directory** | CRM account contacts, roles, and regional assignments |
+| **Campaign** | Salesforce campaign data and campaign-to-opportunity links |
+| **Client Reference** | Client reference profiles, case studies, and reference materials |
+| **Win/Loss Prediction** | ML-based win probability scoring for open opportunities |
+| **Win Prediction Service** | The ML engine behind win probability — segment-specific models trained on historical data |
+| **Market Intelligence** | External IT spend and vendor contract data from IDC/HDInsights |
+| **Auxilium** | Past proposals, battlecards, and sales materials via RAG search |
+| **Contracts Legal** | Legal contract details, opportunity summaries, and contract filtering |
+
+### HR Servers
+
+| Server | What It Provides |
+|---|---|
+| **HR Employee Data** | Employee directory, organization structure, locations, and staffing data |
 
 ### Shared Servers
 
 | Server | What It Provides |
 |---|---|
-| **O365** | Outlook emails, calendar events, contacts from Microsoft 365 |
-
-### RFP Servers
-
-| Server | What It Provides |
-|---|---|
-| **RFP Tools** | Document search across RFP projects, project summaries, requirement extraction |
-| **Win Prediction** | ML-based win probability scoring for opportunities |
+| **O365** | Microsoft 365 calendar events and external meeting detection |
+| **Azure App URL** | Quick-launch links to external apps and Market Intelligence job submission |
 
 ---
 
@@ -65,20 +62,17 @@ Not everyone can access every tool. The system uses roles to control what's avai
 
 ### Sales Role
 Sales users can access:
-- Sales Accounts, Pipeline, Campaigns, Research
-- O365 (email, calendar, contacts)
+- All Sales servers — SFDC UDP, Account Directory, Campaign, Client Reference, Win/Loss Prediction, Market Intelligence, Auxilium, Contracts Legal
+- Shared servers — O365, Azure App URL
 
 They **cannot** access HR employee data or performance information.
 
 ### HR Role
 HR users can access:
-- HR Data, HR Performance, HR Strategic
-- O365 (email, calendar, contacts)
+- HR Employee Data
+- Shared servers — O365, Azure App URL
 
 They **cannot** access Sales pipeline or account information.
-
-### Admin Role
-Administrators can access all tools across both domains.
 
 This role-based filtering happens at the AI level — when a Sales user asks a question, the AI isn't even told about HR tools, so it can't accidentally try to use them.
 
@@ -137,7 +131,10 @@ Select a server below to learn about its data sources, capabilities, and how the
 | [Campaign](/docs/mcp-servers/campaign) | Salesforce campaign data and campaign-to-opportunity links |
 | [Client Reference](/docs/mcp-servers/client-reference) | Client reference profiles, case studies, and reference materials |
 | [Win/Loss Prediction](/docs/mcp-servers/opp-win-loss) | ML-based win probability scoring for open opportunities |
+| [Win Prediction Service](/docs/mcp-servers/win-prediction-service) | The ML engine powering win probability predictions with segment-specific models |
 | [Market Intelligence](/docs/mcp-servers/market-intelligence) | External IT spend and vendor contract data from IDC/HDInsights |
+| [Auxilium](/docs/mcp-servers/auxilium) | Past proposals, battlecards, and sales materials via RAG search |
+| [Contracts Legal](/docs/mcp-servers/contracts-legal) | Legal contract details, opportunity summaries, and contract filtering |
 
 ### HR Servers
 
@@ -151,13 +148,6 @@ Select a server below to learn about its data sources, capabilities, and how the
 |--------|--------------|
 | [O365](/docs/mcp-servers/o365) | Microsoft 365 calendar events and external meeting detection |
 | [Azure App URL](/docs/mcp-servers/azure-app-url) | Quick-launch links to external apps and Market Intelligence job submission |
-
-### Reference & Content Servers
-
-| Server | What It Does |
-|--------|--------------|
-| [Auxilium](/docs/mcp-servers/auxilium) | Past proposals and reference materials via RAG search |
-| [Contracts Legal](/docs/mcp-servers/contracts-legal) | Legal contract details, opportunity summaries, and contract filtering |
 
 ---
 

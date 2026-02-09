@@ -6,7 +6,7 @@ description: How the Trinity user interface is organized and how it works
 
 # Frontend Architecture
 
-The Trinity frontend is what users see and interact with in their browser. The platform includes two primary interfaces: the **main WorkSphere app** (React) for conversational AI and workspaces, and the **RFP Advisor** (Next.js) for document analysis and agent-driven workflows. Both share consistent design patterns and authentication.
+The Trinity frontend is what users see and interact with in their browser. Built primarily with React, the interface provides conversational AI, workspaces, and access to a range of specialized agents — each tailored to different workflows such as deal strategy, research, document analysis, and more. All areas of the platform share consistent design patterns and authentication.
 
 ---
 
@@ -68,11 +68,16 @@ For team collaboration, users can create and join group chat rooms:
 
 ---
 
-## RFP Advisor Interface
+## WorkSphere Agents Interface
 
-The platform also includes a specialized RFP Advisor interface for document analysis and AI agent workflows. Built with Next.js 15, it offers a project-centric experience optimized for proposal work — including project management, document upload, search, and access to RFP-focused agents.
+Beyond the main conversational experience, Trinity includes a dedicated agents interface built with Next.js 15. Originally created for RFP document analysis, this interface has grown into the home for all **WorkSphere Agents** — a suite of specialized AI agents that perform deep, multi-step analysis tasks.
 
-For full details on the RFP workflow, see [RFP Agents](/docs/rfp-advisor).
+The agents interface offers a project-centric experience with document upload, search, and structured agent workflows. It currently hosts two families of agents:
+
+- **Specialized Agents** — Work from opportunity data and external research to provide deal strategy, competitive analysis, pricing insights, and more.
+- **RFP Advisor Agents** — Analyze uploaded RFP documents, proposals, and supporting materials to extract requirements, identify compliance gaps, and generate strategic recommendations.
+
+For details on how agents work, see [WorkSphere Agents](/docs/agents). For the RFP-specific setup and workflow, see [RFP Advisor](/docs/rfp-advisor).
 
 ---
 

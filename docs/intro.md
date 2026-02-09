@@ -6,7 +6,7 @@ description: Welcome to the Trinity (WorkSphere) platform documentation
 
 # Welcome to Trinity
 
-**Trinity** (branded as **WorkSphere** at [worksphere.dxc.ai](https://worksphere.dxc.ai)) is DXC Technology's enterprise AI assistant platform. It helps Sales and HR teams work smarter by combining conversational AI with access to business data. The platform includes **RFP Advisor** for proposal analysis and **WorkSphere Agents** for autonomous, multi-step AI analysis.
+**Trinity** (branded as **WorkSphere** at [worksphere.dxc.ai](https://worksphere.dxc.ai)) is DXC Technology's AI-native enterprise platform — a central place for Sales and HR teams to access everything they need to be more productive. It combines conversational AI with real-time business data, MCP servers, autonomous AI agents, and more — all through a single, intelligent interface.
 
 ---
 
@@ -14,7 +14,7 @@ description: Welcome to the Trinity (WorkSphere) platform documentation
 
 Trinity is an intelligent workspace where employees can ask questions in plain English and get answers backed by real data. Instead of navigating multiple systems or running reports, users simply ask:
 
-> "Show me the top performers in the London office"
+> "Give me the opportunity details for OPX-12345"
 > "What's on my calendar this week?"
 > "How is our pipeline looking for Q4?"
 > "Analyze this RFP for compliance gaps"
@@ -45,6 +45,9 @@ Upload RFP documents, extract requirements, search across proposals, and analyze
 **WorkSphere Agents**
 Run specialized AI agents that perform in-depth analysis — from deal qualification and win probability to competitive intelligence and compliance review. Agents work in the background and generate detailed reports.
 
+**Daily Recap**
+Get personalized audio briefings that combine the latest industry news, marketing campaigns, calendar events, and sales opportunity updates into a 2-3 minute voice message tailored to your role and region.
+
 ---
 
 ## How This Documentation is Organized
@@ -58,6 +61,7 @@ This documentation explains how Trinity works at a conceptual level — how the 
 | [Architecture](/docs/platform/high-level-architecture) | The big picture — how all the parts work together |
 | [Frontend](/docs/frontend) | How the user interface is organized |
 | [Real-Time & WebSocket](/docs/realtime) | How instant messaging and streaming work (under Frontend) |
+| [Daily Recap](/docs/daily-recap) | Personalized voice briefings combining news, calendar, and pipeline updates |
 | [Backend](/docs/backend) | How requests are processed on the server |
 | [Orchestration (SalesCoach)](/docs/salescoach) | The real-time AI orchestration engine (under Backend) |
 
@@ -98,10 +102,10 @@ This documentation explains how Trinity works at a conceptual level — how the 
 | Aspect | Details |
 |---|---|
 | **Production URL** | [worksphere.dxc.ai](https://worksphere.dxc.ai) |
-| **User Roles** | Sales, HR, Admin |
-| **AI Models** | Azure OpenAI (GPT-4.1), Google Gemini (Agents) |
+| **User Roles** | Sales, HR |
+| **AI Models** | Azure OpenAI (GPT-4.1), Google Gemini (2.5 Flash) |
 | **Business Tools** | 15+ MCP servers (HR, Sales, O365, RFP) |
-| **WorkSphere Agents** | 15+ specialized analysis agents |
+| **WorkSphere Agents** | 17+ specialized analysis agents |
 | **Authentication** | Microsoft Azure AD (corporate credentials) |
 | **Hosting** | Microsoft Azure (App Service, Cosmos DB) |
 

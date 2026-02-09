@@ -8,7 +8,7 @@ description: How Trinity (WorkSphere) works — system architecture and key comp
 
 > **Production Brand:** WorkSphere — [worksphere.dxc.ai](https://worksphere.dxc.ai)
 
-Trinity is DXC Technology's enterprise AI assistant platform. It provides intelligent assistance for Sales and HR teams through a modern, immersive interface that combines conversational AI with specialized business tools. The platform also powers **RFP Advisor** for proposal analysis and includes **WorkSphere Agents** — autonomous AI agents that perform complex, multi-step analysis tasks.
+Trinity is DXC Technology's AI-native enterprise platform — a central place for Sales and HR teams to access everything they need to be more productive. It combines conversational AI with real-time business data, MCP servers, autonomous AI agents, and more — all through a single, intelligent interface.
 
 ---
 
@@ -84,7 +84,7 @@ Trinity has three main layers that work together:
 │              │  │  Email       │  │                      │
 │  Google      │  │  Performance │  │  Azure Blob Storage  │
 │  Gemini      │  │  RFP Tools   │  │  (documents, reports)│
-│  (Agents)    │  │              │  │                      │
+│  (2.5 Flash) │  │              │  │                      │
 │              │  │  15+ servers │  │                      │
 │  See: AI &   │  │  See: MCP    │  │  See: Data Layer     │
 │  Models      │  │  Servers     │  │                      │
@@ -98,7 +98,7 @@ Trinity has three main layers that work together:
 When someone asks Trinity a question, here's what happens behind the scenes:
 
 ### 1. User Types a Question
-> "Show me employees in the London office with Python skills"
+> "Give me the details for opportunity OPX-12345"
 
 The user types their question in the chat interface. This could be in the main floating chat, a workspace, or a group chat.
 
@@ -116,13 +116,13 @@ The AI reads the question and figures out:
 - Does it need to look up data? → Call a tool
 - Can it answer directly? → Generate a response
 
-For our example, the AI recognizes it needs to search employee data, so it says: "I need to call the employee search tool with location=London and skills=Python"
+For our example, the AI recognizes it needs to look up opportunity data, so it says: "I need to call the sales data tool with opportunity ID OPX-12345"
 
 ### 5. Backend Calls the Right Tool
-The backend takes the AI's instruction and calls the appropriate MCP server. The HR Data server searches its database and returns matching employees.
+The backend takes the AI's instruction and calls the appropriate MCP server. The Sales Data server searches its database and returns the matching opportunity details.
 
 ### 6. AI Crafts the Response
-The backend sends the tool results back to the AI. Now the AI has the actual data, so it writes a helpful response: "I found 23 employees in the London office with Python skills. Here's a breakdown by department..."
+The backend sends the tool results back to the AI. Now the AI has the actual data, so it writes a helpful response: "Here are the details for opportunity OPX-12345 — it's a $2.4M deal in the proposal stage with a close date of Q3..."
 
 ### 7. Response Streams to User
 The response is sent back to the browser in real-time (streaming), so users see the answer appearing as the AI generates it — just like ChatGPT.
@@ -142,10 +142,14 @@ The web application that runs in the browser, featuring a HUD-style landing page
 ### Backend & Orchestration
 The processing engine that routes requests, coordinates with AI and MCP servers, and manages data. Includes the SalesCoach orchestration engine for real-time AI conversation flow.
 
+:::note A note on the name "SalesCoach"
+Trinity was originally built for Sales teams, and the orchestration engine was named **SalesCoach** during that phase. As the platform expanded to serve all roles (including HR), the orchestration engine continued to power conversations across every role — but the internal name was retained as-is. Despite the name, SalesCoach is the orchestration layer for **all** WorkSphere users, not just Sales.
+:::
+
 → [Backend Documentation](/docs/backend)
 
 ### AI & Models
-Two AI models power Trinity: Azure OpenAI (GPT-4.1 Mini) for real-time chat, and Google Gemini for WorkSphere Agents. The AI understands questions, calls tools, and generates responses.
+Two AI models power Trinity: Azure OpenAI (GPT-4.1 Mini) for real-time chat, and Google Gemini (2.5 Flash) for WorkSphere Agents. The AI understands questions, calls tools, and generates responses.
 
 → [AI & Models Documentation](/docs/ai-and-mcp)
 
@@ -185,7 +189,7 @@ Containerized applications running on Azure App Service, with CI/CD pipelines ma
 | Orchestration | Python / aiohttp | Real-time AI conversation flow |
 | RFP Backend | Python / FastAPI | Document processing, agents |
 | AI (Chat) | Azure OpenAI (GPT-4.1) | Natural language understanding |
-| AI (Agents) | Google Gemini (ADK) | Multi-step reasoning and analysis |
+| AI (Agents) | Google Gemini 2.5 Flash (ADK) | Multi-step reasoning and analysis |
 | Tools | MCP Protocol | Business data access |
 | Database | Azure Cosmos DB | Data storage |
 | File Storage | Azure Blob Storage | Documents and reports |

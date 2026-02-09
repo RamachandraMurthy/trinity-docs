@@ -221,5 +221,4 @@ Users can ask questions like these to trigger the AI-powered search:
 | [SFDC UDP Overview](./) | Introduction to the SFDC UDP MCP Server |
 | [Data Model](./data-model) | Complete data model with all tables and relationships |
 | [Opportunity Management](./opportunity-management) | Structured capabilities for filtering, retrieving, and aggregating data |
-| [Account Planning](./account-planning) | How to retrieve account plans and business development information |
 | [Contracts Legal Server](/docs/mcp-servers/contracts-legal) | Server for legal contract data with advanced filtering |

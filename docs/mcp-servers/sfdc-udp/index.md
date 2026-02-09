@@ -87,12 +87,11 @@ When a user asks a question that requires sales data, the request flows through 
 
 ## Capabilities
 
-The server provides five main capability groups for working with sales data:
+The server provides four main capability groups for working with sales data:
 
 | Capability Group | What It Does | Learn More |
 |------------------|--------------|------------|
 | **Field Value Discovery** | Maps approximate user input to exact database values (e.g., "Data&AI" to "Data & Analytics") using fuzzy matching | [Opportunity Management](./opportunity-management) |
-| **Account Planning** | Retrieves account plans, business development plans, linked opportunities, and customer business priorities | [Account Planning](./account-planning) |
 | **Opportunity Management** | Filters, retrieves, and analyzes opportunities, accounts, and their line items with flexible field selection | [Opportunity Management](./opportunity-management) |
 | **Data Aggregation** | Groups and aggregates opportunity line items by various dimensions (service, product, account, etc.) | [Opportunity Management](./opportunity-management) |
 | **AI-Powered Search** | Converts natural language questions into database queries for contract and deal searches | [AI-Powered Search](./ai-search) |
@@ -103,8 +102,7 @@ The server provides five main capability groups for working with sales data:
 
 | Section | What You'll Learn |
 |---------|-------------------|
-| [Data Model](./data-model) | Complete data model with all tables, fields, and relationships |
-| [Account Planning](./account-planning) | How the AI retrieves account plans and business development information |
+| [Data Model](./data-model) | What data is available and how the AI uses it |
 | [Opportunity Management](./opportunity-management) | How the AI filters, retrieves, and aggregates opportunity data |
 | [AI-Powered Search](./ai-search) | How natural language queries are converted to database searches |
 | [MCP Servers Overview](/docs/mcp-servers) | How MCP servers connect the AI to business data |
