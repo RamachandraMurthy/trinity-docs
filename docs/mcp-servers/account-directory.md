@@ -12,7 +12,7 @@ The **Account Directory MCP Server** is a Model Context Protocol (MCP) server th
 
 This server is part of the Trinity platform's data layer. When a user asks something like "Who are the contacts for Acme Corp?" or "Show me restricted accounts in EMEA", the AI calls this MCP server, which translates the question into a database query, retrieves the relevant data from Azure SQL, and returns the findings for the AI to present in natural language.
 
-A key feature of this server is its use of Azure OpenAI to convert natural language questions directly into SQL queries. This means users can ask questions in plain English without needing to know anything about the underlying database structure.
+A key feature of this server is its use of an in-server LLM step to convert natural language questions directly into SQL queries. This means users can ask questions in plain English without needing to know anything about the underlying database structure.
 
 ---
 
@@ -111,7 +111,7 @@ When a user asks a question that requires account directory data, the request fl
     └──────────┘   Acme Corp..."                                      
 ```
 
-The key difference from other MCP servers is the Azure OpenAI step. This allows users to ask questions in natural language without knowing anything about database schemas or SQL syntax. The server handles the translation automatically.
+The key difference from other MCP servers is the in-server natural-language-to-SQL step. This allows users to ask questions in natural language without knowing anything about database schemas or SQL syntax. The server handles the translation automatically.
 
 ---
 

@@ -8,29 +8,26 @@ Trinity is a comprehensive AI-powered enterprise platform that provides intellig
 
 ## What's Documented
 
-The site covers the full Trinity platform across 11 documentation sections:
+The site is organized around the platform's five-layer reference architecture, with cross-cutting controls and operations references.
 
 | Section | Description |
 |---|---|
-| **Introduction** | Platform overview and key capabilities |
-| **Architecture** | High-level system design and component relationships |
-| **Frontend** | Web application UI, real-time features, and daily recap |
-| **Backend** | Processing engine, orchestration, and the 7-step SalesCoach flow |
-| **AI & Models** | AI integration, model configuration, and system prompt construction |
-| **MCP Servers** | 13+ data connectors (Salesforce, HR, O365, market intelligence, etc.) |
-| **WorkSphere Agents** | Special agents (deal qualification, win probability, pricing) and RFP agents |
-| **Authentication & Security** | Azure AD integration and security model |
-| **Data Layer** | Cosmos DB, blob storage, and data architecture |
-| **Deployment & DevOps** | Docker containers, Azure App Service, CI/CD pipeline |
-| **Developer Guide** | Local development setup and contribution guidelines |
-| **API Reference** | Backend API documentation |
+| **Introduction** | Platform purpose and entry points |
+| **Architecture** | Platform Overview · Reference Architecture · User Interaction Model · End-to-End Request Lifecycle |
+| **Experience Layer** | Single-User Workspace, AI Canvas, Agent Space & Runs, real-time, file upload, email sharing |
+| **Orchestration Layer** | Claude Agent SDK Orchestrator, role-aware routing, chat skills, personal memory |
+| **Agent & Execution Layer** | Five agent patterns, Special Agents, RFP Agents, Agent Primus (Autonomous) |
+| **MCP Integration Layer** | Internal and external MCP servers, role-based exposure |
+| **Enterprise Data Layer** | Databricks UDP, Cosmos DB, Power BI, Azure Cognitive Search, O365, Account Directory |
+| **AI & Models** | Multi-model strategy and system prompt construction |
+| **Authentication, Security & Governance** | Azure AD, role-based access, control plane (Trinity Guardian, Guardrails, Wiz, Dynatrace) |
+| **Deployment & Operations** | Azure-hosted services, container packaging, observability surfaces |
 
 ## Features
 
-- Local search functionality (offline, no external service needed)
+- Local search (offline, no external service needed)
 - Modern, responsive UI with dark/light mode support
-- AI-powered documentation assistant (optional, requires Google API key)
-- Mobile-friendly design
+- DXC-branded landing page with theme-responsive sections
 - MDX support for interactive documentation
 
 ## Prerequisites
@@ -40,26 +37,16 @@ The site covers the full Trinity platform across 11 documentation sections:
 
 ## Quick Start
 
-1. **Clone the repository:**
-
 ```bash
-git clone https://github.com/RamachandraMurthy/trinity-docs.git
+git clone <repo-url>
 cd trinity-docs
-```
-
-2. **Install dependencies:**
-
-```bash
 npm install
-```
-
-3. **Start the development server:**
-
-```bash
 npm start
 ```
 
 The site will be available at `http://localhost:3000`.
+
+> **Maintaining the docs?** Read **[MAINTAINING.md](./MAINTAINING.md)** before making changes — it covers prerequisites, AI-assisted refresh playbooks, naming rules, and the build safety net.
 
 ## Build for Production
 
@@ -77,57 +64,51 @@ To preview the production build locally:
 npm run serve
 ```
 
-## Environment Variables
-
-Create a `.env` file in the root directory for optional features:
-
-| Variable | Required | Description |
-|---|---|---|
-| `REACT_APP_GOOGLE_API_KEY` | No | Google API key for the AI documentation assistant |
-
-The site functions fully without any environment variables — the AI helper is an optional enhancement.
-
 ## Available Scripts
 
 | Command | Description |
 |---|---|
-| `npm start` | Start development server with hot reload |
+| `npm start` | Start development server with hot reload (fast editing; search not indexed) |
 | `npm run build` | Build static site for production |
-| `npm run serve` | Serve the production build locally |
-| `npm run deploy` | Deploy using Docusaurus deployment |
+| `npm run serve` | Serve the production build locally (search works) |
+| `npm run preview` | Build + serve in one command — use this to test search and verify the production look |
 | `npm run clear` | Clear Docusaurus cache (useful for troubleshooting) |
 | `npm run swizzle` | Copy theme components for customization |
 | `npm run write-translations` | Extract translatable strings |
 | `npm run write-heading-ids` | Add heading IDs to markdown files |
+
+> Deployment to `trinity-docs.internal` is handled by the infra team's pipeline, not via `npm run deploy`. Always `npm run build` and `npm run serve` to verify locally before pushing for deploy.
 
 ## Project Structure
 
 ```
 trinity-docs/
 ├── docs/                          # All documentation content (Markdown/MDX)
-│   ├── intro.md                   # Introduction page
-│   ├── platform/                  # High-level architecture
-│   ├── frontend/                  # Frontend documentation
-│   ├── backend/                   # Backend documentation
-│   ├── salescoach/                # SalesCoach orchestration + 7-step flow
-│   ├── ai-and-mcp/               # AI integration & prompt construction
-│   ├── mcp-servers/               # 13+ MCP server docs (SFDC, HR, O365, etc.)
-│   ├── agents/                    # Special agents & RFP agents
-│   ├── rfp-advisor/               # RFP Advisor workflow (projects, upload, chat)
-│   ├── authentication/            # Auth & security
-│   ├── data-layer/                # Database & storage
-│   ├── deployment/                # Infrastructure & DevOps
-│   ├── developer-guide/           # Developer setup
-│   └── api-reference/             # API documentation
+│   ├── intro.md                   # Introduction
+│   ├── platform/                  # Architecture (Overview, Reference, Interaction, Lifecycle)
+│   ├── frontend/                  # Experience Layer
+│   ├── realtime/                  # Real-Time & WebSocket
+│   ├── daily-recap/               # Daily Brief / Podcast
+│   ├── backend/                   # Orchestration Layer (Claude Agent SDK)
+│   ├── ai-and-mcp/                # AI & Models, system prompt construction
+│   ├── mcp-servers/               # MCP Integration Layer (per-server pages)
+│   ├── agents/                    # Agent & Execution Layer (5 patterns)
+│   ├── rfp-advisor/               # RFP Advisor workflow
+│   ├── authentication/            # Authentication, Security & Governance
+│   ├── data-layer/                # Enterprise Data Layer
+│   └── deployment/                # Deployment & Operations
 ├── src/
-│   ├── components/                # React components (AI helper)
-│   ├── css/                       # Custom styles
-│   ├── pages/                     # Landing page
-│   ├── plugins/                   # Docusaurus plugins (AI index)
-│   └── theme/                     # Theme customizations
-├── static/                        # Static assets (logo, images)
+│   ├── css/                       # Custom DXC-branded styles
+│   └── pages/                     # Landing page
+├── static/img/                    # Logo
+├── .claude/skills/                # AI-assisted refresh skill (read by Claude Code)
+│   └── trinity-docs-refresh/
+├── .cursor/rules/                 # Documentation style guide for AI tools
+├── MAINTAINING.md                 # Team handoff guide — read this first
+├── README.md                      # This file
 ├── docusaurus.config.js           # Docusaurus configuration
 ├── sidebars.js                    # Sidebar navigation structure
+├── start.ps1 / start.sh           # Convenience launcher (Windows / macOS+Linux)
 ├── package.json                   # Dependencies and scripts
 └── .gitignore
 ```
@@ -167,19 +148,25 @@ The `build/` directory contains:
 
 No server-side runtime is required — the output is purely static HTML/CSS/JS.
 
+## Maintaining and Refreshing the Docs
+
+If you're joining the team or picking up maintenance, **read [MAINTAINING.md](./MAINTAINING.md) first.** It covers:
+
+- **Prerequisites** — the toolchain you need (Node.js, Claude Code, git, deck access)
+- **Three AI-assisted refresh modes** — quick fix, section refresh, full deck-driven refresh
+- **The trinity-docs-refresh skill** at `.claude/skills/trinity-docs-refresh/SKILL.md` — encodes the 5-layer canonical structure, naming rules, and page template
+- **Recurring cadence** — what to refresh per release, monthly, quarterly
+- **Critical rules** — no secrets in code, no developer-level detail in pages, never disable the build's broken-link check
+- **Common tasks cheat sheet** — the 8 commands you'll use most
+
 ## Contributing
 
-1. Create an issue describing the problem or enhancement
-2. Submit a pull request with your changes
-3. Follow the documentation style guide (conceptual, not code-level — see `.cursor/rules/` for details)
-4. Ensure no broken links (`npm run build` will catch them — the config uses `onBrokenLinks: 'throw'`)
+1. Read [MAINTAINING.md](./MAINTAINING.md) and the skill at `.claude/skills/trinity-docs-refresh/SKILL.md`
+2. Create an issue describing the problem or enhancement
+3. Submit a pull request with your changes
+4. Ensure no broken links — `npm run build` is the gate (`onBrokenLinks: 'throw'`)
+5. Style guide: conceptual, not code-level — see `.cursor/rules/` for the full spec
 
 ## License
 
-Copyright &copy; 2025 DXC Technology — Trinity Platform (WorkSphere). All rights reserved.
-
-## Contact
-
-For questions or issues related to the Trinity platform or this documentation:
-
-- **Ramachandra Murthy** — [ramachandra.murthy@dxc.com](mailto:ramachandra.murthy@dxc.com)
+Copyright &copy; 2026 DXC Technology — Trinity (WorkSphere) Platform. All rights reserved.

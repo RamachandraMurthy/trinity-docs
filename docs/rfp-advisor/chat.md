@@ -36,12 +36,12 @@ You ask a question, and Gemini responds based on its training knowledge. You can
 
 ## Azure Chat
 
-Enterprise chat powered by Azure OpenAI with optional retrieval-augmented generation (RAG).
+Enterprise chat with optional retrieval-augmented generation (RAG) — answers grounded in your project's indexed documents.
 
 **When to use:**
 - Questions where you want answers grounded in your documents
-- Compliance or audit scenarios requiring Azure-based AI
-- When you need to cite specific sources
+- When you need to cite specific sources from your indexed content
+- Audit-friendly answers that reference what was actually retrieved
 
 **How it works with RAG:**
 1. You ask a question and specify a project
@@ -143,5 +143,5 @@ When you get a particularly useful response, you can bookmark it for quick refer
 |---|---|
 | [Projects](/docs/rfp-advisor/projects) | How documents are organized |
 | [Indexing](/docs/rfp-advisor/indexing) | How search works for RAG |
-| [WorkSphere Agents](/docs/agents) | For deeper automated analysis |
-| [AI & MCP](/docs/ai-and-mcp) | How AI is integrated platform-wide |
+| [Agent & Execution Layer](/docs/agents) | For deeper automated analysis |
+| [AI & Models](/docs/ai-and-mcp) | How AI is integrated platform-wide |

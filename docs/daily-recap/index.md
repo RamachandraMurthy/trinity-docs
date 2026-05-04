@@ -186,9 +186,10 @@ The Daily Recap connects to several backend systems:
 
 | Section | What You'll Learn |
 |---------|-------------------|
-| [MCP Servers](/docs/mcp-servers) | How data connectors provide business information |
+| [Experience Layer](/docs/frontend) | The broader user-facing layer Daily Recap belongs to |
+| [Agent & Execution Layer](/docs/agents) | Daily Recap is itself a Google ADK agent flow — see how that pattern fits |
+| [MCP Integration Layer](/docs/mcp-servers) | How data connectors provide business information |
 | [O365 MCP Server](/docs/mcp-servers/o365) | How calendar data is accessed |
 | [Campaign MCP Server](/docs/mcp-servers/campaign) | How campaign data is retrieved |
 | [SFDC UDP Server](/docs/mcp-servers/sfdc-udp) | How opportunity data is accessed |
-| [AI & Models](/docs/ai-and-mcp) | How AI curation and script generation work |
-| [Backend](/docs/backend) | How the backend coordinates data requests |
+| [Orchestration Layer](/docs/backend) | How the orchestrator coordinates data requests |

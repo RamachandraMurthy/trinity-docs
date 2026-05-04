@@ -173,6 +173,52 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--dxc-white);
 }
 
+/* ========== Navbar Theme (Color-Mode) Toggle ==========
+   The navbar is DXC Midnight Blue in both light and dark themes,
+   so the theme toggle icon must always be light to stay visible. */
+.navbar .clean-btn,
+.navbar [class*='colorModeToggle_'],
+.navbar [class*='toggleButton_'],
+.navbar [aria-label*='color mode' i],
+.navbar [aria-label*='theme' i],
+.navbar [title*='color mode' i],
+.navbar [title*='theme' i] {
+  color: var(--dxc-white) !important;
+}
+
+.navbar .clean-btn svg,
+.navbar [class*='colorModeToggle_'] svg,
+.navbar [class*='toggleButton_'] svg,
+.navbar [aria-label*='color mode' i] svg,
+.navbar [aria-label*='theme' i] svg {
+  color: var(--dxc-white) !important;
+  fill: var(--dxc-white) !important;
+  opacity: 0.92;
+}
+
+.navbar .clean-btn:hover,
+.navbar [class*='toggleButton_']:hover,
+.navbar [aria-label*='color mode' i]:hover,
+.navbar [aria-label*='theme' i]:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.navbar .clean-btn:hover svg,
+.navbar [class*='toggleButton_']:hover svg,
+.navbar [aria-label*='color mode' i]:hover svg,
+.navbar [aria-label*='theme' i]:hover svg {
+  color: var(--dxc-gold) !important;
+  fill: var(--dxc-gold) !important;
+  opacity: 1;
+}
+
+/* GitHub icon (and other plain navbar links rendered as icons) — same treatment */
+.navbar__items--right a[class*='iconExternalLink'],
+.navbar__items--right .header-github-link,
+.navbar__items--right .header-github-link::before {
+  color: var(--dxc-white) !important;
+}
+
 /* ========== Sidebar ========== */
 .theme-doc-sidebar-container {
   border-right: 1px solid var(--ifm-color-emphasis-200);
@@ -400,49 +446,94 @@ code {
   color: var(--dxc-true-blue);
 }
 
-/* ========== Footer (DXC Midnight Blue) ========== */
+/* ========== Footer — theme-responsive ========== */
 .footer {
-  border-top: 1px solid var(--ifm-color-emphasis-200);
+  position: relative;
+  background: #F4F8FF;
+  color: var(--ifm-color-content);
+  border-top: 1px solid rgba(14, 16, 32, 0.08);
+  padding-top: 3rem;
+  padding-bottom: 2rem;
 }
 
-.footer--dark {
+[data-theme='dark'] .footer {
   background: var(--dxc-midnight-blue);
+  color: rgba(255, 255, 255, 0.85);
   border-top-color: #1C1F35;
 }
 
+/* DXC brand gradient accent bar across the top */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--dxc-gradient-primary);
+}
+
+/* Column titles */
 .footer__title {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1.2px;
+  color: var(--dxc-royal);
+  margin-bottom: 1rem;
+}
+
+[data-theme='dark'] .footer__title {
   color: var(--dxc-gold);
 }
 
+/* Link items */
 .footer__link-item {
   font-size: 0.88rem;
   font-weight: 500;
   line-height: 2;
-  color: rgba(255, 255, 255, 0.8);
+  color: #4A5070;
+  text-decoration: none;
+  transition: color 180ms ease;
 }
 
 .footer__link-item:hover {
+  color: var(--dxc-royal);
+  text-decoration: none;
+}
+
+[data-theme='dark'] .footer__link-item {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+[data-theme='dark'] .footer__link-item:hover {
   color: var(--dxc-gold);
 }
 
+/* Copyright row */
 .footer__copyright {
-  font-size: 0.8rem;
-  opacity: 0.7;
-  margin-top: 1.5rem;
+  font-size: 0.82rem;
+  color: #6B718B;
+  margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(14, 16, 32, 0.08);
+  text-align: center;
 }
 
-/* ========== DXC Brand Gradient Accent Bar ========== */
-.footer::before {
-  content: '';
-  display: block;
-  height: 3px;
-  background: var(--dxc-gradient-primary);
+[data-theme='dark'] .footer__copyright {
+  color: rgba(255, 255, 255, 0.55);
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Even column spacing */
+.footer__col {
+  padding: 0 1rem;
+}
+
+@media (max-width: 996px) {
+  .footer__col {
+    margin-bottom: 1.5rem;
+  }
 }
 
 /* ========== Search Override ========== */

@@ -5,27 +5,39 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import styles from './index.module.css';
 
+/* ============================================================
+   HERO
+   ============================================================ */
 function HomepageHeader() {
-  const { siteConfig } = useDocusaurusContext();
   return (
     <header className={styles.heroBanner}>
       <div className={styles.heroBackground} />
       <div className="container">
         <div className={styles.heroContent}>
-          <span className={styles.heroBadge}>WorkSphere Platform Documentation</span>
-          <h1 className={styles.heroTitle}>{siteConfig.title}</h1>
-          <p className={styles.heroSubtitle}>{siteConfig.tagline}</p>
+          <span className={styles.heroBadge}>Documentation</span>
+          <h1 className={styles.heroTitle}>Trinity Platform Documentation</h1>
+          <p className={styles.heroSubtitle}>
+            The canonical reference for Trinity (WorkSphere) — architecture, experience layers,
+            agents, MCP integration, governance, and operations.
+          </p>
           <div className={styles.buttons}>
-            <Link
-              className={clsx('button button--lg', styles.primaryBtn)}
-              to="/docs/intro">
+            <Link className={clsx('button button--lg', styles.primaryBtn)} to="/docs/intro">
               Get Started
             </Link>
             <Link
               className={clsx('button button--lg', styles.secondaryBtn)}
-              to="/docs/platform/high-level-architecture">
-              Platform Architecture
+              to="/docs/platform/reference-architecture">
+              Reference Architecture
             </Link>
+          </div>
+          <div className={styles.heroMeta}>
+            <span className={styles.heroMetaItem}>5 Layers</span>
+            <span className={styles.heroMetaDot} />
+            <span className={styles.heroMetaItem}>5 Agent Patterns</span>
+            <span className={styles.heroMetaDot} />
+            <span className={styles.heroMetaItem}>15+ MCP Servers</span>
+            <span className={styles.heroMetaDot} />
+            <span className={styles.heroMetaItem}>One Orchestration Brain</span>
           </div>
         </div>
       </div>
@@ -33,250 +45,329 @@ function HomepageHeader() {
   );
 }
 
-const FeatureGroups = [
+/* ============================================================
+   THREE CORE EXPERIENCES
+   ============================================================ */
+const Experiences = [
   {
-    groupTitle: 'Platform',
-    groupSubtitle: 'How Trinity is built',
-    features: [
-      {
-        title: 'Architecture',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-            <line x1="8" y1="21" x2="16" y2="21" />
-            <line x1="12" y1="17" x2="12" y2="21" />
-            <path d="M7 8h2M7 12h4" />
-          </svg>
-        ),
-        description: 'The big picture — how Frontend, Backend, AI, and business tools all work together.',
-        link: '/docs/platform/high-level-architecture',
-        color: '#004AAC',
-      },
-      {
-        title: 'Frontend & Real-Time',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <polygon points="12 2 2 7 12 12 22 7 12 2" />
-            <polyline points="2 17 12 22 22 17" />
-            <polyline points="2 12 12 17 22 12" />
-          </svg>
-        ),
-        description: 'React 19 interface with HUD layout, workspace canvas, WebSocket streaming, and group chat.',
-        link: '/docs/frontend',
-        color: '#4995FF',
-      },
-      {
-        title: 'Backend & Orchestration',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
-            <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
-            <line x1="6" y1="6" x2="6.01" y2="6" />
-            <line x1="6" y1="18" x2="6.01" y2="18" />
-          </svg>
-        ),
-        description: 'Express.js API layer with SalesCoach orchestration engine, MCP integration, and service architecture.',
-        link: '/docs/backend',
-        color: '#0E1020',
-      },
-      {
-        title: 'Daily Recap',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-            <line x1="12" y1="19" x2="12" y2="23" />
-            <line x1="8" y1="23" x2="16" y2="23" />
-          </svg>
-        ),
-        description: 'Personalized audio briefings combining news, campaigns, calendar, and pipeline updates.',
-        link: '/docs/daily-recap',
-        color: '#E11D48',
-      },
-    ],
+    label: '01 / Single-User',
+    title: 'Single-User Workspace',
+    description:
+      'The personal chat-and-voice surface. One user, one conversation, real-time streaming. The fastest path from question to answer.',
+    link: '/docs/frontend/single-user-workspace',
+    accent: '#004AAC',
   },
   {
-    groupTitle: 'AI & Tools',
-    groupSubtitle: 'How Trinity thinks and acts',
-    features: [
-      {
-        title: 'AI & Models',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="3" />
-            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
-          </svg>
-        ),
-        description: 'Azure OpenAI GPT-4.1 for chat, Google Gemini for agents, system prompts, and multi-step reasoning.',
-        link: '/docs/ai-and-mcp',
-        color: '#FFAE41',
-      },
-      {
-        title: 'MCP Servers',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-            <polyline points="14 2 14 8 20 8" />
-            <line x1="16" y1="13" x2="8" y2="13" />
-            <line x1="16" y1="17" x2="8" y2="17" />
-            <line x1="10" y1="9" x2="8" y2="9" />
-          </svg>
-        ),
-        description: '15+ business tools for HR data, sales pipelines, Microsoft 365, RFP analysis, and more.',
-        link: '/docs/mcp-servers',
-        color: '#10B981',
-      },
-    ],
+    label: '02 / Collaboration',
+    title: 'AI Canvas',
+    description:
+      'A shared project workspace for multi-user AI collaboration. Prompts, responses, and run history visible to every participant — role-aware throughout.',
+    link: '/docs/frontend/ai-canvas',
+    accent: '#4995FF',
   },
   {
-    groupTitle: 'WorkSphere Agents',
-    groupSubtitle: 'Autonomous AI analysis',
-    features: [
-      {
-        title: 'WorkSphere Agents',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="3" />
-            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
-            <circle cx="12" cy="12" r="10" />
-          </svg>
-        ),
-        description: '15+ specialized agents — Special Agents for deals and strategy, RFP Agents for proposal analysis.',
-        link: '/docs/agents',
-        color: '#8B5CF6',
-      },
-    ],
-  },
-  {
-    groupTitle: 'Infrastructure',
-    groupSubtitle: 'Security, data, and deployment',
-    features: [
-      {
-        title: 'Authentication & Security',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            <path d="M9 12l2 2 4-4" />
-          </svg>
-        ),
-        description: 'Azure AD login, role-based access control, token management, and security headers.',
-        link: '/docs/authentication',
-        color: '#D14600',
-      },
-      {
-        title: 'Data Layer & Deployment',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <ellipse cx="12" cy="5" rx="9" ry="3" />
-            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
-            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
-          </svg>
-        ),
-        description: 'Cosmos DB storage, blob storage, Docker containers, Azure App Service, and CI/CD pipelines.',
-        link: '/docs/data-layer',
-        color: '#A1E6FF',
-      },
-      {
-        title: 'Developer Guide & API',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="16 18 22 12 16 6" />
-            <polyline points="8 6 2 12 8 18" />
-          </svg>
-        ),
-        description: 'Local development setup, environment configuration, REST API reference, and troubleshooting.',
-        link: '/docs/developer-guide',
-        color: '#FFAE41',
-      },
-    ],
+    label: '03 / Agent-Driven',
+    title: 'Agent Space & Runs',
+    description:
+      'Discover agents, launch them, and track long-running runs. Five agent patterns share one execution model — invisible to users, powerful underneath.',
+    link: '/docs/frontend/agent-space',
+    accent: '#FFAE41',
   },
 ];
 
-function Feature({ title, icon, description, link, color }) {
+function ExperiencesSection() {
   return (
-    <div className={clsx('col col--4')}>
-      <div className={styles.featureCard}>
-        <div className={styles.featureIcon} style={{ '--icon-color': color }}>
-          {icon}
-        </div>
-        <h3 className={styles.featureTitle}>{title}</h3>
-        <p className={styles.featureDescription}>{description}</p>
-        <Link to={link} className={styles.featureLink}>
-          Explore docs
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <polyline points="9 18 15 12 9 6" />
-          </svg>
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-function StatsSection() {
-  return (
-    <section className={styles.statsSection}>
-      <div className="container">
-        <div className={styles.statsGrid}>
-          <div className={styles.statItem}>
-            <span className={styles.statNumber}>45+</span>
-            <span className={styles.statLabel}>Documentation Pages</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statNumber}>17+</span>
-            <span className={styles.statLabel}>WorkSphere Agents</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statNumber}>GPT-4.1 + Gemini</span>
-            <span className={styles.statLabel}>AI Models</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statNumber}>15+</span>
-            <span className={styles.statLabel}>MCP Servers</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function HomepageFeatures() {
-  return (
-    <section className={styles.features}>
+    <section className={styles.experiences}>
       <div className="container">
         <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>Explore the Platform</h2>
+          <span className={styles.eyebrow}>The Three Core Experiences</span>
+          <h2 className={styles.sectionTitle}>How users meet Trinity</h2>
           <p className={styles.sectionSubtitle}>
-            Comprehensive documentation for every layer of the Trinity ecosystem
+            Three first-class surfaces, all powered by the same orchestration brain.
           </p>
         </div>
-        {FeatureGroups.map((group, groupIdx) => (
-          <div key={groupIdx} className={styles.featureGroup}>
-            <div className={styles.groupHeader}>
-              <h3 className={styles.groupTitle}>{group.groupTitle}</h3>
-              <span className={styles.groupSubtitle}>{group.groupSubtitle}</span>
-            </div>
-            <div className="row">
-              {group.features.map((props, idx) => (
-                <Feature key={idx} {...props} />
-              ))}
-            </div>
-          </div>
-        ))}
+        <div className={styles.experiencesGrid}>
+          {Experiences.map((exp, idx) => (
+            <Link key={idx} to={exp.link} className={styles.experienceCard}>
+              <div
+                className={styles.experienceAccent}
+                style={{ background: exp.accent }}
+                aria-hidden="true"
+              />
+              <span className={styles.experienceLabel}>{exp.label}</span>
+              <h3 className={styles.experienceTitle}>{exp.title}</h3>
+              <p className={styles.experienceDescription}>{exp.description}</p>
+              <span className={styles.experienceArrow} aria-hidden="true">
+                →
+              </span>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
+/* ============================================================
+   FIVE-LAYER ARCHITECTURE — VISUAL STACK
+   ============================================================ */
+const Layers = [
+  {
+    n: '01',
+    name: 'Experience Layer',
+    components: 'Single-User Workspace · AI Canvas · Agent Space & Runs · Trinity Mobile',
+    link: '/docs/frontend',
+  },
+  {
+    n: '02',
+    name: 'Orchestration Layer',
+    components: 'Claude Agent SDK Orchestrator · Role-Aware Routing · Chat Skills · Personal Memory',
+    link: '/docs/backend',
+  },
+  {
+    n: '03',
+    name: 'Agent & Execution Layer',
+    components: 'Five agent patterns · Special Agents · RFP Agents · Agent Primus (Autonomous)',
+    link: '/docs/agents',
+  },
+  {
+    n: '04',
+    name: 'MCP Integration Layer',
+    components: 'Internal MCPs · External / Shared MCPs · Role-Based Console Exposure',
+    link: '/docs/mcp-servers',
+  },
+  {
+    n: '05',
+    name: 'Enterprise Data Layer',
+    components: 'Databricks UDP · Cosmos DB · Power BI · Azure Cognitive Search · O365 · Account Directory',
+    link: '/docs/data-layer',
+  },
+];
+
+function LayerStack() {
+  return (
+    <section className={styles.architecture}>
+      <div className="container">
+        <div className={styles.sectionHeader}>
+          <span className={styles.eyebrow}>Reference Architecture</span>
+          <h2 className={styles.sectionTitle}>Five layers, one platform</h2>
+          <p className={styles.sectionSubtitle}>
+            Every component belongs to exactly one layer. Cross-cutting controls wrap them all.
+          </p>
+        </div>
+
+        <div className={styles.layerWrapper}>
+          <div className={styles.controlPlaneTop}>
+            <span className={styles.controlPlaneLabel}>Cross-Cutting Controls</span>
+            <div className={styles.controlPlaneItems}>
+              <span>Trinity Guardian</span>
+              <span>Guardrails / Rules</span>
+              <span>Wiz</span>
+              <span>Dynatrace</span>
+            </div>
+          </div>
+
+          <div className={styles.layerStack}>
+            {Layers.map((layer, idx) => (
+              <Link key={idx} to={layer.link} className={styles.layerRow}>
+                <span className={styles.layerNumber}>{layer.n}</span>
+                <div className={styles.layerBody}>
+                  <span className={styles.layerName}>{layer.name}</span>
+                  <span className={styles.layerComponents}>{layer.components}</span>
+                </div>
+                <span className={styles.layerArrow} aria-hidden="true">→</span>
+              </Link>
+            ))}
+          </div>
+
+          <div className={styles.controlPlaneBottom}>
+            <span className={styles.controlPlaneSubtle}>
+              Authentication · Authorization · Observability · Compliance — applied across every layer
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   PLATFORM CAPABILITIES
+   ============================================================ */
+const Capabilities = [
+  {
+    title: 'Agent Primus',
+    tag: 'Autonomous',
+    description:
+      'Open-ended task execution with planning, multi-tool use, and Word / PowerPoint deliverable generation from approved templates.',
+    link: '/docs/agents/autonomous-agent-primus',
+  },
+  {
+    title: 'Personal Memory',
+    tag: 'Personalization',
+    description:
+      'Per-user preferences and patterns persist across sessions — names, working style, recurring entities, accumulated quietly without forms.',
+    link: '/docs/backend/personal-memory',
+  },
+  {
+    title: 'Daily Brief / Podcast',
+    tag: 'Audio',
+    description:
+      'On-demand 2-minute audio briefing combining latest news, calendar, and pipeline activity — a Google ADK pipeline, role-aware.',
+    link: '/docs/daily-recap',
+  },
+  {
+    title: 'Trinity Mobile',
+    tag: 'Coming Soon',
+    description:
+      'Voice-first iOS / Android companion. Same orchestrator as web, tuned for on-the-go interactions with an orbital voice overlay. In development.',
+    link: '/docs/frontend/trinity-mobile',
+    comingSoon: true,
+  },
+  {
+    title: 'AI Canvas',
+    tag: 'Collaboration',
+    description:
+      'Multi-user shared workspace where AI is a participant. Prompts, runs, and outputs are visible to the team in real time.',
+    link: '/docs/frontend/ai-canvas',
+  },
+  {
+    title: 'File Upload',
+    tag: 'Grounding',
+    description:
+      'Drop in PDFs, Word, Excel, PowerPoint, or images to ground a conversation. Native visual reading for PDFs and images, text extraction for docs.',
+    link: '/docs/frontend/file-upload',
+  },
+];
+
+function CapabilitiesSection() {
+  return (
+    <section className={styles.capabilities}>
+      <div className="container">
+        <div className={styles.sectionHeader}>
+          <span className={styles.eyebrow}>Platform Features</span>
+          <h2 className={styles.sectionTitle}>Built on top of the core</h2>
+          <p className={styles.sectionSubtitle}>
+            High-value capabilities that ride on the five-layer architecture.
+          </p>
+        </div>
+        <div className={styles.capabilityGrid}>
+          {Capabilities.map((cap, idx) => (
+            <Link key={idx} to={cap.link} className={clsx(styles.capabilityCard, cap.comingSoon && styles.capabilityComingSoon)}>
+              <span className={clsx(styles.capabilityTag, cap.comingSoon && styles.capabilityTagComingSoon)}>{cap.tag}</span>
+              <h3 className={styles.capabilityTitle}>{cap.title}</h3>
+              <p className={styles.capabilityDescription}>{cap.description}</p>
+              <span className={styles.capabilityLink}>
+                {cap.comingSoon ? 'Preview the design' : 'Learn more'}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   OPERATIONS & GOVERNANCE STRIP
+   ============================================================ */
+function OperationsStrip() {
+  return (
+    <section className={styles.operations}>
+      <div className="container">
+        <div className={styles.sectionHeader}>
+          <span className={styles.eyebrow}>Reference</span>
+          <h2 className={styles.sectionTitle}>How Trinity is governed and operated</h2>
+          <p className={styles.sectionSubtitle}>
+            Identity, AI configuration, and deployment — the systems and decisions that keep the
+            platform running.
+          </p>
+        </div>
+        <div className={styles.opsGrid}>
+          <Link to="/docs/authentication" className={styles.opsCard}>
+            <span className={styles.opsLabel}>Governance</span>
+            <h3 className={styles.opsTitle}>Authentication, Security & Governance</h3>
+            <p className={styles.opsDescription}>
+              Azure AD identity, role-aware structural access, and the cross-cutting control plane —
+              Trinity Guardian, Guardrails, Wiz, Dynatrace.
+            </p>
+            <span className={styles.opsArrow}>Read the model →</span>
+          </Link>
+
+          <Link to="/docs/ai-and-mcp" className={styles.opsCard}>
+            <span className={styles.opsLabel}>AI</span>
+            <h3 className={styles.opsTitle}>AI & Models</h3>
+            <p className={styles.opsDescription}>
+              Multi-model strategy: Claude for orchestration and autonomous, Gemini for ADK
+              pipelines, Haiku for guardrails. Prompts assembled per session.
+            </p>
+            <span className={styles.opsArrow}>Read the model →</span>
+          </Link>
+
+          <Link to="/docs/deployment" className={styles.opsCard}>
+            <span className={styles.opsLabel}>Operations</span>
+            <h3 className={styles.opsTitle}>Deployment & Operations</h3>
+            <p className={styles.opsDescription}>
+              Azure-hosted services, container packaging, and observability surfaces. Independent
+              release cadence per component.
+            </p>
+            <span className={styles.opsArrow}>Read the model →</span>
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   CLOSING CTA BAND
+   ============================================================ */
+function ClosingBand() {
+  return (
+    <section className={styles.closingBand}>
+      <div className={styles.closingBackground} />
+      <div className="container">
+        <div className={styles.closingContent}>
+          <h2 className={styles.closingTitle}>One orchestration model. Every Trinity surface.</h2>
+          <p className={styles.closingSubtitle}>
+            Whether the user is in chat, an AI Canvas, or running an autonomous agent, the same
+            brain handles every request — role-aware, governed, observable.
+          </p>
+          <div className={styles.closingButtons}>
+            <Link className={clsx('button button--lg', styles.primaryBtn)} to="/docs/platform/high-level-architecture">
+              Platform Overview
+            </Link>
+            <Link
+              className={clsx('button button--lg', styles.secondaryBtn)}
+              to="/docs/platform/end-to-end-request-lifecycle">
+              Request Lifecycle
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   PAGE
+   ============================================================ */
 export default function Home() {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={`${siteConfig.title}`}
-      description="Comprehensive documentation for the Trinity (WorkSphere) platform">
+      title={siteConfig.title}
+      description="Trinity (WorkSphere) — a role-aware AI workspace for conversational, collaborative, and agent-driven work">
       <HomepageHeader />
       <main>
-        <StatsSection />
-        <HomepageFeatures />
+        <ExperiencesSection />
+        <LayerStack />
+        <CapabilitiesSection />
+        <OperationsStrip />
+        <ClosingBand />
       </main>
     </Layout>
   );

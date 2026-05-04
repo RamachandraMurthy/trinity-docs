@@ -1,229 +1,112 @@
 ---
 sidebar_position: 1
-title: Frontend Architecture
-description: How the Trinity user interface is organized and how it works
+title: Experience Layer
+description: The user-facing surfaces of Trinity — Single-User Workspace, AI Canvas, Agent Space & Runs, plus the Trinity Mobile companion
 ---
 
-# Frontend Architecture
+# Experience Layer
 
-The Trinity frontend is what users see and interact with in their browser. Built primarily with React, the interface provides conversational AI, workspaces, and access to a range of specialized agents — each tailored to different workflows such as deal strategy, research, document analysis, and more. All areas of the platform share consistent design patterns and authentication.
+The Experience Layer is **what users see and interact with**. It is the topmost layer of the [Reference Architecture](/docs/platform/reference-architecture). Everything below it — orchestration, agents, MCP, data — is invisible to the user.
 
----
-
-## How the Interface is Organized
-
-When users open Trinity, they experience several interconnected areas:
-
-### The Landing Page (HUD Interface)
-
-The first thing users see is a distinctive "heads-up display" inspired design. A circular interface shows animated segments representing different features:
-
-- **For Sales users**: Accounts, Pipeline, Offerings, Campaigns, Research
-- **For HR users**: Performance, Employee Data, Strategic Planning
-
-Users click on segments to explore features. The interface uses smooth animations to transition between areas, creating an engaging experience.
-
-### The Floating Chat
-
-A chat bubble in the corner opens the primary AI assistant. This is where most interactions happen:
-
-- Users type questions in natural language
-- The AI responds with text, tables, and charts
-- Responses stream in real-time (appearing word-by-word)
-- Voice input is available via microphone button
-- Conversation history is preserved
-
-The floating chat can be accessed from anywhere in the app, so users never lose access to the AI.
-
-### The Dual-Frame Layout
-
-When exploring features, content appears in two panels:
-
-**Left Frame** — Shows summaries, quick answers, and navigation. This is the "at a glance" view.
-
-**Right Frame** — Shows detailed information, full reports, or embedded content. This is the "deep dive" view.
-
-This split-view approach helps users stay oriented and compare information easily.
-
-### The Workspace Canvas
-
-Beyond chat, Trinity offers a visual workspace — an infinite canvas where users can:
-
-- Save AI responses as cards
-- Add notes and annotations
-- Create visual layouts of information
-- Organize research and findings
-- Return later to continue working
-
-The canvas uses drag-and-drop interaction and supports zooming and panning, similar to tools like Miro or Figma.
-
-### Group Chat Rooms
-
-For team collaboration, users can create and join group chat rooms:
-
-- Multiple users in a shared conversation
-- AI assistance available to the whole group
-- Real-time message delivery
-- Role-based access (HR groups, Sales groups)
+Three first-class experiences sit here, each tuned for a different mode of work, plus several supporting features and a mobile companion.
 
 ---
 
-## WorkSphere Agents Interface
+## The Three Experiences
 
-Beyond the main conversational experience, Trinity includes a dedicated agents interface built with Next.js 15. Originally created for RFP document analysis, this interface has grown into the home for all **WorkSphere Agents** — a suite of specialized AI agents that perform deep, multi-step analysis tasks.
+| Surface | Mode | Best For |
+|---|---|---|
+| [**Single-User Workspace**](/docs/frontend/single-user-workspace) | One user, one conversation | Quick lookups, Q&A, voice interaction |
+| [**AI Canvas**](/docs/frontend/ai-canvas) | Multi-user shared workspace | Collaborative analysis, project research, team work with AI |
+| [**Agent Space & Runs**](/docs/frontend/agent-space) | Catalog and tracking | Discovering agents, launching deeper analyses, monitoring long-running runs |
 
-The agents interface offers a project-centric experience with document upload, search, and structured agent workflows. It currently hosts two families of agents:
-
-- **Specialized Agents** — Work from opportunity data and external research to provide deal strategy, competitive analysis, pricing insights, and more.
-- **RFP Advisor Agents** — Analyze uploaded RFP documents, proposals, and supporting materials to extract requirements, identify compliance gaps, and generate strategic recommendations.
-
-For details on how agents work, see [WorkSphere Agents](/docs/agents). For the RFP-specific setup and workflow, see [RFP Advisor](/docs/rfp-advisor).
-
----
-
-## How the Frontend Communicates
-
-The frontend needs to talk to the backend to do anything useful. This communication happens in two ways:
-
-### REST API Calls (Request/Response)
-
-For most operations, the frontend sends a request and waits for a response:
-
-```
-Frontend: "Save this chat session"
-    ↓
-Backend: "Got it, saved successfully"
-    ↓
-Frontend: Updates the UI to show it's saved
-```
-
-This pattern is used for:
-- Fetching chat history
-- Loading notifications
-- Saving workspaces
-- Creating group chats
-- Most data operations
-
-### WebSocket Connections (Real-Time)
-
-For instant communication, the frontend maintains an open connection:
-
-```
-Frontend ←——— constant connection ———→ Backend
-         ←— messages flow both ways —→
-```
-
-This is used for:
-- **Chat streaming** — AI responses appear word-by-word as they're generated
-- **Group chat** — Messages appear instantly for all participants
-- **Token refresh** — Security tokens are updated without page reload
-- **Session updates** — Backend can push updates to the frontend
-
-WebSocket makes the experience feel instant and alive, rather than waiting for page refreshes.
-
-For the full details on how real-time streaming, group chat delivery, and connection management work, see [Real-Time & WebSocket](/docs/realtime).
+All three surfaces flow into the same Claude Agent SDK Orchestrator. Context, role, and history follow the user across them.
 
 ---
 
-## How User State is Managed
+## Companion: Trinity Mobile *(Coming Soon)*
 
-The frontend needs to keep track of many things: Who's logged in? What messages are in the chat? Which notifications are unread? This is handled through a system of "contexts" — shared state containers that different parts of the app can access.
-
-### Authentication State
-
-Knows whether the user is logged in, their identity, and their roles. Every part of the app can check this to decide what to show.
-
-### Chat State
-
-Tracks the current conversation: messages sent, messages received, whether the AI is currently responding. The floating chat and workspace chat share this information.
-
-### Notification State
-
-Keeps count of unread notifications and their content. The notification bell in the header reads from this to show the badge count.
-
-### Group Chat State
-
-Manages which group rooms the user belongs to, active room selection, and real-time messages. The group chat components all stay synchronized through this shared state.
+The [**Trinity Mobile**](/docs/frontend/trinity-mobile) app will extend the Single-User Workspace to phones. It is **in development, not yet shipped** — voice input, chat, and dark/light theming tuned for on-the-go use rather than a full mirror of the web. The page describes the planned design.
 
 ---
 
-## How Authentication Works
+## Supporting Features
 
-Users log in with their DXC corporate credentials through Microsoft Azure AD. The frontend handles:
-- Checking for existing sessions
-- Redirecting to Microsoft login when needed
-- Extracting user roles (Sales, HR, Admin) from security tokens
-- Showing appropriate UI based on roles
-- Automatic token refresh in the background
+Several features cut across the surfaces, available wherever they make sense:
 
-For the complete authentication flow, see [Authentication & Security](/docs/authentication).
-
----
-
-## How the UI Responds to AI
-
-When a user sends a message to the AI, the interface goes through several states:
-
-### 1. Sending State
-The send button changes to indicate the message is being sent. The user's message appears in the chat.
-
-### 2. Thinking State
-An animated indicator shows the AI is processing. This includes the streaming connection being established.
-
-### 3. Streaming State
-The AI's response appears word-by-word as it's generated. Users see the response forming in real-time.
-
-### 4. Complete State
-The full response is displayed. If it includes charts or tables, these render with appropriate visualizations.
-
-### 5. Saved State
-The conversation is automatically saved to the database for later retrieval.
+| Feature | Where It Appears |
+|---|---|
+| [**Real-Time Streaming**](/docs/realtime) | All surfaces — responses appear word-by-word, group activity is live |
+| [**File Upload**](/docs/frontend/file-upload) | Single-User Workspace and AI Canvas — drop in PDFs, Word, Excel, PowerPoint, images |
+| [**Email Sharing**](/docs/frontend/email-sharing) | Single-User Workspace — turn a chat response into a formatted email via Outlook |
+| [**Daily Recap**](/docs/daily-recap) | A personalized 2–3 minute audio briefing accessible from the workspace |
 
 ---
 
-## How Charts and Visualizations Work
+## How User State is Carried
 
-When the AI generates data that would benefit from visualization, it includes structured chart data in its response. The frontend:
+Every Experience surface needs to know **who the user is**, **what role they have**, and **what context they're in** (which workspace, which conversation, which agent run). That state is established at sign-in and travels with the user across every surface.
 
-1. Detects chart data in the response
-2. Determines the chart type (bar, line, pie, area, etc.)
-3. Renders an interactive chart using a visualization library
-4. Allows users to hover for details
+| State | Where It's Set | What It Drives |
+|---|---|---|
+| **Identity** | Azure AD sign-in | Authentication everywhere |
+| **Role** | User profile (Sales, HR, etc.) | Which features, agents, and MCPs are visible |
+| **Session** | Active conversation thread | Chat history continuity |
+| **Workspace context** | If inside an AI Canvas, the canvas state | Shared activity, participants |
+| **Personal Memory** | Persisted across sessions | Personalization without re-asking |
 
-This happens automatically — the AI decides when charts are appropriate based on the data and question.
+Authentication is handled by Microsoft Azure AD with corporate credentials. Role-based access is checked at the orchestration layer too — the Experience Layer presents the surface, but the Orchestration Layer is the authoritative gate.
 
----
-
-## How Voice Input Works
-
-Users can speak instead of type:
-
-1. **Click microphone** — Activates voice capture
-2. **Speak naturally** — Audio is captured and sent to Azure Speech Services
-3. **Transcription appears** — Spoken words appear as text in the input field
-4. **User confirms** — Can edit or send the transcribed text
-
-The voice feature uses continuous recognition, so users can speak naturally without needing to click for each phrase.
+For the full sign-in and access model, see [Authentication & Security](/docs/authentication).
 
 ---
 
-## Key Design Patterns
+## How the Surface Communicates with the Backend
 
-### Progressive Disclosure
+Two communication patterns:
 
-The interface shows summary information first, with details available on demand. Users aren't overwhelmed with everything at once.
+### REST (Request / Response)
 
-### Responsive Scaling
+For one-shot operations — fetching chat history, saving a workspace, loading notifications. The browser sends a request, the backend returns a complete response.
 
-The interface adapts to different screen sizes and resolutions. Elements scale proportionally to maintain usability.
+### WebSocket (Persistent Connection)
 
-### Animation with Purpose
+For everything that needs to feel instant:
 
-Transitions and animations guide attention and provide feedback. They're not decorative — they help users understand what's happening.
+- **Streaming AI responses** — text appears word-by-word as the orchestrator generates it
+- **AI Canvas live activity** — other participants' prompts and responses appear in real time
+- **Agent Run updates** — status changes push without polling
+- **Notifications** — surfaced when something the user cares about happens
+- **Token refresh** — Azure AD tokens are refreshed without interrupting the session
 
-### Offline Resilience
+For the full real-time model, see [Real-Time & WebSocket](/docs/realtime).
 
-If the network connection is lost, the frontend handles it gracefully with retry logic and user feedback.
+---
+
+## Visual Patterns
+
+The Experience Layer leans on a few consistent design patterns:
+
+| Pattern | What It Does |
+|---|---|
+| **Progressive disclosure** | Summary first, details on demand — the user is never overwhelmed |
+| **Streaming feedback** | Responses appear progressively, so users start reading immediately |
+| **Role-aware views** | Sales users see sales features; HR users see HR features. The Experience Layer hides what isn't allowed rather than greying it out |
+| **Animation with purpose** | Transitions help users track what's happening — they aren't decorative |
+| **Offline resilience** | Network drops are handled gracefully with reconnection and visible status |
+
+---
+
+## Where the Experience Layer Stops
+
+It's worth being explicit about what the Experience Layer **does not** do:
+
+- It does not decide which tools to call — that's the Orchestration Layer
+- It does not run agents — that's the Agent & Execution Layer
+- It does not reach enterprise data directly — every data fetch goes via the orchestrator and MCP servers
+- It does not enforce role-based access on its own — it presents allowed surfaces, but enforcement happens server-side
+
+This separation is what lets the same orchestration brain serve the web, mobile, AI Canvas, and Agent Space without rebuilding access controls in each.
 
 ---
 
@@ -231,8 +114,13 @@ If the network connection is lost, the frontend handles it gracefully with retry
 
 | Section | What You'll Learn |
 |---|---|
-| [Real-Time & WebSocket](/docs/realtime) | Deep dive into streaming, group chat, and connections |
-| [Platform Overview](/docs/platform/high-level-architecture) | How frontend fits in the overall system |
-| [Backend](/docs/backend) | What happens when frontend makes requests |
-| [Authentication](/docs/authentication) | How login and security work |
-| [WorkSphere Agents](/docs/agents) | How autonomous agents work |
+| [Single-User Workspace](/docs/frontend/single-user-workspace) | The personal chat-and-voice surface |
+| [AI Canvas](/docs/frontend/ai-canvas) | The multi-user collaboration workspace |
+| [Agent Space & Runs](/docs/frontend/agent-space) | The agent catalog and run tracker |
+| [Trinity Mobile](/docs/frontend/trinity-mobile) | The mobile companion app |
+| [Real-Time & WebSocket](/docs/realtime) | How streaming, group activity, and live updates work |
+| [File Upload](/docs/frontend/file-upload) | Adding documents and images to a conversation |
+| [Email Sharing](/docs/frontend/email-sharing) | Sending a chat response as an Outlook email |
+| [Daily Recap](/docs/daily-recap) | The personalized audio briefing surface |
+| [Orchestration Layer](/docs/backend) | What happens after the Experience Layer hands off the request |
+| [Authentication & Security](/docs/authentication) | Sign-in, role-based access, the control plane |

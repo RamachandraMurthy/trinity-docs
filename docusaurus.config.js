@@ -1,17 +1,11 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-require('dotenv').config();
-
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Trinity Documentation',
+  title: 'Trinity Docs',
   tagline: 'Enterprise AI platform documentation for WorkSphere',
-  favicon: 'img/favicon.ico',
-
-  customFields: {
-    geminiApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
-  },
+  favicon: 'img/logo.svg',
 
   // Set the production url of your site here
   url: 'https://trinity-docs.internal',
@@ -23,11 +17,12 @@ const config = {
   projectName: 'trinity-docs',
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
 
-  plugins: [
-    require.resolve('./src/plugins/docs-ai-index'),
-  ],
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   i18n: {
     defaultLocale: 'en',
@@ -77,9 +72,8 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: 'img/trinity-social-card.png',
       navbar: {
-        title: 'Trinity',
+        title: 'Trinity Docs',
         logo: {
           alt: 'Trinity Logo',
           src: 'img/logo.svg',
@@ -87,40 +81,36 @@ const config = {
         items: [],
       },
       footer: {
-        style: 'dark',
         links: [
           {
-            title: 'Quick Links',
+            title: 'Get Started',
             items: [
-              {
-                label: 'Introduction',
-                to: '/docs/intro',
-              },
-              {
-                label: 'Architecture',
-                to: '/docs/platform/high-level-architecture',
-              },
-              {
-                label: 'API Reference',
-                to: '/docs/api-reference',
-              },
-              {
-                label: 'Developer Guide',
-                to: '/docs/developer-guide',
-              },
+              { label: 'Introduction', to: '/docs/intro' },
+              { label: 'Platform Overview', to: '/docs/platform/high-level-architecture' },
+              { label: 'Reference Architecture', to: '/docs/platform/reference-architecture' },
+              { label: 'Request Lifecycle', to: '/docs/platform/end-to-end-request-lifecycle' },
             ],
           },
           {
-            title: 'Team',
+            title: 'The Layers',
             items: [
-              {
-                label: 'Ramachandra Murthy',
-                href: 'mailto:ramachandra.murthy@dxc.com',
-              },
+              { label: 'Experience Layer', to: '/docs/frontend' },
+              { label: 'Orchestration Layer', to: '/docs/backend' },
+              { label: 'Agent & Execution Layer', to: '/docs/agents' },
+              { label: 'MCP Integration Layer', to: '/docs/mcp-servers' },
+              { label: 'Enterprise Data Layer', to: '/docs/data-layer' },
+            ],
+          },
+          {
+            title: 'Operations',
+            items: [
+              { label: 'AI & Models', to: '/docs/ai-and-mcp' },
+              { label: 'Authentication, Security & Governance', to: '/docs/authentication' },
+              { label: 'Deployment & Operations', to: '/docs/deployment' },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} DXC Technology — Trinity Platform (WorkSphere). Built with Docusaurus.`,
+        copyright: `© ${new Date().getFullYear()} DXC Technology — Trinity (WorkSphere) Platform Documentation.`,
       },
       prism: {
         theme: require('prism-react-renderer').themes.github,

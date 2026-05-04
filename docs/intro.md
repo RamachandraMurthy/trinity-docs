@@ -6,94 +6,92 @@ description: Welcome to the Trinity (WorkSphere) platform documentation
 
 # Welcome to Trinity
 
-**Trinity** (branded as **WorkSphere** at [worksphere.dxc.ai](https://worksphere.dxc.ai)) is DXC Technology's AI-native enterprise platform — a central place for Sales and HR teams to access everything they need to be more productive. It combines conversational AI with real-time business data, MCP servers, autonomous AI agents, and more — all through a single, intelligent interface.
+**Trinity** (branded as **WorkSphere** at [worksphere.dxc.ai](https://worksphere.dxc.ai)) is DXC Technology's role-aware AI workspace. It brings **conversational, collaborative, and agent-driven** work into a single experience for Sales and HR users today, with an architecture designed to extend to other domains over time.
+
+This documentation is the canonical reference for the platform — written for technical product managers, solutions architects, team leads, and anyone who needs to understand how Trinity is put together at a conceptual level.
 
 ---
 
 ## What is Trinity?
 
-Trinity is an intelligent workspace where employees can ask questions in plain English and get answers backed by real data. Instead of navigating multiple systems or running reports, users simply ask:
+Trinity is an intelligent workspace where employees ask questions in natural language and get answers backed by real enterprise data. Instead of navigating multiple systems or running reports, users simply ask:
 
 > "Give me the opportunity details for OPX-12345"
 > "What's on my calendar this week?"
 > "How is our pipeline looking for Q4?"
 > "Analyze this RFP for compliance gaps"
-> "What's the win probability for this deal?"
+> "Generate a client briefing deck for Acme Corp"
 
-Trinity connects to HR systems, sales data, Microsoft 365, and more — all through a single, conversational interface.
+Trinity reaches HR systems, sales data, Microsoft 365, search indexes, and more — all through a single, conversational interface, governed by the user's role.
 
-### Key Capabilities
+---
 
-**Conversational AI**
-Ask questions naturally. Trinity understands context, remembers your conversation, and provides relevant answers.
+## Three Core Experiences
 
-**Business Data Access**
-Trinity connects to specialized tools that access employee data, sales pipelines, calendars, email, and more. You don't need to know where the data lives.
+Trinity exposes three first-class experiences, all running on the same orchestration layer:
 
-**Role-Based Experience**
-Sales users see sales features. HR users see HR features. The interface adapts to your role automatically.
+| Experience | What It's For |
+|---|---|
+| **Single-User Workspace** | Personal chat-and-voice interaction — the fastest path from question to answer |
+| **AI Canvas** | A shared project workspace where multiple participants collaborate, with prompts, responses, and run history visible to everyone |
+| **Agent Space & Runs** | A catalog where users discover, launch, and track AI agents that perform deeper, multi-step analysis and produce structured deliverables |
 
-**Visual Workspace**
-Beyond chat, Trinity offers an infinite canvas where you can save insights, organize research, and build visual layouts.
+A companion **Trinity Mobile** app — *in development, coming soon* — will extend the Single-User Workspace to phones, with voice input and a mobile-tuned chat UI.
 
-**Team Collaboration**
-Group chat rooms let teams work together with AI assistance available to everyone.
+---
 
-**RFP Advisor**
-Upload RFP documents, extract requirements, search across proposals, and analyze documents through multiple AI chat interfaces.
+## Built on the Five-Layer Architecture
 
-**WorkSphere Agents**
-Run specialized AI agents that perform in-depth analysis — from deal qualification and win probability to competitive intelligence and compliance review. Agents work in the background and generate detailed reports.
+Every component in Trinity belongs to exactly one of five layers, with a control plane wrapping all of them:
 
-**Daily Recap**
-Get personalized audio briefings that combine the latest industry news, marketing campaigns, calendar events, and sales opportunity updates into a 2-3 minute voice message tailored to your role and region.
+| Layer | What Lives There |
+|---|---|
+| **Experience** | Single-User Workspace, AI Canvas, Agent Space & Runs |
+| **Orchestration** | The Claude Agent SDK Orchestrator — role-aware routing, session and context handling, response composition |
+| **Agent & Execution** | Five agent patterns sharing one execution model: Purpose-Built · Google ADK · Claude Agent SDK · Amazon Quick Embedded · Autonomous (Agent Primus) |
+| **MCP Integration** | The standard access layer — every connection to enterprise systems goes through an MCP server |
+| **Enterprise Data** | Databricks UDP, Power BI, Azure Cognitive Search, Office 365, Account Directory, Cosmos DB |
+
+| Cross-Cutting Controls | Role |
+|---|---|
+| **Trinity Guardian** | Command center for security and operations |
+| **Guardrails / Rules** | Policy enforcement and response shaping |
+| **Wiz** | Cloud security posture and vulnerability monitoring |
+| **Dynatrace** | Observability and runtime telemetry |
+
+The full picture is in [Reference Architecture](/docs/platform/reference-architecture).
 
 ---
 
 ## How This Documentation is Organized
 
-This documentation explains how Trinity works at a conceptual level — how the pieces connect and what happens behind the scenes. It's written for people who want to understand the platform without diving into code.
+This documentation explains how Trinity works at a **conceptual level** — how the pieces connect and what happens behind the scenes. It is written for people who want to understand the platform without diving into code.
 
-### Platform & Architecture
+### Architecture (start here)
+
+| Page | What You'll Learn |
+|---|---|
+| [Platform Overview](/docs/platform/high-level-architecture) | The 60-second summary of what Trinity delivers |
+| [Reference Architecture](/docs/platform/reference-architecture) | The five layers and the control plane in detail |
+| [User Interaction Model](/docs/platform/user-interaction-model) | The four-step flow from user request to persisted response |
+| [End-to-End Request Lifecycle](/docs/platform/end-to-end-request-lifecycle) | The detailed nine-band lifecycle a request passes through |
+
+### Layer-by-Layer Detail
 
 | Section | What You'll Learn |
 |---|---|
-| [Architecture](/docs/platform/high-level-architecture) | The big picture — how all the parts work together |
-| [Frontend](/docs/frontend) | How the user interface is organized |
-| [Real-Time & WebSocket](/docs/realtime) | How instant messaging and streaming work (under Frontend) |
-| [Daily Recap](/docs/daily-recap) | Personalized voice briefings combining news, calendar, and pipeline updates |
-| [Backend](/docs/backend) | How requests are processed on the server |
-| [Orchestration (SalesCoach)](/docs/salescoach) | The real-time AI orchestration engine (under Backend) |
+| [Experience Layer](/docs/frontend) | Single-User Workspace, AI Canvas, Agent Space & Runs, real-time streaming (Trinity Mobile coming soon) |
+| [Orchestration Layer](/docs/backend) | The Claude Agent SDK Orchestrator, role-aware routing, session and context handling, chat skills, Personal Memory |
+| [Agent & Execution Layer](/docs/agents) | The five agent patterns — including the WorkSphere Special Agents and RFP Agents |
+| [MCP Integration Layer](/docs/mcp-servers) | All internal and external MCP servers and the role-based exposure model |
 
-### AI & Integration
+### Governance, Security & Operations
 
 | Section | What You'll Learn |
 |---|---|
-| [AI & Models](/docs/ai-and-mcp) | How Trinity's AI brain works — models, prompts, and reasoning |
-| [MCP Servers](/docs/mcp-servers) | The 15+ business tools the AI connects to |
-
-### WorkSphere Agents
-
-| Section | What You'll Learn |
-|---|---|
-| [Agents Overview](/docs/agents) | How autonomous AI agents work and which to choose |
-| [Special Agents](/docs/agents/special/deal-qualification) | Sales-focused agents for deals, competitors, and strategy |
-| [RFP Agents](/docs/rfp-advisor) | RFP project setup and document analysis agents |
-
-### Infrastructure & Security
-
-| Section | What You'll Learn |
-|---|---|
-| [Authentication & Security](/docs/authentication) | How login and security work |
-| [Data Layer](/docs/data-layer) | Where information is stored |
+| [Authentication & Security](/docs/authentication) | Azure AD sign-in, role-based access, the control plane |
+| [Data Layer](/docs/data-layer) | Where information is stored — Cosmos DB, blob storage, search indexes |
 | [Deployment & DevOps](/docs/deployment) | How Trinity is hosted and updated |
-
-### For Developers
-
-| Section | What You'll Learn |
-|---|---|
-| [Developer Guide](/docs/developer-guide) | Setting up a local development environment |
-| [API Reference](/docs/api-reference) | What the backend API can do |
 
 ---
 
@@ -102,34 +100,32 @@ This documentation explains how Trinity works at a conceptual level — how the 
 | Aspect | Details |
 |---|---|
 | **Production URL** | [worksphere.dxc.ai](https://worksphere.dxc.ai) |
-| **User Roles** | Sales, HR |
-| **AI Models** | Azure OpenAI (GPT-4.1), Google Gemini (2.5 Flash) |
-| **Business Tools** | 15+ MCP servers (HR, Sales, O365, RFP) |
-| **WorkSphere Agents** | 17+ specialized analysis agents |
+| **User Roles** | Sales, HR (extensible) |
+| **Surfaces** | Web (browser); Trinity Mobile companion app coming soon |
 | **Authentication** | Microsoft Azure AD (corporate credentials) |
-| **Hosting** | Microsoft Azure (App Service, Cosmos DB) |
+| **Hosting** | Microsoft Azure |
+| **Orchestration foundation** | Claude Agent SDK (Anthropic Claude Agent SDK) |
+| **Data access standard** | MCP (Model Context Protocol) |
+| **Observability** | Trinity Guardian · Wiz · Dynatrace |
 
 ---
 
 ## Where to Start
 
 **New to Trinity?**
-Start with [Architecture](/docs/platform/high-level-architecture) to understand how everything connects.
+Start with [Platform Overview](/docs/platform/high-level-architecture) — one page, the whole picture.
 
-**Interested in the AI?**
-Read [AI & Models](/docs/ai-and-mcp) to learn how Trinity answers questions using business data.
+**Want the architecture in detail?**
+Read [Reference Architecture](/docs/platform/reference-architecture) for the five layers and control plane.
 
-**Want to understand the tools?**
-Explore [MCP Servers](/docs/mcp-servers) to see the 15+ business tools the AI connects to.
+**Curious how a request flows?**
+[User Interaction Model](/docs/platform/user-interaction-model) is the four-step summary; [End-to-End Request Lifecycle](/docs/platform/end-to-end-request-lifecycle) goes deep.
+
+**Want to understand the agents?**
+[Agent & Execution Layer](/docs/agents) covers the five agent patterns and which to use when.
 
 **Working with RFPs?**
-Check the [RFP Agents](/docs/rfp-advisor) section for document analysis and proposal workflows.
+RFP Agents and the RFP Advisor workflow live under [Agent & Execution Layer](/docs/agents).
 
-**Want to understand agents?**
-Check [WorkSphere Agents](/docs/agents) to learn how autonomous AI analysis works.
-
-**Curious about security?**
-Check [Authentication & Security](/docs/authentication) to understand how access is controlled.
-
-**Setting up development?**
-Head to the [Developer Guide](/docs/developer-guide) for local setup instructions.
+**Curious about security and governance?**
+[Authentication & Security](/docs/authentication) covers Azure AD, role-based access, and the cross-cutting control plane.

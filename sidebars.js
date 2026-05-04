@@ -2,89 +2,95 @@
 const sidebars = {
   docsSidebar: [
     'intro',
-    
-    // 1. Architecture (top-level overview)
+
+    // 1. Architecture (top-level overview, mirrors the deck's first 4 topics)
     {
       type: 'category',
       label: 'Architecture',
       items: [
         'platform/high-level-architecture',
+        'platform/reference-architecture',
+        'platform/user-interaction-model',
+        'platform/end-to-end-request-lifecycle',
       ],
     },
-    
-    // 2. Frontend (what users see)
+
+    // 2. Experience Layer (what users see)
     {
       type: 'category',
-      label: 'Frontend',
-      link: {
-        type: 'doc',
-        id: 'frontend/index',
-      },
+      label: 'Experience Layer',
+      link: { type: 'doc', id: 'frontend/index' },
       items: [
-        'realtime/index', // Real-Time moved under Frontend
-        'daily-recap/index', // Daily Recap is a frontend feature
+        'frontend/single-user-workspace',
+        'frontend/ai-canvas',
+        'frontend/agent-space',
+        'realtime/index',
+        'daily-recap/index',
+        'frontend/file-upload',
+        'frontend/email-sharing',
+        'frontend/trinity-mobile',
       ],
     },
-    
-    // 3. Backend (processing engine + orchestration)
+
+    // 3. Orchestration Layer (the brain)
     {
       type: 'category',
-      label: 'Backend',
-      link: {
-        type: 'doc',
-        id: 'backend/index',
-      },
+      label: 'Orchestration Layer',
+      link: { type: 'doc', id: 'backend/index' },
       items: [
+        'backend/claude-agent-sdk-orchestrator',
+        'backend/chat-skills',
+        'backend/personal-memory',
+      ],
+    },
+
+    // 4. Agent & Execution Layer (5 patterns + agent catalog)
+    {
+      type: 'category',
+      label: 'Agent & Execution Layer',
+      link: { type: 'doc', id: 'agents/index' },
+      items: [
+        'agents/agent-strategy',
+        'agents/autonomous-agent-primus',
         {
           type: 'category',
-          label: 'Orchestration (SalesCoach)',
-          link: {
-            type: 'doc',
-            id: 'salescoach/index',
-          },
+          label: 'Special Agents',
           items: [
-            'salescoach/architecture',
-            {
-              type: 'category',
-              label: '7-Step Application Flow',
-              items: [
-                'salescoach/flow/step1-connect',
-                'salescoach/flow/step2-authentication',
-                'salescoach/flow/step3-query',
-                'salescoach/flow/step4-process',
-                'salescoach/flow/step5-tools',
-                'salescoach/flow/step6-respond',
-                'salescoach/flow/step7-persist',
-              ],
-            },
+            'agents/special/deal-qualification',
+            'agents/special/win-probability',
+            'agents/special/company-executives',
+            'agents/special/competitor-analysis',
+            'agents/special/pricing-strategy',
+            'agents/special/client-profile',
+            'agents/special/competitive-intelligence',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'RFP Agents',
+          items: [
+            'rfp-advisor/index',
+            'rfp-advisor/projects',
+            'rfp-advisor/file-upload',
+            'rfp-advisor/indexing',
+            'rfp-advisor/chat',
+            'agents/rfp/requirements-review',
+            'agents/rfp/response-review',
+            'agents/rfp/requirements-response-strategy',
+            'agents/rfp/compliance-and-contracts',
+            'agents/rfp/proposal-scoring',
+            'agents/rfp/technical-and-planning',
           ],
         },
       ],
     },
-    
-    // 4. AI & Models (renamed from AI & MCP)
+
+    // 5. MCP Integration Layer (data connectors)
     {
       type: 'category',
-      label: 'AI & Models',
-      link: {
-        type: 'doc',
-        id: 'ai-and-mcp/index',
-      },
+      label: 'MCP Integration Layer',
+      link: { type: 'doc', id: 'mcp-servers/index' },
       items: [
-        'ai-and-mcp/system-prompt-construction',
-      ],
-    },
-    
-    // 5. MCP Servers (data connectors for AI)
-    {
-      type: 'category',
-      label: 'MCP Servers',
-      link: {
-        type: 'doc',
-        id: 'mcp-servers/index',
-      },
-      items: [
-        // Sales Servers
         {
           type: 'category',
           label: 'Sales Servers',
@@ -92,10 +98,7 @@ const sidebars = {
             {
               type: 'category',
               label: 'SFDC UDP (Salesforce Data)',
-              link: {
-                type: 'doc',
-                id: 'mcp-servers/sfdc-udp/index',
-              },
+              link: { type: 'doc', id: 'mcp-servers/sfdc-udp/index' },
               items: [
                 'mcp-servers/sfdc-udp/data-model',
                 'mcp-servers/sfdc-udp/opportunity-management',
@@ -112,7 +115,6 @@ const sidebars = {
             'mcp-servers/contracts-legal',
           ],
         },
-        // HR Servers
         {
           type: 'category',
           label: 'HR Servers',
@@ -120,7 +122,6 @@ const sidebars = {
             'mcp-servers/hr-employee-data',
           ],
         },
-        // Shared Servers
         {
           type: 'category',
           label: 'Shared Servers',
@@ -131,105 +132,38 @@ const sidebars = {
         },
       ],
     },
-    
-    // 6. WorkSphere Agents (agents umbrella)
+
+    // 6. Enterprise Data Layer
     {
       type: 'category',
-      label: 'WorkSphere Agents',
-      link: {
-        type: 'doc',
-        id: 'agents/index',
-      },
+      label: 'Enterprise Data Layer',
+      link: { type: 'doc', id: 'data-layer/index' },
+      items: [],
+    },
+
+    // 7. AI & Models (companion to Orchestration — what models, how the prompt is built)
+    {
+      type: 'category',
+      label: 'AI & Models',
+      link: { type: 'doc', id: 'ai-and-mcp/index' },
       items: [
-        // Special Agents first (no project setup needed)
-        {
-          type: 'category',
-          label: 'Special Agents',
-          items: [
-            'agents/special/deal-qualification',
-            'agents/special/win-probability',
-            'agents/special/company-executives',
-            'agents/special/competitor-analysis',
-            'agents/special/pricing-strategy',
-            'agents/special/client-profile',
-            'agents/special/competitive-intelligence',
-          ],
-        },
-        // RFP Agents (bundled with RFP Advisor workflow)
-        {
-          type: 'category',
-          label: 'RFP Agents',
-          items: [
-            // RFP Advisor setup workflow first
-            'rfp-advisor/index',
-            'rfp-advisor/projects',
-            'rfp-advisor/file-upload',
-            'rfp-advisor/indexing',
-            'rfp-advisor/chat',
-            // Then the RFP analysis agents
-            'agents/rfp/requirements-review',
-            'agents/rfp/response-review',
-            'agents/rfp/requirements-response-strategy',
-            'agents/rfp/compliance-and-contracts',
-            'agents/rfp/proposal-scoring',
-            'agents/rfp/technical-and-planning',
-          ],
-        },
+        'ai-and-mcp/system-prompt-construction',
       ],
     },
-    
-    // 7. Authentication & Security (standalone)
+
+    // 8. Authentication, Security & Governance (control plane)
     {
       type: 'category',
-      label: 'Authentication & Security',
-      link: {
-        type: 'doc',
-        id: 'authentication/index',
-      },
+      label: 'Authentication, Security & Governance',
+      link: { type: 'doc', id: 'authentication/index' },
       items: [],
     },
-    
-    // 8. Data Layer (standalone)
+
+    // 9. Deployment & Operations
     {
       type: 'category',
-      label: 'Data Layer',
-      link: {
-        type: 'doc',
-        id: 'data-layer/index',
-      },
-      items: [],
-    },
-    
-    // 9. Deployment & DevOps (standalone)
-    {
-      type: 'category',
-      label: 'Deployment & DevOps',
-      link: {
-        type: 'doc',
-        id: 'deployment/index',
-      },
-      items: [],
-    },
-    
-    // 10. Developer Guide (reference material at bottom)
-    {
-      type: 'category',
-      label: 'Developer Guide',
-      link: {
-        type: 'doc',
-        id: 'developer-guide/index',
-      },
-      items: [],
-    },
-    
-    // 11. API Reference (reference material at bottom)
-    {
-      type: 'category',
-      label: 'API Reference',
-      link: {
-        type: 'doc',
-        id: 'api-reference/index',
-      },
+      label: 'Deployment & Operations',
+      link: { type: 'doc', id: 'deployment/index' },
       items: [],
     },
   ],

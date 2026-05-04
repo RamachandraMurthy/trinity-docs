@@ -1,152 +1,96 @@
 ---
 sidebar_position: 1
 title: AI & Models
-description: How Trinity's AI models understand questions and generate responses
+description: The AI models that power Trinity — which agents use which models, why, and how the system prompt is assembled
 ---
 
 # AI & Models
 
-Trinity's intelligence comes from powerful AI models that understand natural language, reason about questions, and generate helpful responses. This section explains how the AI works and how it connects to business data through MCP servers.
+Trinity's intelligence comes from several AI models, chosen for different jobs. The platform is **deliberately multi-model** — chat orchestration, autonomous task execution, pipeline agents, and lightweight utility tasks each use the model that fits best.
+
+This section explains which models are in use today, what they do, and how the system prompt that governs every conversation is assembled.
 
 ---
 
-## Two AI Models
+## Models in Use
 
-Trinity uses two different AI models, each optimized for different use cases:
-
-### Azure OpenAI (GPT-4.1 Mini) — Real-Time Chat
-
-The primary AI for conversational interactions:
-- **Powers the floating chat** and group chat conversations
-- **Responds in seconds** with streaming word-by-word output
-- **Calls MCP tools** when it needs business data
-- **Hosted on Azure** for enterprise security and compliance
-
-When you ask a question in chat, GPT-4.1 Mini handles the response.
-
-### Google Gemini — WorkSphere Agents
-
-The AI that powers autonomous analysis agents:
-- **Runs multi-step pipelines** that take minutes, not seconds
-- **Processes full documents** rather than just snippets
-- **Generates detailed reports** with structured findings
-- **Built with Google ADK** (Agent Development Kit)
-
-When you run a WorkSphere Agent, Gemini handles the analysis.
-
-| Aspect | Azure OpenAI (GPT-4.1) | Google Gemini |
+| Model | Where It's Used | Why |
 |---|---|---|
-| **Use Case** | Real-time chat | Background agents |
-| **Response Time** | Seconds | Minutes |
-| **Output** | Conversational | Structured reports |
-| **Document Handling** | Context snippets | Full documents |
+| **Claude (Anthropic)** | The Claude Agent SDK Orchestrator (chat); Claude Agent SDK Agents; Agent Primus (Autonomous) | Native tool use, skills, streaming, and personal-memory loading; the SDK shapes how the orchestrator and most agent patterns behave |
+| **Claude Haiku** | Lightweight gates — Prompt Guard scans, memory updates, Agent Primus estimator | Fast, cheap, and accurate for short reasoning tasks |
+| **Google Gemini (via Google ADK)** | Daily Brief / Podcast pipeline; some Special and RFP Agents | Strong fit for orchestrated multi-stage pipelines; good ecosystem support in Google ADK |
+| **Purpose-built ML models** | Win Probability and similar predictive agents | Accuracy on a tuned dataset beats general models for narrow predictions |
+
+The mix evolves over time. The platform is structured so that adding or replacing a model in one pattern does not affect the others.
 
 ---
 
-## How the AI Works with MCP Servers
+## Which Pattern Uses Which Model
 
-The AI is smart, but it doesn't have direct access to business data. On its own, it can only answer from its general training knowledge.
+| Agent Pattern | Model |
+|---|---|
+| Purpose-Built | Tuned ML models (e.g. Win Probability) |
+| Google ADK | Google Gemini |
+| Claude Agent SDK | Claude (via Claude Agent SDK) |
+| Amazon Quick Embedded | Whatever the embedded surface uses (vendor-controlled) |
+| Autonomous (Agent Primus) | Claude (planning); Claude Haiku (estimator gate) |
 
-To access real business data, the AI works with **MCP (Model Context Protocol) servers** — specialized services that connect to employee directories, sales pipelines, calendars, and more.
+For the patterns themselves, see [Agent Strategy](/docs/agents/agent-strategy).
 
-```
-User: "How many employees are in the London office?"
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    AI RECEIVES QUESTION                     │
-│                                                             │
-│  The AI reads the question and thinks:                      │
-│  "This is asking about employee counts by location.         │
-│   I need to use the HR Data tool to look this up."          │
-└──────────────────────────┬──────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    AI REQUESTS TOOL                         │
-│                                                             │
-│  The AI says: "I want to call the employee search tool      │
-│  with location = London"                                    │
-│                                                             │
-│  (The AI doesn't call the tool directly — it tells the      │
-│   backend what it wants)                                    │
-└──────────────────────────┬──────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│                BACKEND CALLS MCP SERVER                     │
-│                                                             │
-│  The backend takes the AI's request and calls the           │
-│  HR Data MCP server with the search parameters              │
-└──────────────────────────┬──────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│              MCP SERVER QUERIES DATA                        │
-│                                                             │
-│  The HR Data server searches its database and returns:      │
-│  "Found 342 employees in London office"                     │
-│  (plus details like departments, roles, etc.)               │
-└──────────────────────────┬──────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│              AI INTERPRETS AND RESPONDS                     │
-│                                                             │
-│  The AI receives the data and writes a helpful response:    │
-│  "There are 342 employees in the London office. Here's      │
-│   a breakdown by department..."                             │
-└─────────────────────────────────────────────────────────────┘
-```
+---
 
-This back-and-forth can happen multiple times in a single question if the AI needs data from several sources.
+## How Models Are Reached
 
-For the full catalog of available MCP servers and how they work, see [MCP Servers](/docs/mcp-servers). Key servers include:
+Trinity does not call models from arbitrary places. Two primary paths:
 
-- [SFDC UDP](/docs/mcp-servers/sfdc-udp) — Accounts, opportunities, and pipeline data from Salesforce
-- [HR Employee Data](/docs/mcp-servers/hr-employee-data) — Employee directory, org structure, and staffing
-- [O365](/docs/mcp-servers/o365) — Microsoft 365 calendar for external meeting detection
-- [Win/Loss Prediction](/docs/mcp-servers/opp-win-loss) — ML-based win probability scoring
+| Path | Used By |
+|---|---|
+| **Claude Agent SDK** | The orchestrator, Claude-based agents, and Agent Primus all reach Claude through the SDK |
+| **Google ADK** | Gemini-based agents reach Gemini through the ADK |
+
+The orchestration layer never makes raw API calls to a model — it always goes through one of these SDKs. This keeps tool use, streaming, and policy enforcement consistent.
 
 ---
 
 ## The System Prompt
 
-When the AI receives a question, it also receives a "system prompt" — a set of instructions that tell it how to behave. This prompt includes:
+Every conversation starts with a **system prompt** that tells the model what it is, what it can do, and what rules apply. The system prompt is **not a single static file** — it is assembled per session from several sources:
 
-### Identity
-Who the AI is and how it should present itself:
-> "You are WorkSphere, an intelligent assistant for DXC Technology..."
+- The base orchestrator prompt
+- Role-specific instructions (Sales, HR, etc.)
+- The list of MCP tools available to this user
+- Loaded chat skills
+- The user's Personal Memory (per-user CLAUDE.md)
+- Any active workspace context
 
-### Available Tools
-A list of all tools the user can access (filtered by role):
-> "You have access to: HR Data (search employees), HR Performance (get ratings)..."
-
-### Response Guidelines
-How to format responses:
-> "Use tables for comparative data. Include charts when showing trends. Be concise but thorough..."
-
-### Current Context
-Today's date and any session-specific information.
-
-This prompt is built dynamically for each conversation, ensuring the AI has the right context and permissions.
-
-For details on how prompts are constructed, see [System Prompt Construction](/docs/ai-and-mcp/system-prompt-construction).
+For the full assembly model, see [System Prompt Construction](/docs/ai-and-mcp/system-prompt-construction).
 
 ---
 
-## Multi-Step Reasoning
+## Why a Multi-Model Strategy
 
-Sometimes the AI needs multiple pieces of information to answer a question:
+Trinity could have standardized on one provider. It didn't, for three reasons:
 
-**User:** "Compare the performance ratings of the top 10 highest-paid employees"
+| Reason | Detail |
+|---|---|
+| **Different work needs different models** | Conversational orchestration, pipeline agents, and predictive scoring each have different requirements. A model great for one is mediocre for another. |
+| **Vendor risk** | Multi-model means no single vendor can hold the platform hostage on pricing or availability. |
+| **Best-of-breed for each job** | Claude is strong on reasoning, tool use, and skill-following. Gemini is strong on Google ADK pipeline orchestration. Tuned ML models beat general models on narrow predictions. |
 
-The AI needs to:
-1. First find the top 10 highest-paid employees (HR Strategic tool)
-2. Then get performance ratings for those specific employees (HR Performance tool)
-3. Finally, analyze and present the comparison
+The trade-off is operational complexity — multiple SDKs, multiple credentials, multiple cost centers. The platform pays that cost intentionally.
 
-The system supports this multi-step process, allowing the AI to make several tool calls before generating its final response.
+---
+
+## What Users See
+
+None of this. The Experience Layer abstracts the model choice. A user asks a question; an answer comes back. The user does not need to know whether Claude, Gemini, or a tuned model produced it.
+
+The model **does** affect:
+- Response style and tone
+- How the model handles tool calls
+- How well it follows the loaded skills
+
+But the user does not pick the model — the architecture does, based on what surface or agent is involved.
 
 ---
 
@@ -154,8 +98,8 @@ The system supports this multi-step process, allowing the AI to make several too
 
 | Section | What You'll Learn |
 |---|---|
-| [MCP Servers](/docs/mcp-servers) | Available business data connectors and how they work |
-| [System Prompt Construction](/docs/ai-and-mcp/system-prompt-construction) | How the AI's instructions are built |
-| [Backend](/docs/backend) | How the backend coordinates AI and tools |
-| [WorkSphere Agents](/docs/agents) | How autonomous AI agents work |
-| [Platform Overview](/docs/platform/high-level-architecture) | How AI fits in the overall system |
+| [System Prompt Construction](/docs/ai-and-mcp/system-prompt-construction) | How the system prompt is assembled per session |
+| [Orchestration Layer](/docs/backend) | The Claude Agent SDK Orchestrator that powers chat |
+| [Agent Strategy](/docs/agents/agent-strategy) | The five agent patterns and which models they use |
+| [Agent Primus (Autonomous)](/docs/agents/autonomous-agent-primus) | Claude-based open-ended task execution |
+| [Daily Recap](/docs/daily-recap) | The Gemini-powered audio briefing flow |

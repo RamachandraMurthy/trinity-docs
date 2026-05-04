@@ -77,8 +77,8 @@ When you ask the AI a question:
 ### Step 1: Question Sent
 You type your question and hit send. The browser sends it through the WebSocket connection.
 
-### Step 2: AI Starts Generating
-The backend receives your question and sends it to Azure OpenAI. The AI starts generating a response.
+### Step 2: Orchestrator Starts Generating
+The Claude Agent SDK Orchestrator (in trinity-core) receives your question. It loads context, decides what to do — direct response, tool call, or agent run — and starts generating output.
 
 ### Step 3: Chunks Stream Back
 As the AI generates each word or phrase, it's sent immediately:
@@ -274,7 +274,8 @@ If the network is slow, streaming messages may appear choppy. The system adapts 
 
 | Section | What You'll Learn |
 |---|---|
-| [Frontend](/docs/frontend) | The broader frontend architecture (parent section) |
-| [Backend](/docs/backend) | How the server manages connections |
-| [Orchestration (SalesCoach)](/docs/salescoach) | The real-time AI conversation engine |
+| [Experience Layer](/docs/frontend) | The broader experience layer this real-time path serves |
+| [Single-User Workspace](/docs/frontend/single-user-workspace) | The primary surface where streaming responses appear |
+| [AI Canvas](/docs/frontend/ai-canvas) | Multi-user collaboration that depends on real-time activity |
+| [Orchestration Layer](/docs/backend) | The Claude Agent SDK Orchestrator that drives the streaming |
 | [Platform Overview](/docs/platform/high-level-architecture) | How real-time fits in the overall system |

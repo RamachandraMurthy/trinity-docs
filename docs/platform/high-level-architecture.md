@@ -1,202 +1,134 @@
 ---
 sidebar_position: 1
 title: Platform Overview
-description: How Trinity (WorkSphere) works — system architecture and key components
+description: What Trinity (WorkSphere) delivers — a role-aware AI workspace for conversational, collaborative, and agent-driven work
 ---
 
-# Trinity Platform Overview
+# Platform Overview
 
 > **Production Brand:** WorkSphere — [worksphere.dxc.ai](https://worksphere.dxc.ai)
 
-Trinity is DXC Technology's AI-native enterprise platform — a central place for Sales and HR teams to access everything they need to be more productive. It combines conversational AI with real-time business data, MCP servers, autonomous AI agents, and more — all through a single, intelligent interface.
+**Trinity (WorkSphere)** is DXC Technology's role-aware AI workspace. It brings conversational, collaborative, and agent-driven work into a single experience, available to Sales and HR users today and extensible to other domains over time.
+
+This page is the conceptual entry point. It answers **what Trinity is**, **what users do with it**, **how it is put together at a high level**, and **what value it delivers**. The next three pages in this section go deeper: the [Reference Architecture](/docs/platform/reference-architecture) names the layers, the [User Interaction Model](/docs/platform/user-interaction-model) shows how a single request flows, and the [End-to-End Request Lifecycle](/docs/platform/end-to-end-request-lifecycle) walks through every stage in detail.
 
 ---
 
-## What Does Trinity Do?
+## What It Is
 
-Trinity serves as an intelligent workspace where employees can:
+Trinity is a **role-aware AI workspace** with three defining characteristics:
 
-- **Ask questions in natural language** — "Show me the top performers in Engineering" or "What's in my calendar this week?"
-- **Access business data** — Sales pipeline, HR analytics, employee information, performance metrics
-- **Collaborate in real-time** — Individual and group chat with AI assistance
-- **Visualize insights** — Charts, tables, and dashboards generated from AI responses
-- **Work visually** — An infinite canvas workspace for organizing information
-- **Analyze RFP documents** — Upload proposals, extract requirements, and identify compliance gaps
-- **Run AI-powered agents** — Execute specialized agents for deal qualification, win probability, competitive analysis, and more
+- **Conversational** — users ask questions in natural language, by typing or by voice
+- **Collaborative** — work isn't limited to a single chat thread; multiple people can share a workspace and see each other's prompts, responses, and run history
+- **Agent-driven** — beyond chat, the platform exposes a catalog of AI agents that perform deeper, multi-step analysis and produce structured deliverables
 
-The platform connects to multiple data sources through specialized AI tools, so users get accurate, up-to-date answers without needing to know where the data lives.
+It supports Sales and HR users today. The architecture is intentionally domain-neutral so additional roles and business areas can be added without re-platforming.
 
 ---
 
-## How the System is Organized
+## Core Experiences
 
-Trinity has three main layers that work together:
+Trinity surfaces three primary experiences to users:
+
+| Experience | What It Is |
+|---|---|
+| **Single-User Workspace** | The default chat-and-voice interaction. One user, one conversation, real-time streaming responses. Used for quick lookups and Q&A. |
+| **AI Canvas** | A shared project workspace for multi-user collaboration. Multiple participants share prompts, responses, and run history. Role-aware access controls who sees what. |
+| **Agent Space & Runs** | A catalog where users discover agents, launch them with input, and track long-running analyses. Outputs land back in the workspace as structured reports or deliverables. |
+
+These three experiences sit on top of a single orchestration layer, so context, role, and history follow the user across them.
+
+---
+
+## Core Architecture Model
+
+At a high level Trinity is built on **one common orchestration layer**, with a control plane that decides what each user can do and what data they can reach.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                        USERS                                │
-│              (Browser — desktop or mobile)                  │
+│                  EXPERIENCE LAYER                           │
+│   Single-User Workspace · AI Canvas · Agent Space & Runs    │
 └──────────────────────────┬──────────────────────────────────┘
-                           │
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    FRONTEND LAYER                           │
-│                                                             │
-│   What users see and interact with:                         │
-│   • Landing page with role-based features (HUD interface)   │
-│   • AI chat interface with real-time streaming              │
-│   • Workspace canvas for visual organization                │
-│   • Group chat rooms for team collaboration                 │
-│   • Voice input and real-time WebSocket communication       │
-│                                                             │
-│   Built with: React / Next.js (runs in the browser)         │
-│   See: Frontend, Real-Time & WebSocket                      │
+│              ORCHESTRATION LAYER                            │
+│   Claude Agent SDK Orchestrator · Role-Aware Routing         │
+│   Session/Context Handling · Response Composition           │
 └──────────────────────────┬──────────────────────────────────┘
-                           │
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    BACKEND LAYER                            │
-│                                                             │
-│   Main Backend (Node.js/Express):                           │
-│   • Request routing and business logic                      │
-│   • Chat, notifications, workspaces services                │
-│                                                             │
-│   Orchestration Engine (SalesCoach - Python/aiohttp):       │
-│   • Real-time AI conversation flow                          │
-│   • MCP tool coordination                                   │
-│   • WebSocket streaming                                     │
-│                                                             │
-│   RFP Advisor Backend (Python/FastAPI):                     │
-│   • Document processing and search                          │
-│   • WorkSphere Agents (Google ADK)                          │
-│                                                             │
-│   See: Backend, Orchestration (SalesCoach)                  │
+│           AGENT & EXECUTION LAYER                           │
+│   Five agent patterns: Purpose-Built · Google ADK ·         │
+│   Claude Agent SDK · Amazon Quick Embedded · Autonomous      │
 └──────────────────────────┬──────────────────────────────────┘
-                           │
-          ┌────────────────┼────────────────┐
-          ▼                ▼                ▼
-┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐
-│   AI MODELS  │  │  MCP SERVERS │  │      DATA STORAGE    │
-│              │  │              │  │                      │
-│  Azure OpenAI│  │  HR Data     │  │  Azure Cosmos DB     │
-│  GPT-4.1 Mini│  │  Sales Data  │  │  (chat, workspaces,  │
-│  (Chat)      │  │  Calendar    │  │   notifications)     │
-│              │  │  Email       │  │                      │
-│  Google      │  │  Performance │  │  Azure Blob Storage  │
-│  Gemini      │  │  RFP Tools   │  │  (documents, reports)│
-│  (2.5 Flash) │  │              │  │                      │
-│              │  │  15+ servers │  │                      │
-│  See: AI &   │  │  See: MCP    │  │  See: Data Layer     │
-│  Models      │  │  Servers     │  │                      │
-└──────────────┘  └──────────────┘  └──────────────────────┘
+                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│           MCP INTEGRATION LAYER                             │
+│   Internal MCP Servers · External / Shared MCP Servers      │
+│   Role-Based Console Exposure                               │
+└──────────────────────────┬──────────────────────────────────┘
+                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│           ENTERPRISE DATA LAYER                             │
+│   Databricks UDP · Power BI · Azure Cognitive Search ·      │
+│   Office 365 · Account Directory · Cosmos DB                │
+└─────────────────────────────────────────────────────────────┘
+
+      Cross-cutting controls (Control Plane):
+      Trinity Guardian · Guardrails / Rules · Wiz · Dynatrace
 ```
 
----
+Three things to understand from this picture:
 
-## The Journey of a User Question
+1. **One orchestration layer serves every experience.** Whether the user is in chat, in an AI Canvas, or running an agent, requests flow through the same orchestrator. That keeps behavior, security, and observability consistent.
+2. **MCP is the standard access layer.** Every connection to enterprise data, tools, and actions goes through an MCP (Model Context Protocol) server. There is no ad-hoc backend code reaching directly into databases.
+3. **The control plane wraps everything.** Trinity Guardian, Guardrails, Wiz, and Dynatrace operate across all layers — they are not bolted onto one component.
 
-When someone asks Trinity a question, here's what happens behind the scenes:
-
-### 1. User Types a Question
-> "Give me the details for opportunity OPX-12345"
-
-The user types their question in the chat interface. This could be in the main floating chat, a workspace, or a group chat.
-
-### 2. Frontend Sends to Backend
-The browser sends the question to the backend server, along with information about who's asking (their identity and role).
-
-### 3. Backend Asks the AI
-The backend sends the question to Azure OpenAI (the AI model). But it doesn't just send the question — it also tells the AI:
-- What tools are available (employee search, calendar access, etc.)
-- What role the user has (which determines what data they can access)
-- The conversation history (so the AI understands context)
-
-### 4. AI Decides What To Do
-The AI reads the question and figures out:
-- Does it need to look up data? → Call a tool
-- Can it answer directly? → Generate a response
-
-For our example, the AI recognizes it needs to look up opportunity data, so it says: "I need to call the sales data tool with opportunity ID OPX-12345"
-
-### 5. Backend Calls the Right Tool
-The backend takes the AI's instruction and calls the appropriate MCP server. The Sales Data server searches its database and returns the matching opportunity details.
-
-### 6. AI Crafts the Response
-The backend sends the tool results back to the AI. Now the AI has the actual data, so it writes a helpful response: "Here are the details for opportunity OPX-12345 — it's a $2.4M deal in the proposal stage with a close date of Q3..."
-
-### 7. Response Streams to User
-The response is sent back to the browser in real-time (streaming), so users see the answer appearing as the AI generates it — just like ChatGPT.
-
-### 8. Conversation is Saved
-The question and response are saved to the database, so users can pick up conversations later or reference past queries.
+The next page, [Reference Architecture](/docs/platform/reference-architecture), names every box in this diagram and explains what each layer does in detail.
 
 ---
 
-## Key Components
+## What It Enables
 
-### Frontend
-The web application that runs in the browser, featuring a HUD-style landing page, floating chat, workspace canvas, and group chat rooms. Includes real-time communication for voice input and streaming responses.
+Trinity is built so the platform can grow. Today's capabilities and tomorrow's both rest on the same foundation.
 
-→ [Frontend Documentation](/docs/frontend)
+| Capability Today | What It Means |
+|---|---|
+| **Faster access to enterprise knowledge** | Users get answers from sales, HR, and shared systems in seconds, without learning each system's UI |
+| **More governed and consistent responses** | Every response goes through the same role-aware routing and guardrails — fewer surprises, easier audit |
+| **Agents with full enterprise context** | Agents reach the same MCP servers as chat, so they have the same governed access to data and tools |
+| **Personalization without re-training** | Personal Memory captures user-specific preferences and reuses them across sessions |
+| **Deliverable generation** | Autonomous agents produce PowerPoint and Word outputs from approved templates — not just text |
 
-### Backend & Orchestration
-The processing engine that routes requests, coordinates with AI and MCP servers, and manages data. Includes the SalesCoach orchestration engine for real-time AI conversation flow.
-
-:::note A note on the name "SalesCoach"
-Trinity was originally built for Sales teams, and the orchestration engine was named **SalesCoach** during that phase. As the platform expanded to serve all roles (including HR), the orchestration engine continued to power conversations across every role — but the internal name was retained as-is. Despite the name, SalesCoach is the orchestration layer for **all** WorkSphere users, not just Sales.
-:::
-
-→ [Backend Documentation](/docs/backend)
-
-### AI & Models
-Two AI models power Trinity: Azure OpenAI (GPT-4.1 Mini) for real-time chat, and Google Gemini (2.5 Flash) for WorkSphere Agents. The AI understands questions, calls tools, and generates responses.
-
-→ [AI & Models Documentation](/docs/ai-and-mcp)
-
-### MCP Servers
-15+ specialized services that connect the AI to business data: HR information, sales pipelines, calendars, email, RFP documents, and more. Each server handles one data domain.
-
-→ [MCP Servers Documentation](/docs/mcp-servers)
-
-### WorkSphere Agents
-Autonomous AI agents that perform complex, multi-step analysis. Two categories: **Special Agents** for sales analysis (no setup required), and **RFP Agents** for proposal analysis (requires project setup with uploaded documents).
-
-→ [WorkSphere Agents Documentation](/docs/agents)
-
-### Security & Authentication
-Users log in with DXC corporate credentials through Microsoft Azure AD. Role-based access controls which features and data each user can access.
-
-→ [Authentication Documentation](/docs/authentication)
-
-### Data Layer
-Azure Cosmos DB stores chat history, workspaces, notifications, and configuration. Azure Blob Storage holds documents and reports.
-
-→ [Data Layer Documentation](/docs/data-layer)
-
-### Deployment
-Containerized applications running on Azure App Service, with CI/CD pipelines managing development, integration, and production environments.
-
-→ [Deployment Documentation](/docs/deployment)
+| Future Direction | What's Coming |
+|---|---|
+| **Broader autonomous workflows** | Agents executing multi-step plans across multiple MCPs |
+| **More role coverage** | Additional business domains beyond Sales and HR |
+| **Embedded external agents** | Agent spaces hosted by partner platforms (e.g. Amazon Quick) embedded back into WorkSphere |
 
 ---
 
-## Technology Summary
+## Why This Matters
 
-| Layer | Technology | Purpose |
-|---|---|---|
-| Frontend | React 19, Next.js 15 | User interface |
-| Main Backend | Node.js / Express | Chat, notifications, workspaces |
-| Orchestration | Python / aiohttp | Real-time AI conversation flow |
-| RFP Backend | Python / FastAPI | Document processing, agents |
-| AI (Chat) | Azure OpenAI (GPT-4.1) | Natural language understanding |
-| AI (Agents) | Google Gemini 2.5 Flash (ADK) | Multi-step reasoning and analysis |
-| Tools | MCP Protocol | Business data access |
-| Database | Azure Cosmos DB | Data storage |
-| File Storage | Azure Blob Storage | Documents and reports |
-| Search | Azure AI Search | Vector and semantic search |
-| Auth | Azure AD / MSAL | Identity management |
-| Hosting | Azure App Service | Cloud infrastructure |
-| Real-Time | WebSocket | Instant messaging |
+Three reasons the architecture is shaped this way:
+
+- **Unifies user experience and orchestration.** Chat, canvas, and agents share one orchestration model, so users learn one platform — not three.
+- **Scales across roles and business domains.** Role-aware routing means new domains plug in without redesigning the whole system.
+- **Supports both current workflows and future agentic capabilities.** Today's chat use cases and tomorrow's autonomous workflows share the same MCP and execution layers.
+
+---
+
+## Quick Facts
+
+| Aspect | Details |
+|---|---|
+| **Production URL** | [worksphere.dxc.ai](https://worksphere.dxc.ai) |
+| **User Roles** | Sales, HR (extensible) |
+| **Surfaces** | Web (browser); Trinity Mobile companion app coming soon |
+| **Authentication** | Microsoft Azure AD (corporate credentials) |
+| **Hosting** | Microsoft Azure |
+| **Orchestration foundation** | Claude Agent SDK (Anthropic Claude Agent SDK) |
+| **Data access standard** | MCP (Model Context Protocol) |
 
 ---
 
@@ -204,11 +136,11 @@ Containerized applications running on Azure App Service, with CI/CD pipelines ma
 
 | Section | What You'll Learn |
 |---|---|
-| [Frontend](/docs/frontend) | How the user interface is organized |
-| [Backend](/docs/backend) | How requests are processed and orchestrated |
-| [AI & Models](/docs/ai-and-mcp) | How the AI models work |
-| [MCP Servers](/docs/mcp-servers) | Available business data connectors |
-| [WorkSphere Agents](/docs/agents) | How autonomous AI agents work |
-| [Authentication](/docs/authentication) | How login and security work |
-| [Data Layer](/docs/data-layer) | How information is stored |
-| [Deployment](/docs/deployment) | How the system is hosted |
+| [Reference Architecture](/docs/platform/reference-architecture) | The five-layer model named in detail, including the control plane |
+| [User Interaction Model](/docs/platform/user-interaction-model) | The four-step flow from user request to persisted response |
+| [End-to-End Request Lifecycle](/docs/platform/end-to-end-request-lifecycle) | A detailed walkthrough of every stage a request passes through |
+| [Experience Layer](/docs/frontend) | What users see — Single-User Workspace, AI Canvas, Agent Space & Runs |
+| [Orchestration Layer](/docs/backend) | How the orchestrator routes, composes, and persists |
+| [Agent & Execution Layer](/docs/agents) | The five agent patterns and how they run |
+| [MCP Integration Layer](/docs/mcp-servers) | How Trinity reaches enterprise systems |
+| [Governance & Operations](/docs/authentication) | Trinity Guardian, Guardrails, Wiz, Dynatrace |

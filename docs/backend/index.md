@@ -1,284 +1,135 @@
 ---
 sidebar_position: 1
-title: Backend Architecture
-description: How the Trinity backend processes requests and coordinates services
+title: Orchestration Layer
+description: The single brain that handles every request — the Claude Agent SDK Orchestrator, role-aware routing, session and context handling, response composition, chat skills, and personal memory
 ---
 
-# Backend Architecture
+# Orchestration Layer
 
-The Trinity backend is the processing engine that sits between the user interface and all the data sources. When users ask questions, save workspaces, or send group messages, the backend makes it happen.
+The **Orchestration Layer** is the single brain of Trinity. Every request — chat, voice, AI Canvas prompt, agent run launch — flows through it. It is the second layer in the [Reference Architecture](/docs/platform/reference-architecture), sitting between the [Experience Layer](/docs/frontend) and everything below.
 
----
-
-## What the Backend Does
-
-The backend handles everything that requires server-side processing:
-
-- **Processes AI conversations** — Sends user questions to Azure OpenAI, manages tool calls, and returns responses
-- **Coordinates business tools** — Calls the right MCP servers when the AI needs data
-- **Stores and retrieves data** — Saves chat history, workspaces, and notifications to the database
-- **Manages real-time connections** — Maintains WebSocket connections for streaming and instant messaging
-- **Handles authentication** — Validates user tokens and enforces role-based access
-- **Runs background jobs** — Monitors long-running tasks and updates notifications when they complete
+The defining property of this layer: **one orchestrator serves every Experience surface and every agent pattern**. Chat in the Single-User Workspace, prompts in an AI Canvas, and agent runs all flow through the same components. That is what keeps behavior, security, and observability consistent across the platform.
 
 ---
 
-## How Requests Flow Through the Backend
+## What This Layer Does
 
-When the frontend sends a request, it goes through several layers:
+The Orchestration Layer is responsible for everything between "the user said something" and "the user got a response."
+
+| Responsibility | What It Means |
+|---|---|
+| **Resolve the request** | Identify the user, their role, the active session and workspace context |
+| **Decide what to do** | Direct response, MCP tool call, agent run, or a combination |
+| **Enforce role-aware access** | Filter which tools, agents, and data are visible to this request |
+| **Run the chosen path** | Invoke MCPs and agents; wait for outputs |
+| **Compose the response** | Assemble streaming text, structured data, files, audio |
+| **Apply guardrails** | Run policy checks before tools fire and before responses return |
+| **Persist** | Save chat history, run records, personal memory updates |
+
+It does **not** decide what users can see in the UI, run agents itself, or reach enterprise data directly — those are jobs for layers 1, 3, 4, and 5.
+
+---
+
+## Components
+
+The layer is made of five components, each with a focused job. Together they form the Claude Agent SDK Orchestrator.
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    INCOMING REQUEST                         │
-│              (from user's browser)                          │
-└──────────────────────────┬──────────────────────────────────┘
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    SECURITY LAYER                           │
-│                                                             │
-│   • Checks security headers                                 │
-│   • Validates request format                                │
-│   • Logs the request for monitoring                         │
-└──────────────────────────┬──────────────────────────────────┘
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    ROUTING LAYER                            │
-│                                                             │
-│   Looks at the request URL and decides where to send it:    │
-│   • /chat → Chat processing                                 │
-│   • /notifications → Notification handling                  │
-│   • /workspace → Workspace management                       │
-│   • /group-chat → Group chat operations                     │
-└──────────────────────────┬──────────────────────────────────┘
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    BUSINESS LOGIC                           │
-│                                                             │
-│   The actual work happens here:                             │
-│   • Process the request                                     │
-│   • Call external services if needed                        │
-│   • Talk to the database                                    │
-│   • Build the response                                      │
-└──────────────────────────┬──────────────────────────────────┘
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    RESPONSE                                 │
-│              (sent back to browser)                         │
-└─────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────┐
+│           CLAUDE AGENT SDK ORCHESTRATOR                    │
+│                                                            │
+│  ┌────────────────────┐  ┌────────────────────┐            │
+│  │ Role-Aware Routing │  │ Session & Context  │            │
+│  └────────────────────┘  │ Handling           │            │
+│                          └────────────────────┘            │
+│                                                            │
+│  ┌────────────────────┐  ┌────────────────────┐            │
+│  │ Response           │  │ Policies &         │            │
+│  │ Composition        │  │ Guardrails         │            │
+│  └────────────────────┘  └────────────────────┘            │
+│                                                            │
+│  ┌─────────────────────────────────────────────┐           │
+│  │ Chat Skills                                 │           │
+│  │ Pre-defined behavior packs the              │           │
+│  │ orchestrator can invoke for common tasks    │           │
+│  └─────────────────────────────────────────────┘           │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+
+                Personal Memory (per-user state)
+            persisted across sessions in Cosmos DB
 ```
 
-This layered approach keeps concerns separated — security is handled before business logic, and routing directs traffic to the right place.
+| Component | Job |
+|---|---|
+| [**Claude Agent SDK Orchestrator**](/docs/backend/claude-agent-sdk-orchestrator) | The runtime built on the Anthropic Claude Agent SDK. Receives requests, decides what to do, and returns responses. |
+| **Role-Aware Routing** | Filters which tools, agents, and data are visible to this request based on the user's role |
+| **Session & Context Handling** | Holds conversation history, identity, role, and active workspace context for the duration of a session |
+| **Response Composition** | Assembles the final response from text, tool outputs, structured data, and any artifacts |
+| **Policies & Guardrails** | Inline policy enforcement, applied before tools fire and before responses return |
+| [**Chat Skills**](/docs/backend/chat-skills) | Pre-defined behavior packs the orchestrator can load to handle common task types consistently |
+| [**Personal Memory**](/docs/backend/personal-memory) | Per-user store that captures preferences and patterns over time, reused across future sessions |
 
 ---
 
-## The Main Services
+## Why "Claude Agent SDK"?
 
-### Chat Service
+The orchestrator is built on the **Claude Agent SDK** — externally the term used in our architecture deck and reference materials. Internally, this is the **Anthropic Claude Agent SDK** (Anthropic's agent framework). The same runtime that powers other Anthropic-built agent platforms powers Trinity's orchestration.
 
-The chat service is the heart of Trinity. When a user sends a message:
+| External name | Internal name |
+|---|---|
+| Claude Agent SDK | Claude Agent SDK / Anthropic SDK |
 
-1. **Receives the message** along with conversation history
-2. **Builds context** for the AI (system instructions, available tools, user role)
-3. **Sends to Azure OpenAI** and waits for the AI's decision
-4. **Handles tool calls** if the AI needs data from MCP servers
-5. **Returns the response** to the frontend for display
-6. **Saves the conversation** to the database
+The choice matters because it shaped what's possible in the Orchestration Layer:
 
-This is the most complex service because it orchestrates multiple external systems (AI, tools, database) into a coherent conversation.
-
-### Notification Service
-
-The notification service manages user alerts:
-
-- **Tracking background jobs** — When users start long-running tasks (like research generation), the notification service monitors them
-- **Status updates** — As jobs complete or fail, notifications are updated
-- **Delivery** — Users see notifications in their notification panel
-- **Read tracking** — Marks notifications as seen when users view them
-
-A background scheduler runs every 5 minutes to check the status of pending jobs and update notifications accordingly.
-
-### Workspace Service
-
-The workspace service manages the visual canvas:
-
-- **Saving layouts** — When users arrange content on the canvas, the layout is preserved
-- **Loading workspaces** — Workspaces are retrieved when users return
-- **Session management** — Links chat sessions to workspaces so conversations are associated with visual work
-
-### Group Chat Service
-
-The group chat service enables team collaboration:
-
-- **Room creation** — Users can create rooms and invite others
-- **Membership** — Tracks who belongs to which rooms
-- **Message handling** — Stores and retrieves messages for each room
-- **Real-time delivery** — Works with WebSocket to push messages instantly
-
-### Greeting Service
-
-The greeting service creates personalized welcome content:
-
-- **Role-aware** — Generates different greetings for Sales vs. HR users
-- **Feature-specific** — Each feature area gets its own greeting content
-- **AI-generated** — Uses Azure OpenAI to create natural, relevant greetings
-- **Cached** — Greetings are generated in the background and cached for instant delivery
+- **Tool use is native** — the SDK handles MCP tool calls as first-class behavior, not a bolt-on
+- **Skills are first-class** — chat skills are loaded at session start as part of the SDK's setting sources
+- **Streaming is built in** — token-by-token streaming flows from the model through the SDK to the user without custom plumbing
+- **Personal memory plugs in** — per-user CLAUDE.md files are loaded from a user context path, giving every session a personalized starting point
 
 ---
 
-## The Orchestration Layer (SalesCoach)
+## How Every Request Flows
 
-Beyond the main services, the backend includes a specialized **orchestration engine** called SalesCoach. This Python/aiohttp component handles the core AI conversation flow:
+The full lifecycle is documented at the platform level. Here is what each Orchestration Layer component does in that flow:
 
-- **Real-time WebSocket communication** — Bi-directional streaming for responsive chat
-- **AI conversation orchestration** — Manages the 7-step flow from connection to persistence
-- **MCP tool execution** — Coordinates calls to business data servers
-- **Role-based access** — Filters available tools based on user roles
-- **Dynamic system prompts** — Builds context for each conversation
+| Lifecycle Band | Owner in This Layer |
+|---|---|
+| **Context & Role Resolution** | Session & Context Handling |
+| **Orchestration** | Claude Agent SDK Orchestrator (loads skills, system prompt, tools) |
+| **Intent Routing & Tool Selection** | Claude Agent SDK + Role-Aware Routing |
+| **Policies & Guardrails** | Applied before tools fire and before responses return |
+| **Response Assembly & Delivery** | Response Composition |
+| **Persistence** | Chat history, run records, personal memory updates |
 
-The orchestration engine is what makes Trinity's chat feel instant and conversational. It manages the complex back-and-forth between the user, AI model, and MCP servers.
-
-:::tip Fun Fact
-Why is it called *SalesCoach*? Because Trinity was born as a sales AI — built to coach deal teams through strategy, pipeline, and account planning. The platform has since grown far beyond sales into HR, RFP advisory, and more, but the orchestration engine kept its original name. Think of it like how everyone still says "roll down the window" even though cars haven't had hand cranks in decades. 🤷
-:::
-
-→ [Orchestration (SalesCoach) Documentation](/docs/salescoach)
+For the full nine-band lifecycle, see [End-to-End Request Lifecycle](/docs/platform/end-to-end-request-lifecycle).
 
 ---
 
-## How the Backend Connects to External Services
+## What Lives Where
 
-The backend doesn't work alone. It coordinates with several external services:
+The orchestration code lives in **trinity-core** — a Python service using `aiohttp` for the WebSocket API, with the SDK runtime embedded inside. There is one orchestrator instance per environment (dev, staging, production); each WebSocket session gets its own session state.
 
-### Azure OpenAI
+| Aspect | Detail |
+|---|---|
+| **Runtime** | Python with the Claude Agent SDK |
+| **Transport** | WebSocket for streaming chat; HTTP for control surfaces |
+| **State** | In-memory per session; persisted to Cosmos DB at session end |
+| **MCP integration** | All MCPs registered as tools at session start, filtered by role |
 
-The AI model that understands questions and generates responses. The backend:
-- Builds detailed prompts with context and instructions
-- Sends conversation history so the AI understands prior context
-- Receives responses that may include tool call requests
-- Handles streaming responses for real-time display
-
-### MCP Servers
-
-Specialized services that provide access to business data. When the AI decides it needs information:
-1. The backend identifies which MCP server has the needed capability
-2. Makes a request to that server with the required parameters
-3. Receives the data response
-4. Passes the data back to the AI for interpretation
-
-Common MCP servers include [SFDC UDP](/docs/mcp-servers/sfdc-udp) for Salesforce data, [HR Employee Data](/docs/mcp-servers/hr-employee-data) for employee information, and [O365](/docs/mcp-servers/o365) for calendar access. See the [MCP Servers documentation](/docs/mcp-servers) for the full list.
-
-### Azure Cosmos DB
-
-The database where all persistent data lives. The backend reads and writes:
-- Chat sessions and messages
-- Notifications and their status
-- Workspace layouts and content
-- Group chat rooms and messages
-- Configuration and settings
-
-### Azure Blob Storage
-
-File storage for larger content:
-- User profile images (digital twins)
-- Uploaded documents
-- Generated reports
-
-### Microsoft Graph
-
-For Microsoft 365 integration, the backend can call Microsoft Graph to:
-- Search for users in the directory
-- Access calendar and email (through MCP)
+Historical note: this engine was once called **SalesCoach** — a name from when Trinity was sales-only. The platform expanded to HR and other roles, but the engine kept the original name internally for a while. In external documentation we now use **Claude Agent SDK Orchestrator** consistently.
 
 ---
 
-## How the Backend Handles Different Request Types
+## How It Connects to Other Layers
 
-### Synchronous Requests (Wait for Answer)
-
-Most requests follow a simple pattern: the frontend asks, the backend processes, and returns a response. This includes:
-
-- Loading chat history
-- Fetching notifications
-- Getting workspace data
-- Searching users
-
-These complete quickly (usually under a second).
-
-### Streaming Requests (Continuous Data)
-
-AI chat uses streaming: the response comes back piece by piece as the AI generates it. The backend:
-
-1. Opens a streaming connection to Azure OpenAI
-2. Receives chunks of the response as they're generated
-3. Forwards each chunk to the frontend via WebSocket
-4. Continues until the response is complete
-
-This creates the "typing" effect users see in chat.
-
-### Background Jobs (Long-Running Tasks)
-
-Some operations take too long for users to wait:
-
-- Research generation that requires multiple data sources
-- Complex report generation
-- Bulk data operations
-
-For these, the backend:
-1. Starts the job and returns immediately
-2. Creates a notification to track progress
-3. Runs the job in the background
-4. Updates the notification when complete
-5. User can check back later for results
-
----
-
-## How Errors are Handled
-
-When things go wrong, the backend handles errors gracefully:
-
-### Validation Errors
-If a request is missing required information or has invalid data, the backend returns a clear error message explaining what's wrong.
-
-### Service Unavailable
-If an external service (AI, database, MCP server) is unavailable, the backend returns an appropriate error rather than crashing.
-
-### Rate Limiting
-If too many requests come in too quickly, the backend can throttle to protect system stability.
-
-### Logging
-All errors are logged for monitoring. This helps the operations team identify and fix issues quickly.
-
----
-
-## How the Backend Starts Up
-
-When the backend server starts:
-
-1. **Load configuration** — Read environment variables and settings
-2. **Connect to database** — Establish connection to Cosmos DB
-3. **Initialize AI service** — Set up Azure OpenAI connection and load system prompts
-4. **Discover MCP servers** — Load available tools and their capabilities
-5. **Start HTTP server** — Begin accepting requests
-6. **Start background scheduler** — Begin monitoring background jobs
-
-If any critical step fails (like database connection), the server won't start — this prevents running in a broken state.
-
----
-
-## Development vs. Production Mode
-
-The backend behaves differently depending on the environment:
-
-### Development Mode
-- More detailed logging for debugging
-- Mock data available when external services aren't configured
-- Relaxed security for local testing
-
-### Production Mode
-- Optimized for performance
-- Full security enforcement
-- Minimal logging (only important events)
-- Real connections to all services
+| Layer | Connection |
+|---|---|
+| **Experience Layer** | WebSocket from the surface to the orchestrator; streaming responses back |
+| **Agent & Execution Layer** | Orchestrator invokes agents; agents may run inline (short) or in the background (long) with results returned to Run Space |
+| **MCP Integration Layer** | Every enterprise data fetch goes through an MCP tool call; role gates applied here |
+| **Enterprise Data Layer** | Cosmos DB receives durable state; other systems are reached only via MCPs |
+| **Control Plane** | Trinity Guardian observes every request; Guardrails enforce policy inline; Wiz and Dynatrace receive telemetry |
 
 ---
 
@@ -286,9 +137,11 @@ The backend behaves differently depending on the environment:
 
 | Section | What You'll Learn |
 |---|---|
-| [Platform Overview](/docs/platform/high-level-architecture) | How backend fits in the overall system |
-| [Orchestration (SalesCoach)](/docs/salescoach) | The real-time AI conversation engine |
-| [AI & Models](/docs/ai-and-mcp) | How the AI models work |
-| [MCP Servers](/docs/mcp-servers) | Available business data connectors |
-| [Data Layer](/docs/data-layer) | How data is stored and organized |
-| [API Reference](/docs/api-reference) | Available endpoints for developers |
+| [Claude Agent SDK Orchestrator](/docs/backend/claude-agent-sdk-orchestrator) | The orchestrator itself in detail — routing, sessions, responses, policy |
+| [Chat Skills](/docs/backend/chat-skills) | The pre-defined behavior packs the orchestrator can load |
+| [Personal Memory](/docs/backend/personal-memory) | How user preferences accumulate and personalize future sessions |
+| [System Prompt Construction](/docs/ai-and-mcp/system-prompt-construction) | How the system prompt is assembled per session |
+| [Reference Architecture](/docs/platform/reference-architecture) | The full layer model this layer fits into |
+| [End-to-End Request Lifecycle](/docs/platform/end-to-end-request-lifecycle) | The detailed flow across all nine bands |
+| [Agent & Execution Layer](/docs/agents) | What happens when the orchestrator hands off to an agent |
+| [MCP Integration Layer](/docs/mcp-servers) | The standard data access layer the orchestrator calls |

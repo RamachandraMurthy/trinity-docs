@@ -1,336 +1,165 @@
 ---
 sidebar_position: 1
-title: Data Layer
-description: How Trinity stores and organizes information
+title: Enterprise Data Layer
+description: The systems of record Trinity reads from and writes to — Databricks UDP, Cosmos DB, Power BI, Azure Cognitive Search, Office 365, Account Directory
 ---
 
-# Data Layer
+# Enterprise Data Layer
 
-Trinity needs to remember things: chat conversations, user workspaces, notifications, and configuration. This section explains where that data lives and how it's organized.
+The **Enterprise Data Layer** is the bottom of the [Reference Architecture](/docs/platform/reference-architecture). It is where the actual systems of record live — the databases, indexes, and SaaS platforms that Trinity reads from and, in some cases, writes to.
 
----
-
-## Where Data is Stored
-
-Trinity uses several storage systems, each suited for different types of data:
-
-### Azure Cosmos DB (Primary Database)
-
-**Cosmos DB** is a cloud database that stores most of Trinity's data. It's designed for:
-- Fast reads and writes
-- Global availability
-- Flexible data structures
-
-Think of it as a giant filing cabinet in the cloud where each drawer contains a different type of information.
-
-### Azure Blob Storage (Files)
-
-**Blob Storage** holds larger files that don't fit well in a database:
-- Profile images (digital twin pictures)
-- Uploaded documents
-- Generated reports
-- RFP documents (PDFs, Word docs, PowerPoints)
-- Agent-generated analysis reports
-
-It's like cloud file storage, similar to Dropbox or OneDrive, but for application use.
-
-### Azure AI Search (RFP Documents)
-
-**Azure AI Search** provides intelligent document search for RFP Advisor:
-- Vector embeddings for semantic similarity search
-- Full-text search for keyword matching
-- Hybrid search combining both approaches
-
-This lets users ask questions like "Find all sections about data security requirements" and get relevant matches based on meaning.
-
-### Browser Storage (Temporary)
-
-Some data is stored temporarily in the browser:
-- Login session information
-- Cached preferences
-- Backup of recent work (in case of connection issues)
-
-This data is temporary and tied to the browser session.
+Trinity does not access these systems directly. **Every connection goes through an [MCP server](/docs/mcp-servers)** — that's the architectural rule. The Enterprise Data Layer page describes the systems themselves: what they hold, what role they play, and how Trinity uses them.
 
 ---
 
-## How Data is Organized in Cosmos DB
+## The Systems
 
-Cosmos DB organizes data into **databases** and **containers** (like databases and tables in traditional systems):
+| System | Role | What It Holds |
+|---|---|---|
+| **Databricks UDP** | Primary analytics data store | Salesforce data (campaigns, opportunities, accounts), client-reference data, win/loss data |
+| **Power BI** | Reporting and performance insights | Dashboards, metrics, performance reports |
+| **Azure Cognitive Search / Index** | Document search and indexing | RFP documents, knowledge content, vector indexes |
+| **Office 365** | Productivity systems | Outlook (email), calendar |
+| **Account Directory** | People and account lookups | Users, accounts, regional assignments |
+| **Cosmos DB** | Trinity's own persistence | Chat history, workspaces, agent runs, personal memory, security events |
+
+Two of these — Databricks UDP and Cosmos DB — anchor most of the platform's data. The others are equally important but smaller in scope.
+
+---
+
+## Databricks UDP
+
+The **Unified Data Platform** is the analytics layer for sales and revenue data. It is where Salesforce, win/loss, and client data are aggregated and made queryable.
+
+| Used By | What It Provides |
+|---|---|
+| SFDC UDP MCP | Accounts, opportunities, account plans, pipeline |
+| Campaign MCP | Campaign data and campaign-to-opportunity links |
+| Opportunity Win/Loss MCP | Historical outcome data |
+| Client Reference MCP | Reference profiles and case studies |
+| Win Prediction Service | Historical features for ML scoring |
+| Daily Recap | Pipeline change detection |
+
+Databricks is reached only through MCPs — the orchestrator never speaks Databricks SQL.
+
+---
+
+## Cosmos DB
+
+Trinity's own database. It holds the platform's operational state.
+
+| Container | What It Holds |
+|---|---|
+| **Sessions** | Chat history per user — every conversation, every message |
+| **Workspaces** | AI Canvas state, participants, shared activity |
+| **Runs** | Agent run records — inputs, status, outputs, telemetry |
+| **Notifications** | User notifications and read state |
+| **Personal Memory** | Per-user preferences, patterns, notes |
+| **Security Events** | Unified store of policy denials, prompt-guard hits, unusual access patterns |
+| **Configuration** | Platform-level settings and metadata |
+
+Cosmos DB is not just a Trinity-specific cache — it is the system of record for everything Trinity itself produces. When a user returns to a conversation or a workspace, this is what they're reading from.
+
+| Property | Why |
+|---|---|
+| Document-oriented | Flexible schemas suit chat and run records |
+| Globally distributed | Low-latency reads across regions |
+| Multi-container | Each domain (sessions, runs, etc.) is isolated |
+
+---
+
+## Power BI
+
+Reporting and dashboarding. Power BI is connected for performance and insights surfaces that pre-render or stream complex visualizations beyond what's worth generating from chat.
+
+| Used For | Detail |
+|---|---|
+| Pre-built reports | Performance dashboards delivered as reports |
+| Performance insights | Metrics that benefit from Power BI's visualization layer |
+
+Power BI is reached through MCPs where applicable, or rendered as embedded surfaces.
+
+---
+
+## Azure Cognitive Search / Index
+
+Search infrastructure for documents and knowledge content. Used heavily by the RFP workflow.
+
+| Used For | Detail |
+|---|---|
+| RFP document indexing | Full-text and semantic search across uploaded RFP documents |
+| Knowledge content | Battle cards, past proposals (Auxilium MCP) |
+| Vector search | Semantic retrieval where text matching alone is too weak |
+
+The orchestrator and agents do not query Search directly — they go through the relevant MCP server.
+
+---
+
+## Office 365
+
+Microsoft 365 productivity systems.
+
+| Used For | Detail |
+|---|---|
+| Calendar | Today's meetings, external attendees (used by Daily Recap and chat) |
+| Email | Outlook integration for the Email Sharing feature |
+
+O365 is reached through the O365 MCP server, which uses Microsoft Graph internally. From the orchestrator's perspective, it is just another MCP.
+
+---
+
+## Account Directory
+
+The platform's directory of people and accounts.
+
+| Used For | Detail |
+|---|---|
+| User lookups | Resolving users by name or email |
+| Account lookups | Resolving accounts and the people on them |
+| Regional assignments | Driving region-based filtering in Daily Recap and elsewhere |
+
+Account Directory is reached through its dedicated MCP server.
+
+---
+
+## How Data Flows Across the Layer
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    COSMOS DB ACCOUNT                        │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  PRIMARY DATABASE                                   │    │
-│  │                                                     │    │
-│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐    │    │
-│  │  │ Chat        │ │ Notifications│ │ Common      │    │    │
-│  │  │ History     │ │             │ │ Questions   │    │    │
-│  │  └─────────────┘ └─────────────┘ └─────────────┘    │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  WORKSPACE DATABASE                                 │    │
-│  │                                                     │    │
-│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐    │    │
-│  │  │ Workspaces  │ │ Workspace   │ │ MCP Server  │    │    │
-│  │  │             │ │ Chat History│ │ Config      │    │    │
-│  │  └─────────────┘ └─────────────┘ └─────────────┘    │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  GROUP CHAT DATABASE                                │    │
-│  │                                                     │    │
-│  │  ┌─────────────┐                                    │    │
-│  │  │ Group Chat  │                                    │    │
-│  │  │ History     │                                    │    │
-│  │  └─────────────┘                                    │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  RFP ADVISOR DATABASE                               │    │
-│  │                                                     │    │
-│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐    │    │
-│  │  │ Users       │ │ Projects    │ │ Files       │    │    │
-│  │  └─────────────┘ └─────────────┘ └─────────────┘    │    │
-│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐    │    │
-│  │  │ Agent Runs  │ │ Chats       │ │ Bookmarks   │    │    │
-│  │  └─────────────┘ └─────────────┘ └─────────────┘    │    │
-│  └─────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────┘
+ORCHESTRATOR / AGENTS
+        │
+        │  (every call goes through MCP)
+        ▼
+   MCP SERVERS
+        │
+        │  (each MCP knows how to query its system)
+        ▼
+ENTERPRISE DATA LAYER
+   Databricks UDP · Cosmos DB · Power BI ·
+   Azure Cognitive Search · Office 365 ·
+   Account Directory
 ```
 
-This separation keeps different types of data organized and allows for different access patterns.
+Two important properties:
+
+1. **Trinity's Cosmos DB is in this layer too.** Even though Trinity owns it, conceptually it is just one more system of record — written to and read from like the others.
+2. **No system is reached without an MCP wrapper.** This is the rule that keeps integration uniform and observable.
 
 ---
 
-## What Each Container Stores
-
-### Chat History
-
-Every conversation you have with Trinity is saved:
-
-- **Who started it** — Your user email
-- **When it happened** — Timestamps for each message
-- **What was said** — Both your questions and the AI's responses
-- **Session identity** — A unique ID so you can return to the conversation
-
-This lets you pick up where you left off and reference past queries.
-
-### Notifications
-
-Alerts and updates you receive:
-
-- **What happened** — The event that triggered the notification
-- **Status** — Whether you've seen it, whether the job completed
-- **When** — Created and updated timestamps
-
-Notifications track background jobs (like research generation) and let you know when they're done.
-
-### Workspaces
-
-Your saved visual canvas layouts:
-
-- **Canvas content** — Cards, notes, and their positions
-- **Associated chats** — Which conversations are linked to this workspace
-- **Ownership** — Who created it
-
-Workspaces persist so you can return to your organized research.
-
-### Group Chats
-
-Team collaboration rooms:
-
-- **Room details** — Name, role (HR/Sales), who created it
-- **Members** — Who belongs to the group
-- **Messages** — The conversation history within the group
-
-All group activity is preserved so members can catch up on discussions they missed.
-
-### Common Questions
-
-Suggested questions shown to users:
-
-- **Category** — What type of question (Performance, Employees, etc.)
-- **Role** — Which roles see this question
-- **Text** — The actual question to suggest
-
-These help users discover what they can ask.
-
-### MCP Server Configuration
-
-How to connect to business tools:
-
-- **Server details** — Names, URLs, descriptions
-- **Role access** — Which roles can use each server
-- **Status** — Whether the server is active
-
-This configuration tells the AI what tools are available.
-
----
-
-## RFP Advisor Data
-
-The RFP Advisor stores additional data for document analysis and agent workflows:
-
-### Projects
-
-Organizational containers for RFP work:
-
-- **Project details** — Name, description, creation date
-- **Owner** — Who created the project
-- **File associations** — Which documents belong to this project
-
-Projects let users group related RFP documents together.
-
-### Files
-
-Document metadata and processing status:
-
-- **File identity** — Name, type (PDF, DOCX, PPTX), size
-- **Processing status** — Uploaded, processing, analyzed, or failed
-- **Content summary** — AI-generated summary of the document
-- **Blob reference** — Where the actual file is stored in Blob Storage
-
-### Agent Runs
-
-WorkSphere Agent execution history:
-
-- **Agent type** — Which agent was run (Requirements Review, Win Probability, etc.)
-- **Status** — Pending, running, completed, or failed
-- **Input documents** — Which files were analyzed
-- **Report reference** — Where the generated report is stored
-- **Execution time** — When it started and finished
-
-### Azure AI Search Index
-
-RFP documents are also indexed for semantic search:
-
-- **Text embeddings** — Vector representations of document content
-- **Metadata** — Source file, project, and section information
-- **Search capabilities** — Keyword, semantic, and hybrid search modes
-
-This enables users to search across all their RFP documents by meaning, not just keywords.
-
----
-
-## How Data Flows
-
-### Saving a Chat
-
-When you send a message and receive a response:
-
-```
-1. You type a question
-2. Backend processes it with AI
-3. Response streams back to you
-4. Backend saves the complete exchange to Chat History
-5. Next time you visit, your history is waiting
-```
-
-### Loading Your History
-
-When you open My Projects:
-
-```
-1. Frontend asks: "What chats does this user have?"
-2. Backend queries Chat History by your email
-3. Returns list of your sessions
-4. You see your past conversations organized by date
-```
-
-### Saving a Workspace
-
-When you arrange content on the canvas:
-
-```
-1. You position cards and add content
-2. Changes are saved automatically (or on explicit save)
-3. Canvas layout is stored in Workspaces container
-4. Returning later loads your exact layout
-```
-
----
-
-## Data Ownership and Access
-
-### User-Scoped Data
-
-Most data is tied to specific users:
-- Your chat history is yours alone
-- Your workspaces are private
-- Your notifications are personal
-
-Other users can't see your data unless you explicitly share it (like a group chat).
-
-### Group-Scoped Data
-
-Group chats are shared among members:
-- All members see the same messages
-- Membership is tracked per group
-- Groups are role-specific (HR group, Sales group)
-
-### System Data
-
-Some data is shared system-wide:
-- Common questions (visible to all with matching roles)
-- MCP server configurations (used by the platform)
-
----
-
-## Data Retention
-
-### Active Data
-
-Chat history, workspaces, and notifications are kept as long as the account is active. You can delete specific items if needed.
-
-### Soft Deletion
-
-When you delete something (a chat session, a notification), it's typically "soft deleted" — marked as inactive rather than immediately erased. This allows for recovery and auditing.
-
-### No Personal Data Storage
-
-Trinity doesn't store sensitive personal information directly. Authentication data stays with Microsoft. Business data is accessed through MCP servers, not stored in Trinity.
-
----
-
-## Offline and Backup Behavior
-
-### When Connection is Lost
-
-If you lose internet connection:
-- Recent work may be saved in browser storage
-- When connection returns, data syncs to the cloud
-- You won't lose work from a brief outage
-
-### Development Mode
-
-When developing or testing without a database:
-- Mock data is used instead of real database
-- Features work with sample data
-- Useful for testing without affecting production
-
----
-
-## Performance Considerations
-
-### Why Multiple Databases?
-
-Separating data into different databases allows:
-- Independent scaling (if chat grows faster than notifications)
-- Isolation (a problem in one area doesn't affect others)
-- Cleaner organization
-
-### How Data is Found Quickly
-
-Each container has a "partition key" — a way to organize data for fast lookup:
-- Chat history: partitioned by session
-- Notifications: partitioned by user
-- Groups: partitioned by group ID
-
-This means queries like "get my notifications" are fast because the system knows exactly where to look.
+## What Lives Where (Quick Reference)
+
+| If You're Looking For... | Live In |
+|---|---|
+| Chat history | Cosmos DB |
+| AI Canvas project state | Cosmos DB |
+| Agent run records | Cosmos DB |
+| Personal Memory | Filesystem (per-user CLAUDE.md), with audit trail in Cosmos DB |
+| Security events | Cosmos DB |
+| Salesforce-derived data | Databricks UDP (via SFDC UDP MCP) |
+| RFP document content | Azure Cognitive Search + blob storage |
+| Calendar / email | Office 365 |
+| User and account directory | Account Directory |
+| Performance reports | Power BI |
 
 ---
 
@@ -338,8 +167,9 @@ This means queries like "get my notifications" are fast because the system knows
 
 | Section | What You'll Learn |
 |---|---|
-| [Platform Overview](/docs/platform/high-level-architecture) | How data layer fits in the overall system |
-| [Backend](/docs/backend) | How the backend interacts with data |
-| [Deployment](/docs/deployment) | How databases are provisioned |
-| [RFP Advisor](/docs/rfp-advisor) | How RFP document workflows work |
-| [WorkSphere Agents](/docs/agents) | How agent execution data is stored |
+| [Reference Architecture](/docs/platform/reference-architecture) | The five layers; this is the bottom one |
+| [MCP Integration Layer](/docs/mcp-servers) | The standard access layer that wraps every system here |
+| [SFDC UDP](/docs/mcp-servers/sfdc-udp) | The MCP that fronts most Databricks data |
+| [O365](/docs/mcp-servers/o365) | The MCP that fronts Office 365 |
+| [Account Directory](/docs/mcp-servers/account-directory) | The MCP that fronts the directory |
+| [Authentication, Security & Governance](/docs/authentication) | The control plane that observes data access |
